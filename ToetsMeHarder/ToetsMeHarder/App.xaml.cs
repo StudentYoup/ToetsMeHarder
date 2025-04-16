@@ -1,4 +1,7 @@
-﻿namespace ToetsMeHarder
+﻿using System.Collections.Immutable;
+using Plugin.Maui.Audio;
+
+namespace ToetsMeHarder
 {
     public partial class App : Application
     {
