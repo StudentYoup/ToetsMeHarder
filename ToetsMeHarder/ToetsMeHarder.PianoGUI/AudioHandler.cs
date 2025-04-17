@@ -7,6 +7,8 @@ public class AudioHandler : IAudioHandler
 {
     
     private const double TAU = 2* Math.PI;
+    
+    // deze constants zijn nodig om het fileformat wav op te bouwen in een binarywriter
     private const int SAMPLESIZE = 44100;
     private const int HEADERSIZE = 8;
     private const int FORMATCHUNKSIZE = 16;
@@ -28,10 +30,12 @@ public class AudioHandler : IAudioHandler
 
     private Stream GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)
     {
-        
+        //deze variabelen bepalen de lengte van de toon
         int samples = (int)((decimal)SAMPLESIZE * (duration / 1000));
         int dataChunkSize = samples * FRAMESIZE;
         int fileSize = WAVESYZE + HEADERSIZE + FORMATCHUNKSIZE + HEADERSIZE + dataChunkSize;
+        
+        //hier word de wav file opgebouwd
         Stream stream = new MemoryStream();
         BinaryWriter writer = new BinaryWriter(stream);
         writer.Write(0x46464952);
@@ -50,6 +54,7 @@ public class AudioHandler : IAudioHandler
         
         for (int i = 0; i < samples; i++)
         {
+            //dit is een formule voor een standaard sine waveform
             writer.Write((short)(amplitude * (Math.Sin((frequentie * TAU / SAMPLESIZE) * i))));
         }
         stream.Seek(0, SeekOrigin.Begin);
