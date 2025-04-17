@@ -20,4 +20,8 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ToetsMeHarder.Business\ToetsMeHarder.Business.csproj" />
+  </ItemGroup>
+
 </Project>

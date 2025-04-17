@@ -17,12 +17,7 @@ public class AudioHandler : IAudioHandler
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
     
-    private IAudioManager audioManager;
-
-    public AudioHandler()
-    {
-        audioManager = AudioManager.Current;
-    }
+    private IAudioManager audioManager = AudioManager.Current;
     
     public void PlayAudio(Note note)
     {
@@ -36,11 +31,11 @@ public class AudioHandler : IAudioHandler
         
         int samples = (int)((decimal)SAMPLESIZE * (duration / 1000));
         int dataChunkSize = samples * FRAMESIZE;
-        int filesize = WAVESYZE + HEADERSIZE + FORMATCHUNKSIZE + HEADERSIZE + dataChunkSize;
+        int fileSize = WAVESYZE + HEADERSIZE + FORMATCHUNKSIZE + HEADERSIZE + dataChunkSize;
         Stream stream = new MemoryStream();
         BinaryWriter writer = new BinaryWriter(stream);
         writer.Write(0x46464952);
-        writer.Write(filesize);
+        writer.Write(fileSize);
         writer.Write(0x45564157);
         writer.Write(0x20746d66);
         writer.Write(FORMATCHUNKSIZE);

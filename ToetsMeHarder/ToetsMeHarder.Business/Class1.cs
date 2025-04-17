@@ -3,7 +3,7 @@
 
 public class Class1
 {
-    IAudioHandler audioHandler;
+    private IAudioHandler audioHandler;
 
     public Class1(IAudioHandler audioHandler)
     {
