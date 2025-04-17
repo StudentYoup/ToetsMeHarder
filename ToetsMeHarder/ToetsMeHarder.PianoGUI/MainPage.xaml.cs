@@ -16,7 +16,7 @@ namespace ToetsMeHarder.PianoGUI
         BpmEntry.Text = _metronome.BPM.ToString();
         _metronome.Beat += (s, e) => 
 		{ 
-			//misschien uitbreiden met visuele flikkeren ofzoiets
+          //hier kan je dingen aanpassen bij beat  
 		 };
     }
 
