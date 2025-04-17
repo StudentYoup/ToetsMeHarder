@@ -7,7 +7,7 @@ namespace ToetsMeHarder.PianoGUI.Business
     public class MetronomeService
     {
         private readonly System.Timers.Timer _timer;
-        private readonly IAudioPlayer _player;
+        private readonly IAudioPlayer _player; // Dotnet package voor audio, zie commit 17/04/2025 (01e6a3f)
         private int _bpm = 60;
 
         public event EventHandler Beat;
@@ -25,7 +25,6 @@ namespace ToetsMeHarder.PianoGUI.Business
 
         public MetronomeService(IAudioManager audioManager)
         {
-            // Audio bestand moet in Resources/Raw en als MauiAsset gemarkeerd
             var audioFile = FileSystem.OpenAppPackageFileAsync(@"C:\Users\forge\Documents\School\ToetsMeHarder\ToetsMeHarder\ToetsMeHarder.Business\Resources\Sound\metronoom.mp3").Result;
             _player = audioManager.CreatePlayer(audioFile);
 
