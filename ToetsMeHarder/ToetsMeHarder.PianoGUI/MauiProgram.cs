@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Plugin.Maui.Audio;
+using ToetsMeHarder.PianoGUI.Business;
 
 namespace ToetsMeHarder.PianoGUI;
 
@@ -20,6 +22,12 @@ public static class MauiProgram
 		builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
+
+		builder.AddAudio(); // voor geluiden
+		builder.Services.AddSingleton<MetronomeService>(); // maar 1 instantie die door de applicatie gedeeld wordt
+		builder.Services.AddTransient<MainPage>(); 
+
+
 
 		return builder.Build();
 	}
