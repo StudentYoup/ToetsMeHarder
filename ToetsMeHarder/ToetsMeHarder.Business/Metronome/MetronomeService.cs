@@ -18,8 +18,8 @@ namespace ToetsMeHarder.PianoGUI.Business
             get => _bpm;
             set
             {
-                _bpm = Math.Clamp(value, 20, 300);
-                _timer.Interval = 60000.0 / _bpm;
+                _bpm = Math.Clamp(value, 20, 300); // BPM tussen de 20 en 300
+                _timer.Interval = 60000.0 / _bpm; // 1 minuut = 60_000 ms -> dit delen door bpm geeft tijd tussen beats
             }
         }
 
@@ -28,11 +28,12 @@ namespace ToetsMeHarder.PianoGUI.Business
             var audioFile = FileSystem.OpenAppPackageFileAsync(@"C:\Users\forge\Documents\School\ToetsMeHarder\ToetsMeHarder\ToetsMeHarder.Business\Resources\Sound\metronoom.mp3").Result;
             _player = audioManager.CreatePlayer(audioFile);
 
+            
             _timer = new System.Timers.Timer(60000.0 / _bpm)
             {
                 AutoReset = true
             };
-            _timer.Elapsed += (s, e) =>
+            _timer.Elapsed += (s, e) => 
             {
                 _player.Play();
                 Beat?.Invoke(this, EventArgs.Empty);
