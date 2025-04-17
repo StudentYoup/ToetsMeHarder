@@ -40,6 +40,21 @@ namespace ToetsMeHarder.PianoGUI.Business
             };
         }
 
+        public MetronomeService() //zonder audio voor tests
+    {
+            
+            _timer = new System.Timers.Timer(60000.0 / _bpm)
+            {
+                AutoReset = true
+            };
+            _timer.Elapsed += (s, e) =>
+            {
+            
+                Beat?.Invoke(this, EventArgs.Empty);
+            };
+        }
+
+
         public void Start() => _timer.Start();
         public void Stop() => _timer.Stop();
     }
