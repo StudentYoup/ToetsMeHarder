@@ -58,12 +58,26 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        
+       
+
+    </ItemGroup>
+
+    <ItemGroup>
+     <!-- Dit is voor het geluidje van de metronoom -->
+        <MauiAsset Include="Resources/Sound/metronoom.mp3" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+        <PackageReference Include="Plugin.Maui.Audio" Version="3.1.1" />
+        <PackageReference Include="Xam.Plugin.SimpleAudioPlayer" Version="1.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ToetsMeHarder.Business\ToetsMeHarder.Business.csproj" />
     </ItemGroup>
 
 </Project>
