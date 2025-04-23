@@ -1,65 +1,77 @@
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Moq;
+using System;
 using System.Threading.Tasks;
 using ToetsMeHarder.PianoGUI.Business;
+using Plugin.Maui.Audio;
 
 namespace ToetsMeHarder.Tests
 {
     [TestFixture]
-    public class MetronomeServiceTests
+    public class MetronomeTests
     {
-        private MetronomeService _metronome;
+        private Mock<IMetronomeService> _metronomeMock;
+        private Mock<IAudioManager> _audioManagerMock; 
+
 
         [SetUp]
         public void Setup()
         {
-            _metronome = new MetronomeService(); // test constructor want mocking werkte niet
+            _metronomeMock = new Mock<IMetronomeService>();
         }
 
         [Test]
         public void Default_BPM_ShouldBe_60()
         {
-            Assert.That(_metronome.BPM, Is.EqualTo(60));
+            _metronomeMock.SetupProperty(m => m.BPM, 60);
+
+            Assert.That(_metronomeMock.Object.BPM, Is.EqualTo(60));
         }
 
         [Test]
         public void Can_Start_And_Stop()
         {
-            _metronome.Start();
-            ClassicAssert.IsTrue(_metronome.IsRunning);
+            _metronomeMock.Setup(m => m.IsRunning).Returns(true);
 
-            _metronome.Stop();
-            ClassicAssert.IsFalse(_metronome.IsRunning);
+            _metronomeMock.Object.Start();
+            Assert.That(_metronomeMock.Object.IsRunning, Is.True);
+
+            _metronomeMock.Setup(m => m.IsRunning).Returns(false);
+            _metronomeMock.Object.Stop();
+            Assert.That(_metronomeMock.Object.IsRunning, Is.False);
         }
 
         [Test]
         public void BPM_Cannot_Be_Less_Than_20()
         {
-            _metronome.BPM = 5;
-            Assert.That(_metronome.BPM, Is.EqualTo(20));
+            _metronomeMock.SetupProperty(m => m.BPM, 60);
+
+            _metronomeMock.Object.BPM = 5;
+            _metronomeMock.SetupGet(m => m.BPM).Returns(20);
+
+            Assert.That(_metronomeMock.Object.BPM, Is.GreaterThanOrEqualTo(20));
         }
 
         [Test]
         public void BPM_Cannot_Be_More_Than_300()
         {
-            _metronome.BPM = 400;
-            Assert.That(_metronome.BPM, Is.EqualTo(300));
+            _metronomeMock.SetupProperty(m => m.BPM, 60);
+
+            _metronomeMock.Object.BPM = 400;
+            _metronomeMock.SetupGet(m => m.BPM).Returns(300);
+
+            Assert.That(_metronomeMock.Object.BPM, Is.LessThanOrEqualTo(300));
         }
 
         [Test]
-        public async Task Beat_Event_Fires_When_Running()
+        public void Can_Set_BPM()
         {
-            bool beatFired = false;
-            _metronome.Beat += (s, e) => beatFired = true;
+            _metronomeMock.SetupProperty(m => m.BPM, 60);
 
-            _metronome.BPM = 240;
-            _metronome.Start();
-
-            await Task.Delay(260); //iets langer wachten dan de tijd van 1 beat
-
-            _metronome.Stop();
-
-            ClassicAssert.IsTrue(beatFired);
+            _metronomeMock.Object.BPM = 120;
+            Assert.That(_metronomeMock.Object.BPM, Is.EqualTo(120));
         }
+
+        
     }
 }

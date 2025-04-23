@@ -4,7 +4,7 @@ using Plugin.Maui.Audio;
 
 namespace ToetsMeHarder.PianoGUI.Business
 {
-    public class MetronomeService
+    public class MetronomeService : IMetronomeService
     {
         private readonly System.Timers.Timer _timer;
         private readonly IAudioPlayer _player; // Dotnet package voor audio, zie commit 17/04/2025 (01e6a3f)
@@ -39,21 +39,6 @@ namespace ToetsMeHarder.PianoGUI.Business
                 Beat?.Invoke(this, EventArgs.Empty);
             };
         }
-
-        public MetronomeService() //zonder audio voor tests
-    {
-            
-            _timer = new System.Timers.Timer(60000.0 / _bpm)
-            {
-                AutoReset = true
-            };
-            _timer.Elapsed += (s, e) =>
-            {
-            
-                Beat?.Invoke(this, EventArgs.Empty);
-            };
-        }
-
 
         public void Start() => _timer.Start();
         public void Stop() => _timer.Stop();
