@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Maui.Controls;
-using ToetsMeHarder.PianoGUI.Business;
+using ToetsMeHarder.Business;
 
 namespace ToetsMeHarder.PianoGUI
 {
