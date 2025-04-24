@@ -1,0 +1,23 @@
+﻿html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.top{
+    display: block;
+    background-color: #131313;
+    height: 20%;
+    width: 100%;
+}
+.middle {
+    display: block;
+    background-color: #808080;
+    height: 50%;
+    width: 100%;
+}
+.bottem {
+    display: block;
+    background-color: #5f0000;
+    height: 30%;
+    width: 100%;
+}
