@@ -5,7 +5,9 @@ namespace ToetsMeHarder.PianoGUI.Pages
 {
     public partial class Metronome : ComponentBase
     {
-        public MetronomeService metronome { get; set; } = default!;
+        [Inject]
+        public MetronomeService metronome { get; set; } = default!; // moet injecteren vanuit mauiProgram anders werkt het niet :-)
+
 
         protected string BpmText
         {
