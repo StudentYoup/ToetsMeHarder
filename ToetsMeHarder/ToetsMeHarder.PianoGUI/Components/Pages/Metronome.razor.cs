@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Components;
-using ToetsMeHarder.PianoGUI.Business;
+using ToetsMeHarder.Business;
 
 namespace ToetsMeHarder.PianoGUI.Pages
 {
     public partial class Metronome : ComponentBase
     {
-        [Inject]
         public MetronomeService metronome { get; set; } = default!;
 
         protected string BpmText

@@ -2,7 +2,7 @@ using System;
 using System.Timers;
 using Plugin.Maui.Audio;
 
-namespace ToetsMeHarder.PianoGUI.Business
+namespace ToetsMeHarder.Business
 {
     public class MetronomeService : IMetronomeService
     {

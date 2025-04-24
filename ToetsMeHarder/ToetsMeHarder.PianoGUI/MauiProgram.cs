@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
-using ToetsMeHarder.PianoGUI.Business;
-
+using ToetsMeHarder.Business;
 namespace ToetsMeHarder.PianoGUI;
+
 
 public static class MauiProgram
 {
