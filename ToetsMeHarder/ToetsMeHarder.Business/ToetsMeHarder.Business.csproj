@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="Plugin.Maui.Audio" Version="3.0.0" />
-    <PackageReference Include="Xam.Plugin.SimpleAudioPlayer" Version="1.6.0" />
   </ItemGroup>
-  
 
 </Project>
