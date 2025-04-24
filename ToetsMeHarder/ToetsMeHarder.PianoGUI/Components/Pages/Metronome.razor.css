@@ -1,0 +1,28 @@
+.metronome-container {
+    padding: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.bpm-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.bpm-controls input {
+    width: 60px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.toggle-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}

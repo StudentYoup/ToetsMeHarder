@@ -4,34 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="ToetsMeHarder.PianoGUI.MainPage">
 
-  <VerticalStackLayout Padding="20" Spacing="15">
 
-    <Label Text="Metronome" 
-           FontSize="24" 
-           HorizontalOptions="Center" />
-
-
-    <!-- Knoppen voor omhoog en omlaag van BPM en daartussen heb ik nu invoerveld => numeric keyboard werkt niet? :(   -->
-    <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
-      <Button Text="▲" 
-              Clicked="OnIncreaseClicked" 
-              WidthRequest="40"/>
-      <Entry x:Name="BpmEntry"
-             Text="60"
-             Keyboard="Numeric"
-             WidthRequest="80"
-             HorizontalTextAlignment="Center"
-             TextChanged="OnBpmEntryTextChanged"/>
-      <Button Text="▼" 
-              Clicked="OnDecreaseClicked" 
-              WidthRequest="40"/>
-    </HorizontalStackLayout>
-
-    <Button x:Name="ToggleButton"
-            Text="Start"
-            FontAttributes="Bold"
-            Clicked="OnToggleClicked" />
-
-  </VerticalStackLayout>
 
 </ContentPage>

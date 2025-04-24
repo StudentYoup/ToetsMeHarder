@@ -1,0 +1,16 @@
+@page "/metronome"
+@inherits ToetsMeHarder.PianoGUI.Pages.Metronome
+
+<div class="metronome-container">
+    <h2>Metronoom</h2>
+
+    <div class="bpm-controls">
+        <button @onclick="DecreaseBpm">-</button>
+        <input @bind="BpmText" @bind:event="oninput" />
+        <button @onclick="IncreaseBpm">+</button>
+    </div>
+
+    <button class="toggle-button" @onclick="ToggleMetronome">
+        @(metronome.IsRunning ? "Stop" : "Start")
+    </button>
+</div>
