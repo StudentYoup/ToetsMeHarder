@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Plugin.Maui.Audio;
 
 namespace ToetsMeHarder.PianoGUI;
 
@@ -15,6 +16,7 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
+		builder.Services.AddSingleton(AudioManager.Current);
 
 #if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();
