@@ -25,7 +25,7 @@ namespace ToetsMeHarder.PianoGUI.Business
 
         public MetronomeService(IAudioManager audioManager)
         {
-            var audioFile = FileSystem.OpenAppPackageFileAsync(@"C:\Users\forge\Documents\School\ToetsMeHarder\ToetsMeHarder\ToetsMeHarder.Business\Resources\Sound\metronoom.mp3").Result;
+            var audioFile = FileSystem.OpenAppPackageFileAsync(@"Resources\Sound\metronoom.mp3").Result;
             _player = audioManager.CreatePlayer(audioFile);
 
             
