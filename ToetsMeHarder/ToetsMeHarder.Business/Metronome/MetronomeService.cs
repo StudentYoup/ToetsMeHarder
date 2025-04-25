@@ -2,7 +2,7 @@ using System.Timers;
 
 namespace ToetsMeHarder.Business
 {
-    public class MetronomeService
+    public class MetronomeService : IMetronomeService
     {
         private System.Timers.Timer _timer;
         private int _bpm = 60; // start bpm

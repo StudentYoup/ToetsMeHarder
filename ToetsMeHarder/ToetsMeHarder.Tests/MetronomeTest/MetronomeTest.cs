@@ -1,9 +1,7 @@
 using NUnit.Framework;
 using Moq;
-using System;
-using System.Threading.Tasks;
-using ToetsMeHarder.PianoGUI.Business;
 using Plugin.Maui.Audio;
+using ToetsMeHarder.Business;
 
 namespace ToetsMeHarder.Tests
 {
@@ -11,7 +9,6 @@ namespace ToetsMeHarder.Tests
     public class MetronomeTests
     {
         private Mock<IMetronomeService> _metronomeMock;
-        private Mock<IAudioManager> _audioManagerMock; 
 
 
         [SetUp]

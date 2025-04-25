@@ -4,10 +4,10 @@ using Plugin.Maui.Audio;
 
 namespace ToetsMeHarder.PianoGUI.Pages
 {
-    public partial class Metronome : ComponentBase
+    public partial class MetronomeBase : ComponentBase
     {
         [Inject]
-        public MetronomeService metronome { get; set; } = default!; // moet injecteren vanuit mauiProgram anders werkt het niet :-)
+        public MetronomeService Metronome { get; set; } = default!; // moet injecteren vanuit mauiProgram anders werkt het niet :-)
 
         [Inject] 
         public IAudioManager AudioManager { get; set; } = default!; // same
@@ -18,7 +18,7 @@ namespace ToetsMeHarder.PianoGUI.Pages
         {
             var file = await FileSystem.OpenAppPackageFileAsync(@"Resources\Sound\metronoom.mp3");
             _player = AudioManager.CreatePlayer(file);
-            metronome.Beat += OnBeat;
+            Metronome.Beat += OnBeat;
         }
 
         private void OnBeat(object? sender, EventArgs e)
@@ -30,24 +30,24 @@ namespace ToetsMeHarder.PianoGUI.Pages
 
         protected string BpmText
         {
-            get => metronome.BPM.ToString();
+            get => Metronome.BPM.ToString();
             set
             {
                 if (int.TryParse(value, out var bpm))
-                    metronome.BPM = bpm;
+                    Metronome.BPM = bpm;
             }
         }
 
-        protected void IncreaseBpm() => metronome.BPM++;
+        protected void IncreaseBpm() => Metronome.BPM++;
 
-        protected void DecreaseBpm() => metronome.BPM--;
+        protected void DecreaseBpm() => Metronome.BPM--;
 
         protected void ToggleMetronome()
         {
-            if (metronome.IsRunning)
-                metronome.Stop();
+            if (Metronome.IsRunning)
+                Metronome.Stop();
             else
-                metronome.Start();
+                Metronome.Start();
         }
     }
 }
