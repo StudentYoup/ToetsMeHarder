@@ -8,12 +8,12 @@ body {
 }
 
 ul {
+    display: flex;
     height: 100%;
     margin: 0px;
     margin-block-start: 0;
     margin-block-end: 0;
-    padding-inline-start: 0;
-   
+    padding-inline-start: 0; 
 }
 
 li {
@@ -26,7 +26,7 @@ li {
 
 ul .white {
   height: 100%;
-  width:4em;
+  flex: 1;
   z-index:1;
   border-left:1px solid #bbb;
   border-bottom:1px solid #bbb;
@@ -44,8 +44,8 @@ ul .white:active {
 }
 
 .black {
-  height:8em;
-  width:2em;
+  height: 56%;
+  width: 2em;
   margin:0 0 0 -1em;
   z-index:2;
   border:1px solid #000;
@@ -68,6 +68,6 @@ ul li:first-child {
 }
 
 ul li:last-child {
-  border-radius:0 5px 5px 5px
+  border-radius:0 0px 5px 5px
 }
 
