@@ -1,13 +1,15 @@
-﻿using ToetsMeHarder.Business;
+﻿using System;
+using Microsoft.Maui.Controls;
+using ToetsMeHarder.Business;
 
-namespace ToetsMeHarder.PianoGUI;
-
-public partial class MainPage : ContentPage
+namespace ToetsMeHarder.PianoGUI
 {
-	public MainPage()
-	{
-		//AudioHandler audioHandler = new AudioHandler();
-		//Class1 buisnesslaag = new Class1(audioHandler);
-		InitializeComponent();
-	}
+  public partial class MainPage : ContentPage
+    {   
+        public MainPage()
+        {
+            InitializeComponent();
+    
+        }
+    }
 }

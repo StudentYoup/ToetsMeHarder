@@ -58,6 +58,14 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        
+       
+
+    </ItemGroup>
+
+    <ItemGroup>
+     <!-- Dit is voor het geluidje van de metronoom -->
+        <MauiAsset Include="Resources/Sound/metronoom.mp3" />
     </ItemGroup>
 
     <ItemGroup>
