@@ -1,46 +1,51 @@
-using System;
 using System.Timers;
-using Plugin.Maui.Audio;
 
 namespace ToetsMeHarder.Business
 {
     public class MetronomeService : IMetronomeService
     {
-        private readonly System.Timers.Timer _timer;
-        private readonly IAudioPlayer _player; // Dotnet package voor audio, zie commit 17/04/2025 (01e6a3f)
-        private int _bpm = 60;
+        private System.Timers.Timer _timer;
+        private int _bpm = 60; // start bpm
+        private const int MIN_BPM = 20;
+        private const int MAX_BPM = 300;
+        public event EventHandler? Beat;
 
-        public event EventHandler Beat;
         public bool IsRunning => _timer.Enabled;
+        
 
         public int BPM
         {
             get => _bpm;
             set
             {
-                _bpm = Math.Clamp(value, 20, 300); // BPM tussen de 20 en 300
-                _timer.Interval = 60000.0 / _bpm; // 1 minuut = 60_000 ms -> dit delen door bpm geeft tijd tussen beats
+                _bpm = Math.Clamp(value, MIN_BPM, MAX_BPM); // BPM tussen de MIN en MAX
+                UpdateTimerInterval();
             }
         }
 
-        public MetronomeService(IAudioManager audioManager)
+        public MetronomeService()
         {
-            var audioFile = FileSystem.OpenAppPackageFileAsync(@"Resources\Sound\metronoom.mp3").Result;
-            _player = audioManager.CreatePlayer(audioFile);
-
-            
-            _timer = new System.Timers.Timer(60000.0 / _bpm)
+            _timer = new System.Timers.Timer
             {
                 AutoReset = true
             };
-            _timer.Elapsed += (s, e) => 
-            {
-                _player.Play();
-                Beat?.Invoke(this, EventArgs.Empty);
-            };
+            _timer.Elapsed += (s, e) => Beat?.Invoke(this, EventArgs.Empty);
+            UpdateTimerInterval();
         }
 
-        public void Start() => _timer.Start();
-        public void Stop() => _timer.Stop();
+        private void UpdateTimerInterval()
+        {
+            _timer.Interval = 60000.0 / _bpm;  // 1 minuut = 60_000 ms -> dit delen door bpm geeft tijd tussen beats
+        }
+
+        public void Start()
+        {
+            _timer.Start();
+        }
+
+        public void Stop()
+        {
+            _timer.Stop();
+        }
     }
 }

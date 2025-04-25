@@ -1,8 +1,16 @@
-public interface IMetronomeService
+using System;
+
+namespace ToetsMeHarder.Business
 {
-    int BPM { get; set; }
-    bool IsRunning { get; }
-    event EventHandler Beat;
-    void Start();
-    void Stop();
+    public interface IMetronomeService
+    {
+        event EventHandler? Beat;
+
+        bool IsRunning { get; }
+
+        int BPM { get; set; }
+
+        void Start();
+        void Stop();
+    }
 }

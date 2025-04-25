@@ -1,5 +1,5 @@
 @page "/metronome"
-@inherits ToetsMeHarder.PianoGUI.Pages.Metronome
+@inherits ToetsMeHarder.PianoGUI.Pages.MetronomeBase
 
 <div class="metronome-container">
     <h2>Metronoom</h2>
@@ -11,6 +11,6 @@
     </div>
 
     <button class="toggle-button" @onclick="ToggleMetronome">
-        @(metronome.IsRunning ? "Stop" : "Start")
+        @(Metronome.IsRunning ? "Stop" : "Start")
     </button>
 </div>
