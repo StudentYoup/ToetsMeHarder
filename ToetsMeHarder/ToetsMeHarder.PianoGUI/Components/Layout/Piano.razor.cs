@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ToetsMeHarder.Business;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout;
 
-public partial class Piano
+public partial class Piano()
 {
-    public string test = "tes";
+    private AudioHandler _audioHandler = new AudioHandler();
+    private string test = "Test";
 }
 

@@ -23,7 +23,7 @@ public class AudioHandler : IAudioHandler
     
     public void PlayAudio(Note note)
     {
-        Stream audiostream = GenerateWaveForm(note.Pitch, note.Duration,short.MaxValue/4);
+        Stream audiostream = GenerateWaveForm(note.Frequentie, note.Duration,short.MaxValue/4);
         IAudioPlayer player = audioManager.CreatePlayer(audiostream);
         player.Play();
     } 
