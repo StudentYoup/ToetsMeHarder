@@ -4,7 +4,7 @@ using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 
 
-namespace ToetsMeHarder.PianoGUI.Components.Layout;
+namespace ToetsMeHarder.PianoGUI.Components.Layout{
 
 public partial class Piano
 {
@@ -65,4 +65,4 @@ public partial class Piano
         }
     }
 }
-
+}
