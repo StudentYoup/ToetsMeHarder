@@ -10,11 +10,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
     public partial class Home
     {
         private ElementReference wrapper;
-        private Piano piano;
+        private Piano? piano;
 
         private void OnKeyDown(KeyboardEventArgs e)
         {
-            piano.HandleKey(e);  
+            piano?.HandleKeyDown(e);  
+        }
+        private void OnKeyUp(KeyboardEventArgs e)
+        {
+            piano?.HandleKeyUp(e);  
         }
     }
 }

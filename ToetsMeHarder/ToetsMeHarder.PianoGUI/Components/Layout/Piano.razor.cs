@@ -11,6 +11,8 @@ public partial class Piano
     private AudioHandler _audioHandler = new AudioHandler();
 
     private const int _NOTE_DURATION = 1000;
+    
+      private HashSet<string> _pressedKeys = new HashSet<string>();
 
     private readonly Dictionary<string, Note> _pianoKeys = new()
     {
@@ -56,12 +58,19 @@ public partial class Piano
         ["."] = new Note(1046.50, _NOTE_DURATION),
     };
 
-    public void HandleKey(KeyboardEventArgs e)
+    public void HandleKeyDown(KeyboardEventArgs e)
     {
-        if(_pianoKeys.ContainsKey(e.Key))
+        if(_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.Contains(e.Key))
         {
             _audioHandler.PlayAudio(_pianoKeys[e.Key]);
-            Console.WriteLine("1" + e.Key);
+            _pressedKeys.Add(e.Key);
+        }
+    }
+    public void HandleKeyUp(KeyboardEventArgs e)
+    {
+        if(_pianoKeys.ContainsKey(e.Key) && _pressedKeys.Contains(e.Key))
+        {
+            _pressedKeys.Remove(e.Key);
         }
     }
 }
