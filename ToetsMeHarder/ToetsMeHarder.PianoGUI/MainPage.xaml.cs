@@ -9,7 +9,6 @@ namespace ToetsMeHarder.PianoGUI
         public MainPage()
         {
             InitializeComponent();
-    
         }
     }
 }
