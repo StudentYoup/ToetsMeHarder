@@ -71,3 +71,15 @@ ul li:last-child {
   border-radius:0 0px 5px 5px
 }
 
+li b{
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+    opacity: 0.5;
+}
+.black b{
+    color: white;
+    font-size: 12pxz;
+}
