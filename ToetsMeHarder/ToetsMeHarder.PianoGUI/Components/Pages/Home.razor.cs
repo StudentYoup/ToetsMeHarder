@@ -9,8 +9,18 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 {
     public partial class Home
     {
+        private bool _isFocused = false;
         private ElementReference wrapper;
         private Piano? piano;
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender && !_isFocused)
+            {
+                _isFocused = true;
+                await wrapper.FocusAsync(); // focus op de piano wrapper bij eerste render
+            }
+        }
 
         private void OnKeyDown(KeyboardEventArgs e)
         {
