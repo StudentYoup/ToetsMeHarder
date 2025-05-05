@@ -1,0 +1,33 @@
+﻿@if (!IsOpen)
+{
+    <button @onclick="Open" class="MenuButtons">Liedje Kiezen</button>
+}
+@if (IsOpen)
+{
+    <div class="Overlay">
+        <button @onclick="Close" class="exitButton">X</button>
+        <div id="Menu">
+            <h3>Liedje Kiezen</h3>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnOpen { get; set;}
+    [Parameter] public EventCallback OnClose { get; set;}
+    [Parameter] public bool IsOpen { get; set; } = false;
+
+    public async void Open()
+    {
+        await OnOpen.InvokeAsync();
+        IsOpen = true;
+        StateHasChanged();
+    }
+
+    private async void Close()
+    {
+        await OnClose.InvokeAsync();
+        IsOpen = false;
+    }
+
+}
