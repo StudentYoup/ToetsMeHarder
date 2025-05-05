@@ -1,44 +1,63 @@
 ﻿@page "/piano"
+@using ToetsMeHarder.Business
 
 <ul class="set">
-    <li class="white g"></li>
-    <li class="black fs"></li>
-    <li class="white f"></li>
-    <li class="white e"></li>
-    <li class="black ds"></li>
-    <li class="white d"></li>
-    <li class="black cs"></li>
-    <li class="white c"></li>
-    <li class="white b"></li>
-    <li class="black as"></li>
-    <li class="white a"></li>
-    <li class="black gs"></li>
-    <li class="white g"></li>
-    <li class="black fs"></li>
-    <li class="white f"></li>
-    <li class="white e"></li>
-    <li class="black ds"></li>
-    <li class="white d"></li>
-    <li class="black cs"></li>
-    <li class="white c"></li>
-    <li class="white b"></li>
-    <li class="black as"></li>
-    <li class="white a"></li>
-    <li class="black gs"></li>
-    <li class="white g"></li>
-    <li class="black fs"></li>
-    <li class="white f"></li>
-    <li class="white e"></li>
-    <li class="black ds"></li>
-    <li class="white d"></li>
-    <li class="black cs"></li>
-    <li class="white c"></li>
-    <li class="white b"></li>
-    <li class="black as"></li>
-    <li class="white a"></li>
-    <li class="black gs"></li>
-    <li class="white g"></li>
-    <li class="black fs"></li>
-    <li class="white f"></li>
-    <li class="white e"></li>
+    <li id="a2" @onclick='() => {_audioHandler.PlayAudio(new Note(110.00, 1000));}' class="white a"><b>A2</b></li>
+    <li id="a#2" @onclick='() => {_audioHandler.PlayAudio(new Note(116.54, 1000));}' class="black as"><b>A#2</b></li>
+    <li id="b2" @onclick='() => {_audioHandler.PlayAudio(new Note(123.47, 1000));}' class="white b"><b>B2</b></li>
+    <li id="c3" @onclick='() => {_audioHandler.PlayAudio(new Note(130.81, 1000));}' class="white c"><b>C3</b></li>
+    <li id="c#3" @onclick='() => {_audioHandler.PlayAudio(new Note(138.59, 1000));}' class="black cs"><b>C#3</b></li>
+    <li id="d3" @onclick='() => {_audioHandler.PlayAudio(new Note(146.83, 1000));}' class="white d"><b>D3</b></li>
+    <li id="d#3" @onclick='() => {_audioHandler.PlayAudio(new Note(155.56, 1000));}' class="black ds"><b>D#3</b></li>
+    <li id="e3" @onclick='() => {_audioHandler.PlayAudio(new Note(164.81, 1000));}' class="white e"><b>E3</b></li>
+    <li id="f3" @onclick='() => {_audioHandler.PlayAudio(new Note(174.61, 1000));}' class="white f"><b>F3</b></li>
+    <li id="f#3" @onclick='() => {_audioHandler.PlayAudio(new Note(185.00, 1000));}' class="black fs"><b>F#3</b></li>
+    <li id="g3" @onclick='() => {_audioHandler.PlayAudio(new Note(196.00, 1000));}' class="white g"><b>G3</b></li>
+    <li id="g#3" @onclick='() => {_audioHandler.PlayAudio(new Note(207.65, 1000));}' class="black gs"><b>G#3</b></li>
+    <li id="a3" @onclick='() => {_audioHandler.PlayAudio(new Note(220.00, 1000));}' class="white a"><b>A3</b></li>
+    <li id="a#3" @onclick='() => {_audioHandler.PlayAudio(new Note(233.08, 1000));}' class="black as"><b>A#3</b></li>
+    <li id="b3" @onclick='() => {_audioHandler.PlayAudio(new Note(246.94, 1000));}' class="white b"><b>B3</b></li>
+    <li id="c4" @onclick='() => {_audioHandler.PlayAudio(new Note(261.63, 1000));}' class="white c"><b>C4</b></li>
+    <li id="c#4" @onclick='() => {_audioHandler.PlayAudio(new Note(277.18, 1000));}' class="black cs"><b>C#4</b></li>
+    <li id="d4" @onclick='() => {_audioHandler.PlayAudio(new Note(293.66, 1000));}' class="white d"><b>D4</b></li>
+    <li id="d#4" @onclick='() => {_audioHandler.PlayAudio(new Note(311.13, 1000));}' class="black ds"><b>D#4</b></li>
+    <li id="e4" @onclick='() => {_audioHandler.PlayAudio(new Note(329.63, 1000));}' class="white e"><b>E4</b></li>
+    <li id="f4" @onclick='() => {_audioHandler.PlayAudio(new Note(349.23, 1000));}' class="white f"><b>F4</b></li>
+    <li id="f#4" @onclick='() => {_audioHandler.PlayAudio(new Note(369.99, 1000));}' class="black fs"><b>F#4</b></li>
+    <li id="g4" @onclick='() => {_audioHandler.PlayAudio(new Note(392.00, 1000));}' class="white g"><b>G4</b></li>
+    <li id="g#4" @onclick='() => {_audioHandler.PlayAudio(new Note(415.30, 1000));}' class="black gs"><b>G#4</b></li>
+    <li id="a4" @onclick='() => {_audioHandler.PlayAudio(new Note(440.00, 1000));}' class="white a"><b>A4</b></li>
+    <li id="a#4" @onclick='() => {_audioHandler.PlayAudio(new Note(466.16, 1000));}' class="black as"><b>A#4</b></li>
+    <li id="b4" @onclick='() => {_audioHandler.PlayAudio(new Note(493.88, 1000));}' class="white b"><b>B4</b></li>
+    <li id="c5" @onclick='() => {_audioHandler.PlayAudio(new Note(523.25, 1000));}' class="white c"><b>C5</b></li>
+    <li id="c#5" @onclick='() => {_audioHandler.PlayAudio(new Note(554.37, 1000));}' class="black cs"><b>C#5</b></li>
+    <li id="d5" @onclick='() => {_audioHandler.PlayAudio(new Note(587.33, 1000));}' class="white d"><b>D5</b></li>
+    <li id="d#5" @onclick='() => {_audioHandler.PlayAudio(new Note(622.25, 1000));}' class="black ds"><b>D#5</b></li>
+    <li id="e5" @onclick='() => {_audioHandler.PlayAudio(new Note(659.26, 1000));}' class="white e"><b>E5</b></li>
+    <li id="f5" @onclick='() => {_audioHandler.PlayAudio(new Note(698.46, 1000));}' class="white f"><b>F5</b></li>
+    <li id="f#5" @onclick='() => {_audioHandler.PlayAudio(new Note(739.99, 1000));}' class="black fs"><b>F#5</b></li>
+    <li id="g5" @onclick='() => {_audioHandler.PlayAudio(new Note(783.99, 1000));}' class="white g"><b>G5</b></li>
+    <li id="g#5" @onclick='() => {_audioHandler.PlayAudio(new Note(830.61, 1000));}' class="black gs"><b>G#5</b></li>
+    <li id="a5" @onclick='() => {_audioHandler.PlayAudio(new Note(880.00, 1000));}' class="white a"><b>A5</b></li>
+    <li id="a#5" @onclick='() => {_audioHandler.PlayAudio(new Note(932.33, 1000));}' class="black as"><b>A#5</b></li>
+    <li id="b5" @onclick='() => {_audioHandler.PlayAudio(new Note(987.77, 1000));}' class="white b"><b>B5</b></li>
+    <li id="c6" @onclick='() => {_audioHandler.PlayAudio(new Note(1046.50, 1000));}' class="white c"><b>C6</b></li>
 </ul>
+
+<!--Click Simulation-->
+<script>
+    window.setKeyActive = (id) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.classList.add("manual-active");
+            el.click(); // speel toon af
+        }
+    };
+
+    window.setKeyInactive = (id) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.classList.remove("manual-active");
+        }
+    };
+</script>
