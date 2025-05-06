@@ -1,4 +1,7 @@
-﻿@if (!IsOpen)
+﻿@using ToetsMeHarder.Business
+@using ToetsMeHarder.Business.LiedjesComponent
+
+@if (!IsOpen)
 {
     <button @onclick="Open" class="MenuButtons">Liedje Kiezen</button>
 }
@@ -8,15 +11,25 @@
         <button @onclick="Close" class="exitButton">X</button>
         <div id="Menu">
             <h3>Liedje Kiezen</h3>
+            <button class="MenuButtons" @onclick="SetLiedje">Test Lied</button>
         </div>
     </div>
 }
 
 @code {
+
+    private LiedjesManager _liedjesManager = LiedjesManager.Instance;
+    Liedje lied = new Liedje("TEST");
+    
     [Parameter] public EventCallback OnOpen { get; set;}
     [Parameter] public EventCallback OnClose { get; set;}
     [Parameter] public bool IsOpen { get; set; } = false;
 
+    private void SetLiedje()
+    {
+        _liedjesManager.GekozenLiedje = lied;
+    }
+    
     public async void Open()
     {
         await OnOpen.InvokeAsync();

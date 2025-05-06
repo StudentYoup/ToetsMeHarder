@@ -1,7 +1,8 @@
 ﻿namespace ToetsMeHarder.Business.LiedjesComponent;
 
-public class Liedje
+public class Liedje(string naam)
 {
-    private List<List<Note>> Notes;
-    private int BPM;
+    public string Naam { get; set; } = naam;
+    public List<List<Note>> Notes {get; set;}
+    public int BPM { get; set; }
 }

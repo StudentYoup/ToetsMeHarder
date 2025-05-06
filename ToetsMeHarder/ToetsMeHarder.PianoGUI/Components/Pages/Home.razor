@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using ToetsMeHarder.Business.LiedjesComponent
 @using ToetsMeHarder.PianoGUI.Components.Layout
 @using ToetsMeHarder.PianoGUI.Pages
 
@@ -7,6 +8,9 @@
 
 <div class="top">
     <Metronome/>
+    <div>
+        <h1>@LiedjesManager.Instance.GekozenLiedje?</h1>
+    </div>
     <MainMenu/>
 </div>
 <div class="middle">
