@@ -31,7 +31,7 @@ public class AudioHandler : IAudioHandler
     private Stream GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)
     {
         //deze variabelen bepalen de lengte van de toon
-        int samples = (int)((decimal)SAMPLESIZE * (duration / 1000));
+        int samples = (int)((double)SAMPLESIZE * ((double)duration / 1000f));
         int dataChunkSize = samples * FRAMESIZE;
         int fileSize = WAVESYZE + HEADERSIZE + FORMATCHUNKSIZE + HEADERSIZE + dataChunkSize;
         
