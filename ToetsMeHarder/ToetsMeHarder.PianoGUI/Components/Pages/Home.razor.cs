@@ -1,9 +1,8 @@
 using ToetsMeHarder.PianoGUI.Components.Layout;
-using ToetsMeHarder.PianoGUI.Pages;
-using ToetsMeHarder.Business;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
+using ToetsMeHarder.Business.LiedjesComponent;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 
 namespace ToetsMeHarder.PianoGUI.Components.Pages
 {
@@ -12,6 +11,17 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         private bool _isFocused = false;
         private ElementReference _wrapper;
         private Piano? _piano;
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            LiedjesManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
+        }
+
+        private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(LiedjesManager.Instance.GekozenLiedje))InvokeAsync(StateHasChanged);
+        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {

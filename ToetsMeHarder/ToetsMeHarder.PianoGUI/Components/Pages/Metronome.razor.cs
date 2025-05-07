@@ -1,6 +1,8 @@
+using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
+using ToetsMeHarder.Business.LiedjesComponent;
 
 namespace ToetsMeHarder.PianoGUI.Pages
 {
@@ -13,6 +15,23 @@ namespace ToetsMeHarder.PianoGUI.Pages
         public IAudioManager AudioManager { get; set; } = default!; // same
 
         private IAudioPlayer _player;
+
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            LiedjesManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
+            
+        }
+
+        private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName != nameof(LiedjesManager.Instance.GekozenLiedje)) return;
+            Metronome.BPM = LiedjesManager.Instance.GekozenLiedje.BPM;
+            BpmText = Metronome.BPM.ToString();
+            InvokeAsync(StateHasChanged);
+        }
+
 
         protected override async Task OnInitializedAsync()
         {
