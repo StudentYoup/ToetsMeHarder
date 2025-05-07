@@ -1,0 +1,34 @@
+﻿
+<h3>Resultaat lied: (placeholder)</h3>
+<p>bpm: (placeholder)</p>
+<p>score: (placeholder)</p>
+<p>score: (placeholder)</p>
+
+
+
+
+
+
+
+
+
+@if (PopupZichtbaar)
+{
+        <div class="overlay" @onclick="SluitPopup">
+            <div class="pop-up" @onclick:stopPropagation>
+                <button class="close-btn" @onclick="SluitPopup">×</button>
+                <Result />
+            </div>
+        </div>
+}
+
+@code {
+    [Parameter] public bool PopupZichtbaar { get; set; }
+    [Parameter] public EventCallback SluitPopup { get; set; }
+}
+
+
+
+
+
+

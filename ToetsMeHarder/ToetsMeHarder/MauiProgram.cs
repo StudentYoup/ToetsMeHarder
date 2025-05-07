@@ -15,9 +15,10 @@ namespace ToetsMeHarder
                 });
 
             builder.Services.AddMauiBlazorWebView();
+           
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
 
