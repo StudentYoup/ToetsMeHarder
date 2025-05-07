@@ -1,9 +1,6 @@
-﻿using ToetsMeHarder.Business;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Maui.Controls;
-
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
@@ -35,28 +32,27 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             ["["] = "d4",
             ["="] = "d#4",
             ["]"] = "e4",
-            ["z"] = "f4",
-            ["s"] = "f#4",
-            ["x"] = "g4",
-            ["d"] = "g#4",
-            ["c"] = "a4",
-            ["f"] = "a#4",
-            ["v"] = "b4",
-            ["b"] = "c5",
-            ["h"] = "c#5",
-            ["n"] = "d5",
-            ["j"] = "d#5",
-            ["m"] = "e5",
-            [","] = "f5",
-            ["l"] = "f#5",
-            ["."] = "g5",
-            [";"] = "g#5",
-            ["/"] = "a5"
-            // [""] = "a#5",
-            // [""] = "b5",
-            // [""] = "c6",
+            ["\\"] = "f4",
+            ["a"] = "f#4",
+            ["z"] = "g4",
+            ["s"] = "g#4",
+            ["x"] = "a4",
+            ["d"] = "a#4",
+            ["c"] = "b4",
+            ["v"] = "c5",
+            ["g"] = "c#5",
+            ["b"] = "d5",
+            ["h"] = "d#5",
+            ["n"] = "e5",
+            ["m"] = "f5",
+            ["k"] = "f#5",
+            [","] = "g5",
+            ["l"] = "g#5",
+            ["."] = "a5",
+            [";"] = "a#5",
+            ["/"] = "b5"
+            //["'"] = "c6"
         };
-
         [Inject] private IJSRuntime JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
         {
@@ -75,6 +71,14 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 _pressedKeys.Remove(e.Key);
                 JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
             }
+        }
+
+        private string keyModus = "Key";
+        public void changeKeyModus()
+        {
+            if (keyModus == "Blank") keyModus = "Note";
+            else if (keyModus == "Note") keyModus = "Key";
+            else if (keyModus == "Key") keyModus = "Blank";
         }
     }
 }
