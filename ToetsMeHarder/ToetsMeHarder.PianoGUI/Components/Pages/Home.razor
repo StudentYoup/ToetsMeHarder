@@ -1,0 +1,20 @@
+﻿@page "/"
+@using ToetsMeHarder.PianoGUI.Components.Layout
+@using ToetsMeHarder.PianoGUI.Pages
+
+<div class="top">
+ <Metronome/>
+</div>
+<div class="middle">
+
+</div>
+<div
+	class="bottem"
+  tabindex="0"              
+  @ref="_wrapper"             
+  @onkeydown="OnKeyDown" 
+  @onkeyup="OnKeyUp"  
+>
+  <Piano @ref="_piano" />    
+</div>
+
