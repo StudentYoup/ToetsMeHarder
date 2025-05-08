@@ -140,7 +140,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             _pressedKeys.Remove(key);
         }
 
-        //Keymodus code:
         private string _keyModus = "Key";
         private void ChangeKeyModus()
         {
@@ -149,14 +148,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             else if (_keyModus == "Key") _keyModus = "Blank";
         }
 
-        //Class generator
         public string CreateCSSClass(string key)
         {
-            string colorClass = key.Contains("#") ? "black " : "white ";
-            string noteLetter = key.Replace("#", "").ToLower()[0].ToString(); // haalt 'c' uit 'c2' of 'c#2'
-            string suffix = key.Contains("#") ? "s" : ""; // 's' toevoegen bij kruisnoten
+            string color = key.Contains("#") ? "black " : "white ";
+            string letter = key.Replace("#", "").ToLower()[0].ToString(); // haalt letter iut key
+            string addition = key.Contains("#") ? "s" : ""; // s toevoegen bij zwarte keys
 
-            return colorClass + noteLetter + suffix; // bijvoorbeeld: "black cs" of "white c"
+            return color + letter + addition; // bijvoorbeeld: "black cs" of "white c"
         }
     }
 }
