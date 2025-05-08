@@ -35,7 +35,6 @@ public class AudioHandler : IAudioHandler
     public void StopAudio(IAudioPlayer player)
     {
         player.Stop();
-        player.Dispose();
     }
 
     private Stream GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)

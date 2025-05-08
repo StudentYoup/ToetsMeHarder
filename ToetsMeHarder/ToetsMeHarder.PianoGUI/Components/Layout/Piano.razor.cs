@@ -102,6 +102,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             { "c6", 1046.50 }
         };
 
+        
+
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
@@ -127,6 +129,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
             }
         }
+
+        public void OnLostFocus()
+        {
+            foreach (var key in _pressedKeys.Keys.ToList())
+            {
+                StopNote(key);
+            }
+        }
+
         private void PlayNote(double frequency)
         {
             var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequency).Key;
@@ -148,7 +159,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             else if (_keyModus == "Key") _keyModus = "Blank";
         }
 
-        public string CreateCSSClass(string key)
+        private string CreateCSSClass(string key)
         {
             string color = key.Contains("#") ? "black " : "white ";
             string letter = key.Replace("#", "").ToLower()[0].ToString(); // haalt letter iut key
