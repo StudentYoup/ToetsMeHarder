@@ -114,11 +114,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         }
         public void HandleKeyUp(KeyboardEventArgs e)
         {
-            if (_pianoKeys.ContainsKey(e.Key) && _pressedKeys.ContainsKey(e.Key))
+            if (_pianoKeys.ContainsKey(e.Key))
             {
                 var noteId = _pianoKeys[e.Key];
-                _audioHandler.StopAudio(_pressedKeys[noteId]);
+                if (!_pressedKeys.ContainsKey(noteId)) return;
 
+                _audioHandler.StopAudio(_pressedKeys[noteId]);
                 _pressedKeys.Remove(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
