@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Maui.Controls;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
+using ToetsMeHarder.Business.Midi;
+using System.Runtime.InteropServices;
 
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
@@ -101,10 +103,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             { "b5", 987.77 },
             { "c6", 1046.50 }
         };
-
-        
-
-
         [Inject] private IJSRuntime JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
         {
@@ -166,6 +164,42 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             string addition = key.Contains("#") ? "s" : ""; // s toevoegen bij zwarte keys
 
             return color + letter + addition; // bijvoorbeeld: "black cs" of "white c"
+        }
+
+        //Midi:
+        [Inject] private MidiService MidiService { get; set; }
+        private string? midiName = null;
+        protected override void OnInitialized()
+        {
+            MidiService.OnMidiDown += OnMidiDown;
+            MidiService.OnMidiUp += OnMidiUp;
+            MidiService.StartListening();
+            midiName = MidiService.midiName;
+        }
+
+        private void OnMidiDown(int status, int note, int velocity)
+        {
+            var noteId = MidiService.midiNotes[note];
+
+            if (_noteFrequencies.ContainsKey(noteId))
+            {
+                PlayNote(_noteFrequencies[noteId]);
+
+                JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
+            }
+        }
+        private void OnMidiUp(int status, int note, int velocity)
+        {
+            var noteId = MidiService.midiNotes[note];
+
+            if (_noteFrequencies.ContainsKey(noteId))
+            {
+                if (!_pressedKeys.ContainsKey(noteId)) return;
+
+                StopNote(noteId);
+
+                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
+            }
         }
     }
 }
