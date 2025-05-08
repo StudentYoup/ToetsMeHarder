@@ -2,46 +2,46 @@
 @using ToetsMeHarder.Business
 
 <ul class="set">
-    <li id="a2" @onclick='() => {_audioHandler.PlayAudio(new Note(110.00));}' class="white a"><b>A2</b></li>
-    <li id="a#2" @onclick='() => {_audioHandler.PlayAudio(new Note(116.54));}' class="black as"><b>A#2</b></li>
-    <li id="b2" @onclick='() => {_audioHandler.PlayAudio(new Note(123.47));}' class="white b"><b>B2</b></li>
-    <li id="c3" @onclick='() => {_audioHandler.PlayAudio(new Note(130.81));}' class="white c"><b>C3</b></li>
-    <li id="c#3" @onclick='() => {_audioHandler.PlayAudio(new Note(138.59));}' class="black cs"><b>C#3</b></li>
-    <li id="d3" @onclick='() => {_audioHandler.PlayAudio(new Note(146.83));}' class="white d"><b>D3</b></li>
-    <li id="d#3" @onclick='() => {_audioHandler.PlayAudio(new Note(155.56));}' class="black ds"><b>D#3</b></li>
-    <li id="e3" @onclick='() => {_audioHandler.PlayAudio(new Note(164.81));}' class="white e"><b>E3</b></li>
-    <li id="f3" @onclick='() => {_audioHandler.PlayAudio(new Note(174.61));}' class="white f"><b>F3</b></li>
-    <li id="f#3" @onclick='() => {_audioHandler.PlayAudio(new Note(185.00));}' class="black fs"><b>F#3</b></li>
-    <li id="g3" @onclick='() => {_audioHandler.PlayAudio(new Note(196.00));}' class="white g"><b>G3</b></li>
-    <li id="g#3" @onclick='() => {_audioHandler.PlayAudio(new Note(207.65));}' class="black gs"><b>G#3</b></li>
-    <li id="a3" @onclick='() => {_audioHandler.PlayAudio(new Note(220.00));}' class="white a"><b>A3</b></li>
-    <li id="a#3" @onclick='() => {_audioHandler.PlayAudio(new Note(233.08));}' class="black as"><b>A#3</b></li>
-    <li id="b3" @onclick='() => {_audioHandler.PlayAudio(new Note(246.94));}' class="white b"><b>B3</b></li>
-    <li id="c4" @onclick='() => {_audioHandler.PlayAudio(new Note(261.63));}' class="white c"><b>C4</b></li>
-    <li id="c#4" @onclick='() => {_audioHandler.PlayAudio(new Note(277.18));}' class="black cs"><b>C#4</b></li>
-    <li id="d4" @onclick='() => {_audioHandler.PlayAudio(new Note(293.66));}' class="white d"><b>D4</b></li>
-    <li id="d#4" @onclick='() => {_audioHandler.PlayAudio(new Note(311.13));}' class="black ds"><b>D#4</b></li>
-    <li id="e4" @onclick='() => {_audioHandler.PlayAudio(new Note(329.63));}' class="white e"><b>E4</b></li>
-    <li id="f4" @onclick='() => {_audioHandler.PlayAudio(new Note(349.23));}' class="white f"><b>F4</b></li>
-    <li id="f#4" @onclick='() => {_audioHandler.PlayAudio(new Note(369.99));}' class="black fs"><b>F#4</b></li>
-    <li id="g4" @onclick='() => {_audioHandler.PlayAudio(new Note(392.00));}' class="white g"><b>G4</b></li>
-    <li id="g#4" @onclick='() => {_audioHandler.PlayAudio(new Note(415.30));}' class="black gs"><b>G#4</b></li>
-    <li id="a4" @onclick='() => {_audioHandler.PlayAudio(new Note(440.00));}' class="white a"><b>A4</b></li>
-    <li id="a#4" @onclick='() => {_audioHandler.PlayAudio(new Note(466.16));}' class="black as"><b>A#4</b></li>
-    <li id="b4" @onclick='() => {_audioHandler.PlayAudio(new Note(493.88));}' class="white b"><b>B4</b></li>
-    <li id="c5" @onclick='() => {_audioHandler.PlayAudio(new Note(523.25));}' class="white c"><b>C5</b></li>
-    <li id="c#5" @onclick='() => {_audioHandler.PlayAudio(new Note(554.37));}' class="black cs"><b>C#5</b></li>
-    <li id="d5" @onclick='() => {_audioHandler.PlayAudio(new Note(587.33));}' class="white d"><b>D5</b></li>
-    <li id="d#5" @onclick='() => {_audioHandler.PlayAudio(new Note(622.25));}' class="black ds"><b>D#5</b></li>
-    <li id="e5" @onclick='() => {_audioHandler.PlayAudio(new Note(659.26));}' class="white e"><b>E5</b></li>
-    <li id="f5" @onclick='() => {_audioHandler.PlayAudio(new Note(698.46));}' class="white f"><b>F5</b></li>
-    <li id="f#5" @onclick='() => {_audioHandler.PlayAudio(new Note(739.99));}' class="black fs"><b>F#5</b></li>
-    <li id="g5" @onclick='() => {_audioHandler.PlayAudio(new Note(783.99));}' class="white g"><b>G5</b></li>
-    <li id="g#5" @onclick='() => {_audioHandler.PlayAudio(new Note(830.61));}' class="black gs"><b>G#5</b></li>
-    <li id="a5" @onclick='() => {_audioHandler.PlayAudio(new Note(880.00));}' class="white a"><b>A5</b></li>
-    <li id="a#5" @onclick='() => {_audioHandler.PlayAudio(new Note(932.33));}' class="black as"><b>A#5</b></li>
-    <li id="b5" @onclick='() => {_audioHandler.PlayAudio(new Note(987.77));}' class="white b"><b>B5</b></li>
-    <li id="c6" @onclick='() => {_audioHandler.PlayAudio(new Note(1046.50));}' class="white c"><b>C6</b></li>
+    <li id="a2" @onclick='() => {PlayNote(110.00);}' class="white a"><b>A2</b></li>
+    <li id="a#2" @onclick='() => {PlayNote(116.54);}' class="black as"><b>A#2</b></li>
+    <li id="b2" @onclick='() => {PlayNote(123.47);}' class="white b"><b>B2</b></li>
+    <li id="c3" @onclick='() => {PlayNote(130.81);}' class="white c"><b>C3</b></li>
+    <li id="c#3" @onclick='() => {PlayNote(138.59);}' class="black cs"><b>C#3</b></li>
+    <li id="d3" @onclick='() => {PlayNote(146.83);}' class="white d"><b>D3</b></li>
+    <li id="d#3" @onclick='() => {PlayNote(155.56);}' class="black ds"><b>D#3</b></li>
+    <li id="e3" @onclick='() => {PlayNote(164.81);}' class="white e"><b>E3</b></li>
+    <li id="f3" @onclick='() => {PlayNote(174.61);}' class="white f"><b>F3</b></li>
+    <li id="f#3" @onclick='() => {PlayNote(185.00);}' class="black fs"><b>F#3</b></li>
+    <li id="g3" @onclick='() => {PlayNote(196.00);}' class="white g"><b>G3</b></li>
+    <li id="g#3" @onclick='() => {PlayNote(207.65);}' class="black gs"><b>G#3</b></li>
+    <li id="a3" @onclick='() => {PlayNote(220.00);}' class="white a"><b>A3</b></li>
+    <li id="a#3" @onclick='() => {PlayNote(233.08);}' class="black as"><b>A#3</b></li>
+    <li id="b3" @onclick='() => {PlayNote(246.94);}' class="white b"><b>B3</b></li>
+    <li id="c4" @onclick='() => {PlayNote(261.63);}' class="white c"><b>C4</b></li>
+    <li id="c#4" @onclick='() => {PlayNote(277.18);}' class="black cs"><b>C#4</b></li>
+    <li id="d4" @onclick='() => {PlayNote(293.66);}' class="white d"><b>D4</b></li>
+    <li id="d#4" @onclick='() => {PlayNote(311.13);}' class="black ds"><b>D#4</b></li>
+    <li id="e4" @onclick='() => {PlayNote(329.63);}' class="white e"><b>E4</b></li>
+    <li id="f4" @onclick='() => {PlayNote(349.23);}' class="white f"><b>F4</b></li>
+    <li id="f#4" @onclick='() => {PlayNote(369.99);}' class="black fs"><b>F#4</b></li>
+    <li id="g4" @onclick='() => {PlayNote(392.00);}' class="white g"><b>G4</b></li>
+    <li id="g#4" @onclick='() => {PlayNote(415.30);}' class="black gs"><b>G#4</b></li>
+    <li id="a4" @onclick='() => {PlayNote(440.00);}' class="white a"><b>A4</b></li>
+    <li id="a#4" @onclick='() => {PlayNote(466.16);}' class="black as"><b>A#4</b></li>
+    <li id="b4" @onclick='() => {PlayNote(493.88);}' class="white b"><b>B4</b></li>
+    <li id="c5" @onclick='() => {PlayNote(523.25);}' class="white c"><b>C5</b></li>
+    <li id="c#5" @onclick='() => {PlayNote(554.37);}' class="black cs"><b>C#5</b></li>
+    <li id="d5" @onclick='() => {PlayNote(587.33);}' class="white d"><b>D5</b></li>
+    <li id="d#5" @onclick='() => {PlayNote(622.25);}' class="black ds"><b>D#5</b></li>
+    <li id="e5" @onclick='() => {PlayNote(659.26);}' class="white e"><b>E5</b></li>
+    <li id="f5" @onclick='() => {PlayNote(698.46);}' class="white f"><b>F5</b></li>
+    <li id="f#5" @onclick='() => {PlayNote(739.99);}' class="black fs"><b>F#5</b></li>
+    <li id="g5" @onclick='() => {PlayNote(783.99);}' class="white g"><b>G5</b></li>
+    <li id="g#5" @onclick='() => {PlayNote(830.61);}' class="black gs"><b>G#5</b></li>
+    <li id="a5" @onclick='() => {PlayNote(880.00);}' class="white a"><b>A5</b></li>
+    <li id="a#5" @onclick='() => {PlayNote(932.33);}' class="black as"><b>A#5</b></li>
+    <li id="b5" @onclick='() => {PlayNote(987.77);}' class="white b"><b>B5</b></li>
+    <li id="c6" @onclick='() => {PlayNote(1046.50);}' class="white c"><b>C6</b></li>
 </ul>
 
 <!--Click Simulation-->

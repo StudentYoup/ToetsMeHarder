@@ -28,6 +28,7 @@ public class AudioHandler : IAudioHandler
         IAudioPlayer player = audioManager.CreatePlayer(audiostream);
         player.Loop = true;
         player.Play();
+
         return player;
     } 
 
