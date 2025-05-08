@@ -106,8 +106,11 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         [Inject] private IJSRuntime JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
         {
-            var noteId = _pianoKeys[e.Key];
-            JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
+            if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(e.Key))
+            {
+                var noteId = _pianoKeys[e.Key];
+                JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
+            }
         }
         public void HandleKeyUp(KeyboardEventArgs e)
         {
