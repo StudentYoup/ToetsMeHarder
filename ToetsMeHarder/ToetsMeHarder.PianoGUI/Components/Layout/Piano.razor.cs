@@ -54,8 +54,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             ["l"] = "g#5",
             ["."] = "a5",
             [";"] = "a#5",
-            ["/"] = "b5"
-            //["'"] = "c6"
+            ["/"] = "b5",
+            [""] = "c6"
         };
         
         private readonly Dictionary<string, double> _noteFrequencies = new Dictionary<string, double>
@@ -109,6 +109,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(e.Key))
             {
                 var noteId = _pianoKeys[e.Key];
+
+                PlayNote(_noteFrequencies[noteId]);
+
                 JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
             }
         }
@@ -119,13 +122,25 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 var noteId = _pianoKeys[e.Key];
                 if (!_pressedKeys.ContainsKey(noteId)) return;
 
-                _audioHandler.StopAudio(_pressedKeys[noteId]);
-                _pressedKeys.Remove(noteId);
+                StopNote(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
             }
         }
+        private void PlayNote(double frequency)
+        {
+            var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequency).Key;
+            if (_pressedKeys.ContainsKey(key)) return;
+            _pressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
+        }
+        private void StopNote(string key)
+        {
+            if (!_pressedKeys.ContainsKey(key)) return;
+            _audioHandler.StopAudio(_pressedKeys[key]);
+            _pressedKeys.Remove(key);
+        }
 
+        //Keymodus code:
         private string _keyModus = "Key";
         private void ChangeKeyModus()
         {
@@ -133,11 +148,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             else if (_keyModus == "Note") _keyModus = "Key";
             else if (_keyModus == "Key") _keyModus = "Blank";
         }
-        private void PlayNote(double frequentie)
+
+        //Class generator
+        public string CreateCSSClass(string key)
         {
-            var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequentie).Key;
-            if (_pressedKeys.ContainsKey(key)) return;
-            _pressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequentie)));
+            string colorClass = key.Contains("#") ? "black " : "white ";
+            string noteLetter = key.Replace("#", "").ToLower()[0].ToString(); // haalt 'c' uit 'c2' of 'c#2'
+            string suffix = key.Contains("#") ? "s" : ""; // 's' toevoegen bij kruisnoten
+
+            return colorClass + noteLetter + suffix; // bijvoorbeeld: "black cs" of "white c"
         }
     }
 }
