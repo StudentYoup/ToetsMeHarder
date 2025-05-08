@@ -1,9 +1,9 @@
-﻿using ToetsMeHarder.Business;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Maui.Controls;
 using Plugin.Maui.Audio;
+using ToetsMeHarder.Business;
 
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
@@ -36,26 +36,26 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             ["["] = "d4",
             ["="] = "d#4",
             ["]"] = "e4",
-            ["z"] = "f4",
-            ["s"] = "f#4",
-            ["x"] = "g4",
-            ["d"] = "g#4",
-            ["c"] = "a4",
-            ["f"] = "a#4",
-            ["v"] = "b4",
-            ["b"] = "c5",
-            ["h"] = "c#5",
-            ["n"] = "d5",
-            ["j"] = "d#5",
-            ["m"] = "e5",
-            [","] = "f5",
-            ["l"] = "f#5",
-            ["."] = "g5",
-            [";"] = "g#5",
-            ["/"] = "a5"
-            // [""] = "a#5",
-            // [""] = "b5",
-            // [""] = "c6",
+            ["\\"] = "f4",
+            ["a"] = "f#4",
+            ["z"] = "g4",
+            ["s"] = "g#4",
+            ["x"] = "a4",
+            ["d"] = "a#4",
+            ["c"] = "b4",
+            ["v"] = "c5",
+            ["g"] = "c#5",
+            ["b"] = "d5",
+            ["h"] = "d#5",
+            ["n"] = "e5",
+            ["m"] = "f5",
+            ["k"] = "f#5",
+            [","] = "g5",
+            ["l"] = "g#5",
+            ["."] = "a5",
+            [";"] = "a#5",
+            ["/"] = "b5",
+            [""] = "c6"
         };
         
         private readonly Dictionary<string, double> _noteFrequencies = new Dictionary<string, double>
@@ -102,6 +102,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             { "c6", 1046.50 }
         };
 
+        
+
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
@@ -109,6 +111,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(e.Key))
             {
                 var noteId = _pianoKeys[e.Key];
+
+                PlayNote(_noteFrequencies[noteId]);
+
                 JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
             }
         }
@@ -119,17 +124,48 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 var noteId = _pianoKeys[e.Key];
                 if (!_pressedKeys.ContainsKey(noteId)) return;
 
-                _audioHandler.StopAudio(_pressedKeys[noteId]);
-                _pressedKeys.Remove(noteId);
+                StopNote(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
             }
         }
-        public void PlayNote(double frequentie)
+
+        public void OnLostFocus()
         {
-            var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequentie).Key;
+            foreach (var key in _pressedKeys.Keys.ToList())
+            {
+                StopNote(key);
+            }
+        }
+
+        private void PlayNote(double frequency)
+        {
+            var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequency).Key;
             if (_pressedKeys.ContainsKey(key)) return;
-            _pressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequentie)));
+            _pressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
+        }
+        private void StopNote(string key)
+        {
+            if (!_pressedKeys.ContainsKey(key)) return;
+            _audioHandler.StopAudio(_pressedKeys[key]);
+            _pressedKeys.Remove(key);
+        }
+
+        private string _keyModus = "Key";
+        private void ChangeKeyModus()
+        {
+            if (_keyModus == "Blank") _keyModus = "Note";
+            else if (_keyModus == "Note") _keyModus = "Key";
+            else if (_keyModus == "Key") _keyModus = "Blank";
+        }
+
+        private string CreateCSSClass(string key)
+        {
+            string color = key.Contains("#") ? "black " : "white ";
+            string letter = key.Replace("#", "").ToLower()[0].ToString(); // haalt letter iut key
+            string addition = key.Contains("#") ? "s" : ""; // s toevoegen bij zwarte keys
+
+            return color + letter + addition; // bijvoorbeeld: "black cs" of "white c"
         }
     }
 }

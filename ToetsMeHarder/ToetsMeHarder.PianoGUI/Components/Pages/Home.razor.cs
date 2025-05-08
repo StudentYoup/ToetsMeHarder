@@ -30,5 +30,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         {
             _piano?.HandleKeyUp(e);  
         }
+
+        private void OnFocusOut(){
+            _piano.OnLostFocus();
+        }
     }
 }
