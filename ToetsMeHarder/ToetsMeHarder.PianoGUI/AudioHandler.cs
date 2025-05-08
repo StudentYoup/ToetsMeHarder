@@ -1,5 +1,7 @@
 ﻿using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace ToetsMeHarder;
 
@@ -33,8 +35,15 @@ public class AudioHandler : IAudioHandler
     } 
 
     public void StopAudio(IAudioPlayer player)
-    {
-        player.Stop();
+    {   
+            if (player.IsPlaying)
+            {
+                player.Stop();
+                player.Dispose();
+            }else
+            {
+                player.Dispose();
+            }
     }
 
     private Stream GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)
