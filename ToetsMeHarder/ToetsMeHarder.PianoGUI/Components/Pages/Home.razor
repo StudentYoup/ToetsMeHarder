@@ -13,6 +13,7 @@
 	<div class="right">
 		<div class="menu">
 			<button><i>Songs</i></button>
+			<button @onclick="() => {resultPopUp = !resultPopUp;}"><i>Toon results</i></button>
 			<button><i>Options</i></button>
 			<button @onclick="() => {helpPopUp = !helpPopUp;}"><i>Help</i></button>
 			<button><i>Exit</i></button>
@@ -41,5 +42,8 @@ tabindex="0"
 
 			</div>
 		</div>
+	}
+	if (resultPopUp){
+		<Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
 	}
 }
