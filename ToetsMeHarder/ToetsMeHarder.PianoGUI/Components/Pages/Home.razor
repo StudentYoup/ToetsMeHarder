@@ -3,7 +3,10 @@
 @using ToetsMeHarder.PianoGUI.Pages
 
 <div class="top">
- <Metronome/>
+	
+	<button @onclick="ToonPopup">Toon Button</button>
+	<Metronome/>
+
 </div>
 <div class="middle">
 
@@ -19,3 +22,17 @@
   <Piano @ref="_piano" />    
 </div>
 
+	<Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
+
+@code {
+	private bool popupZichtbaar = false;
+
+	private void ToonPopup()
+	{
+		popupZichtbaar = true;
+	}
+	private void SluitPopup()
+	{
+		popupZichtbaar = false;
+	}
+}
