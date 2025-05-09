@@ -36,6 +36,9 @@ public class AudioHandler : IAudioHandler
 
     public void StopAudio(IAudioPlayer player)
     {   
+            try{
+
+            
             if (player.IsPlaying)
             {
                 player.Stop();
@@ -43,6 +46,11 @@ public class AudioHandler : IAudioHandler
             }else
             {
                 player.Dispose();
+            }
+            }catch (Exception e)
+            {
+               player.Loop = false;
+               Console.WriteLine("AudioHandler crash: " + e.Message);
             }
     }
 
