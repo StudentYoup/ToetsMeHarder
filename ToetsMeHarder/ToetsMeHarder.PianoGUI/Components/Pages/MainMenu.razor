@@ -1,6 +1,9 @@
-﻿<button @onclick="Open" class="MenuButtons">Menu</button>
+﻿@page "/MainMenu"
+@inherits MainMenu_razor
 
-@if (_isMenuVisible)
+<button @onclick="Open" class="MenuButtons">Menu</button>
+
+@if (IsMenuVisible)
 {
     <div class="Overlay">
         <button @onclick="Close" class="exitButton">X</button>
@@ -11,28 +14,11 @@
     </div>
 }
 
-@if (_liedjeMenuOpen)
+@if (LiedjeMenuOpen)
 {
     <LiedjesKeuzeMenu OnClose="Liedjemenu" IsOpen="true"/>
 }
 
 @code {
     
-    private bool _isMenuVisible = false;
-    
-    private bool _liedjeMenuOpen = false;
-
-    private void Liedjemenu()
-    {
-        _liedjeMenuOpen = !_liedjeMenuOpen;
-        _isMenuVisible = !_isMenuVisible;
-    }
-
-    private void Open()
-    {
-        _isMenuVisible = true;
-        StateHasChanged();
-    }
-
-    private void Close() => _isMenuVisible = false;
 }
