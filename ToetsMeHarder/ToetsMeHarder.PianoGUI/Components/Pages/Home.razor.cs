@@ -9,6 +9,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 {
     public partial class Home
     {
+        //PopUps:
+        public bool helpPopUp = false;
+
         private bool _isFocused = false;
         private ElementReference _wrapper;
         private Piano? _piano;
