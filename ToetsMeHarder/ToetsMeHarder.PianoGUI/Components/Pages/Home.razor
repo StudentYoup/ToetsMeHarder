@@ -39,11 +39,17 @@ tabindex="0"
 		<div class="popup">
 			<div>
 				<h1>Help:</h1>
-
+				<button @onclick="() => {helpPopUp = !helpPopUp;}">Close</button>
 			</div>
 		</div>
 	}
 	if (resultPopUp){
-		<Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
+		<div class="popup">
+			<div>
+				<h1>Results</h1>
+				<Result></Result>
+				<button @onclick="() => {resultPopUp = !resultPopUp;}">Close</button>
+			</div>
+		</div>
 	}
 }
