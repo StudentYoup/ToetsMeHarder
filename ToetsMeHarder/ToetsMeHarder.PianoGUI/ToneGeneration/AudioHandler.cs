@@ -1,5 +1,7 @@
 ﻿using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace ToetsMeHarder;
 
@@ -18,15 +20,39 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
+    private const int LOOP_DURATION = 200;
     
     private IAudioManager audioManager = AudioManager.Current;
     
-    public void PlayAudio(Note note)
+    public IAudioPlayer PlayAudio(Note note)
     {
-        Stream audiostream = GenerateWaveForm(note.Frequentie, note.Duration,short.MaxValue/4);
+        Stream audiostream = GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue/4);
         IAudioPlayer player = audioManager.CreatePlayer(audiostream);
+        player.Loop = true;
         player.Play();
+
+        return player;
     } 
+
+    public void StopAudio(IAudioPlayer player)
+    {   
+            try{
+
+            
+            if (player.IsPlaying)
+            {
+                player.Stop();
+                player.Dispose();
+            }else
+            {
+                player.Dispose();
+            }
+            }catch (Exception e)
+            {
+               player.Loop = false;
+               Console.WriteLine("AudioHandler crash: " + e.Message);
+            }
+    }
 
     private Stream GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)
     {
