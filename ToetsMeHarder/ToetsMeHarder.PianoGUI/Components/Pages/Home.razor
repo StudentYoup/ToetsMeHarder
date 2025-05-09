@@ -1,18 +1,18 @@
 ﻿@page "/"
+@using ToetsMeHarder.Business.LiedjesComponent
 @using ToetsMeHarder.PianoGUI.Components.Layout
-@using ToetsMeHarder.PianoGUI.Pages
 
 <div class="top">
 	<div class="left">
 		<Metronome/>
 	</div>
 	<div class="center">
-		<h1>Somewhere over the rainbow</h1>
+		 <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
 		<h4>by GIJT</h4>
 	</div>
 	<div class="right">
 		<div class="menu">
-			<button><i>Songs</i></button>
+			<button @onclick="() => {songPopUp = !songPopUp;}"><i>Menu</i></button>
 			<button @onclick="() => {resultPopUp = !resultPopUp;}"><i>Toon results</i></button>
 			<button><i>Options</i></button>
 			<button @onclick="() => {helpPopUp = !helpPopUp;}"><i>Help</i></button>
@@ -49,6 +49,15 @@
 				<h1>Results</h1>
 				<Result></Result>
 				<button @onclick="() => {resultPopUp = !resultPopUp;}">Close</button>
+			</div>
+		</div>
+	}
+	if (songPopUp){
+		<div class="popup">
+			<div>
+				<h1>Menu</h1>
+				<MainMenu></MainMenu>
+				<button @onclick="() => {songPopUp = !songPopUp;}">Close</button>
 			</div>
 		</div>
 	}

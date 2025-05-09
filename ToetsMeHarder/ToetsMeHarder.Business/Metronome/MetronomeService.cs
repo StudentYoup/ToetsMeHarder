@@ -1,4 +1,5 @@
-using System.Timers;
+using System.ComponentModel;
+using ToetsMeHarder.Business.LiedjesComponent;
 
 namespace ToetsMeHarder.Business
 {
@@ -11,6 +12,8 @@ namespace ToetsMeHarder.Business
         public event EventHandler? Beat;
 
         public bool IsRunning => _timer.Enabled;
+        
+        
         
 
         public int BPM
