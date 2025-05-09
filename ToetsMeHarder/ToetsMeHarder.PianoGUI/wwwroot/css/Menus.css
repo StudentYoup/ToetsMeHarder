@@ -1,0 +1,41 @@
+﻿.MenuButtons{
+    width: fit-content;
+    height: 50px;
+    margin: 10px;
+    color: black;
+    border-radius: 10px;
+}
+
+.exitButton{
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.Overlay{
+    position: fixed;
+    align-self: center;
+    width: 400px;
+    height: fit-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    color: white;
+    padding: 10px;
+}
+
+.Menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

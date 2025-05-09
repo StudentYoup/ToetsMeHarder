@@ -1,12 +1,14 @@
 ﻿@page "/"
+@using ToetsMeHarder.Business.LiedjesComponent
 @using ToetsMeHarder.PianoGUI.Components.Layout
-@using ToetsMeHarder.PianoGUI.Pages
 
 <div class="top">
-	
-	<button @onclick="ToonPopup">Toon Button</button>
-	<Metronome/>
-
+    <button @onclick="ToonPopup">Toon Button</button>
+    <Metronome/>
+    <div>
+        <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
+    </div>
+    <MainMenu/>
 </div>
 <div class="middle">
 
@@ -19,10 +21,11 @@
   @onkeyup="OnKeyUp"  
   @onfocusout="OnFocusOut"
 >
-  <Piano @ref="_piano" />    
+    <Piano @ref="_piano" />    
 </div>
 
-	<Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
+
+<Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
 
 @code {
 	private bool popupZichtbaar = false;
