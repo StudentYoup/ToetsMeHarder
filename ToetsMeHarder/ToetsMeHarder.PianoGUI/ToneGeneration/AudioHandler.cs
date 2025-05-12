@@ -20,15 +20,20 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 200;
+    private const int LOOP_DURATION = 10000;
+
+    //deze constants zijn nodig voor het maken van de ADSR envelope
+    private const double ATTACKTIME = 0.002;
+    private const double DECAYTIME = 0.05;
+    private const double SUSTAINLEVEL = 0.6;
+    private const double RELEASETIME = 0.9;
     
     private IAudioManager audioManager = AudioManager.Current;
     
     public IAudioPlayer PlayAudio(Note note)
     {
-        Stream audiostream = GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue/4);
+        Stream audiostream = GenerateWaveForm(note.Frequentie, LOOP_DURATION,short.MaxValue/4);
         IAudioPlayer player = audioManager.CreatePlayer(audiostream);
-        player.Loop = true;
         player.Play();
 
         return player;
@@ -80,10 +85,40 @@ public class AudioHandler : IAudioHandler
         
         for (int i = 0; i < samples; i++)
         {
-            //dit is een formule voor een standaard sine waveform
-            writer.Write((short)(amplitude * (Math.Sin((frequentie * TAU / SAMPLESIZE) * i))));
+            double time = (double)i / SAMPLESIZE;
+            double value = 0;
+            value += Math.Sin(frequentie * TAU * time);
+            value += 0.5 * Math.Sin(frequentie * TAU * 2 * time);
+            value += 0.25 * Math.Sin(frequentie * TAU * 3 * time);
+            value += 0.12 * Math.Sin(frequentie * TAU * 4 * time);
+            value += 0.07 * Math.Sin(frequentie * TAU * 5 * time);
+
+            value *= GetADSR(time, samples);
+
+            short sampleValue = (short)(Math.Clamp(value, -1, 1) * amplitude);
+            writer.Write(sampleValue);
         }
         stream.Seek(0, SeekOrigin.Begin);
         return stream;
+    }
+
+    private double GetADSR(double t, int sampleCount)
+    {
+        if (t < ATTACKTIME)
+            return t / ATTACKTIME;
+        else if (t < ATTACKTIME + DECAYTIME)
+            return 1 - (1 - SUSTAINLEVEL) * ((t - ATTACKTIME) / DECAYTIME);
+        else if (t < 1 / ((double)sampleCount / SAMPLESIZE) - RELEASETIME)
+            return SUSTAINLEVEL;
+        else
+        {
+            double releaseStart = ((double)sampleCount / SAMPLESIZE) - RELEASETIME;
+            double releaseProgress = (t - releaseStart) / RELEASETIME;
+
+            // Clamp to [0,1] to avoid overshooting
+            releaseProgress = Math.Clamp(releaseProgress, 0.0, 1.0);
+
+            return SUSTAINLEVEL * (1.0 - releaseProgress);
+        }
     }
 }
