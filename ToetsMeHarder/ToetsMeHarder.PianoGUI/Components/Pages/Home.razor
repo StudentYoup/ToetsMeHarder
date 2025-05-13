@@ -6,20 +6,28 @@
     <button @onclick="ToonPopup">Toon Button</button>
     <Metronome/>
     <div>
-        <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
+        <h1> @(SongManager.Instance.GekozenLiedje.Naam)</h1>
     </div>
-    <MainMenu/>
 </div>
-<div class="middle">
-
+<MainMenu/>
+<div class="bar-container">
+    @for (int i = 0; i < _numberOfBars; i++)
+    {
+            <div class="vertical-bar">
+            @foreach (var block in _blockMap[i])
+            {
+                        <div class="falling-block"></div>
+            }
+            </div>
+    }
 </div>
 <div
-	class="bottem"
-  tabindex="0"              
-  @ref="_wrapper"             
-  @onkeydown="OnKeyDown" 
-  @onkeyup="OnKeyUp"  
-  @onfocusout="OnFocusOut"
+class="bottem"
+tabindex="0"              
+@ref="_wrapper"             
+@onkeydown="OnKeyDown" 
+@onkeyup="OnKeyUp"  
+@onfocusout="OnFocusOut"
 >
     <Piano @ref="_piano" />    
 </div>
@@ -28,7 +36,10 @@
 <Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
 
 @code {
-	private bool popupZichtbaar = false;
+    private bool popupZichtbaar = false;
+    private Random _random = new();
+    private Dictionary<int, List<int>> _blockMap = new();
+    private int _numberOfBars = 24;
 
 	private void ToonPopup()
 	{
@@ -38,4 +49,7 @@
 	{
 		popupZichtbaar = false;
 	}
+
+
+
 }

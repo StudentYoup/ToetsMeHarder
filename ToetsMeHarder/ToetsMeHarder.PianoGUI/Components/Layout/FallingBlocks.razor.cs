@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
-    public class Blokkenval
+    public  partial class Blokkenval
     {
     }
 }

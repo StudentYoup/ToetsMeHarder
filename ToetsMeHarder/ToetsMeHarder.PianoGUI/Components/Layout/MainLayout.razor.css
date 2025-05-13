@@ -75,4 +75,16 @@ main {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }
+
+}
+
+.vertical-bar {
+    width: 4px;
+    height: 100%;
+    background-color: red; /* change to whatever color you want */
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    pointer-events: none; /* So clicks go through to the key */
 }

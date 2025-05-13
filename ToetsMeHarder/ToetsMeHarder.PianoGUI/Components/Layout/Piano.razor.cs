@@ -105,7 +105,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         
 
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
         {
             if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(e.Key))

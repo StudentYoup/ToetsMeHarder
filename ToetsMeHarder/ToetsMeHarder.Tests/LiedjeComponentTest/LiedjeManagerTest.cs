@@ -11,8 +11,8 @@ public class LiedjeManagerTest
     public void ONPROPERTYCHANGED_FIRES_EVENT()
     {
         bool eventFired = false;
-        LiedjesManager.Instance.RegisterPropertyChangedFunction((object? sender,PropertyChangedEventArgs args)=>eventFired = true);
-        LiedjesManager.Instance.GekozenLiedje = new Liedje("BOB", 120);
+        SongManager.Instance.RegisterPropertyChangedFunction((object? sender,PropertyChangedEventArgs args)=>eventFired = true);
+        SongManager.Instance.GekozenLiedje = new Liedje("BOB", 120);
         Assert.That(eventFired, Is.True);
     }
 

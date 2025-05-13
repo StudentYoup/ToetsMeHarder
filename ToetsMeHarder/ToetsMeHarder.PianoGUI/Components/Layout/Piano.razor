@@ -1,6 +1,5 @@
 ﻿@page "/piano"
 @using ToetsMeHarder.Business
-
 <div class="menu">
     <button class="KeyModeButton" @onclick="ChangeKeyModus"><b>Keymode: <i>@_keyModus</i></b></button>
 </div>
@@ -9,6 +8,7 @@
         foreach ((string key, double frequency) in _noteFrequencies)
         {
             <li id="@key" @onpointerdown="() => PlayNote(frequency)" @onpointerup="() => StopNote(key)" @onpointerleave="() => StopNote(key)" class="@CreateCSSClass(key)">
+				
                 <b>
                     @if (_keyModus == "Note")
                     {
