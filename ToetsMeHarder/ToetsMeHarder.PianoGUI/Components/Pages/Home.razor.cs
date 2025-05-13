@@ -8,6 +8,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 {
     public partial class Home
     {
+        //PopUps:
+        public bool helpPopUp = false;
+        public bool resultPopUp = false;
+        public bool songPopUp = false;
+
+
         private bool _isFocused = false;
         private ElementReference _wrapper;
         private Piano? _piano;
@@ -43,6 +49,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 
         private void OnFocusOut(){
             _piano.OnLostFocus();
+        }
+        private void Exit()
+        {
+            Application.Current.Quit(); 
         }
     }
 }
