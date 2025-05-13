@@ -8,17 +8,18 @@
     <div>
         <h1> @(SongManager.Instance.GekozenLiedje.Naam)</h1>
     </div>
+    <MainMenu/>
 </div>
-<MainMenu/>
+
 <div class="bar-container">
     @for (int i = 0; i < _numberOfBars; i++)
     {
-            <div class="vertical-bar">
-            @foreach (var block in _blockMap[i])
-            {
-                        <div class="falling-block"></div>
-            }
-            </div>
+        <div class="vertical-bar">
+        @foreach (var block in _blockMap[i])
+        {
+            <div class="falling-block"></div>
+        }
+        </div>
     }
 </div>
 <div
@@ -30,10 +31,11 @@ tabindex="0"
 @onfocusout="OnFocusOut"
 >
     <Piano @ref="_piano" />    
+    <Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
 </div>
 
 
-<Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
+
 
 @code {
     private bool popupZichtbaar = false;
