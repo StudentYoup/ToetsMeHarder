@@ -31,7 +31,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender && !_isFocused)
+            if (firstRender || !_isFocused)
             {
                 _isFocused = true;
                 await _wrapper.FocusAsync(); // focus op de piano wrapper bij eerste render

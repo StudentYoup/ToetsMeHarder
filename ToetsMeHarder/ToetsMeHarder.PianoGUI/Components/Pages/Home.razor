@@ -9,11 +9,10 @@
 	</div>
 	<div class="center">
 		 <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
-		<h4>by GIJT</h4>
 	</div>
 	<div class="right">
 		<div class="menu">
-			<button @onclick="() => {songPopUp = !songPopUp;}"><i>Menu</i></button>
+			<button @onclick="() => {songPopUp = !songPopUp;}"><i>Songs</i></button>
 			<button @onclick="() => {resultPopUp = !resultPopUp;}"><i>Toon results</i></button>
 			<button><i>Options</i></button>
 			<button @onclick="() => {helpPopUp = !helpPopUp;}"><i>Help</i></button>
@@ -41,7 +40,7 @@
 			<div>
 				<h1>Help:</h1>
 				<Help></Help>
-				<button @onclick="() => {helpPopUp = !helpPopUp;}">Close</button>
+				<button @onclick="() => {helpPopUp = !helpPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
 	}
@@ -50,7 +49,7 @@
 			<div>
 				<h1>Results</h1>
 				<Result></Result>
-				<button @onclick="() => {resultPopUp = !resultPopUp;}">Close</button>
+				<button @onclick="() => {resultPopUp = !resultPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
 	}
@@ -59,7 +58,7 @@
 			<div>
 				<h1>Menu</h1>
 				<MainMenu></MainMenu>
-				<button @onclick="() => {songPopUp = !songPopUp;}">Close</button>
+				<button @onclick="() => {songPopUp = !songPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
 	}
