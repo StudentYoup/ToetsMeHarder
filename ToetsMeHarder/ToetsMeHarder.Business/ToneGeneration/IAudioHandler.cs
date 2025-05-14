@@ -4,5 +4,5 @@ namespace ToetsMeHarder.Business;
 
 public interface IAudioHandler
 {
-    public IAudioPlayer PlayAudio(Note note);
+    public Task<IAudioPlayer> PlayAudio(Note note);
 }

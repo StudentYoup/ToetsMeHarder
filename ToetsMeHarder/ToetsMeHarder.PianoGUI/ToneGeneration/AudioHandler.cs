@@ -1,8 +1,5 @@
 ﻿using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-
 namespace ToetsMeHarder;
 
 public class AudioHandler : IAudioHandler
@@ -24,9 +21,10 @@ public class AudioHandler : IAudioHandler
     
     private IAudioManager audioManager = AudioManager.Current;
     
-    public IAudioPlayer PlayAudio(Note note)
+    public async Task<IAudioPlayer> PlayAudio(Note note)
     {
-        Stream audiostream = GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue/4);
+
+        Stream audiostream = await Task.Run(() => GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4));
         IAudioPlayer player = audioManager.CreatePlayer(audiostream);
         player.Loop = true;
         player.Play();
