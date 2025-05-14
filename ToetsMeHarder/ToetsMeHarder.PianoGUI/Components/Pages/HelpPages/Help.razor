@@ -1,0 +1,26 @@
+@page "/Help"
+@using ToetsMeHarder.PianoGUI.Components.Pages.HelpPages
+
+<div>
+    <button @onclick="() => {_helpGeneral = !_helpGeneral; _helpHowToPlay = false;}">General</button>
+    <button @onclick="() => {_helpHowToPlay = !_helpHowToPlay; _helpGeneral = false;}">How to play</button>
+</div>
+
+@{
+    if(_helpGeneral){
+        <div class="popup">
+            <div>
+                <h1>General:</h1>
+                <HelpGeneral></HelpGeneral>
+            </div>
+        </div>
+    }else if(_helpHowToPlay){
+        <div class="popup">
+            <div>
+                <h1>How to play:</h1>
+                <HelpHowToPlay></HelpHowToPlay>
+            </div>
+        </div>
+    }
+}
+
