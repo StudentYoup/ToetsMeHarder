@@ -1,15 +1,26 @@
 ﻿@page "/"
 @using ToetsMeHarder.Business.LiedjesComponent
 @using ToetsMeHarder.PianoGUI.Components.Layout
+@using ToetsMeHarder.PianoGUI.Components.Pages.HelpPages
 
 <div class="top">
-    <button @onclick="ToonPopup">Toon Button</button>
-    <Metronome/>
-    <div>
-        <h1> @(SongManager.Instance.GekozenLiedje.Naam)</h1>
-    </div>
-    <MainMenu/>
+	<div class="left">
+		<Metronome/>
+	</div>
+	<div class="center">
+		 <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
+	</div>
+	<div class="right">
+		<div class="menu">
+			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>Songs</i></button>
+			<button @onclick="() => {_resultPopUp = !_resultPopUp;}"><i>Toon results</i></button>
+			<button><i>Options</i></button>
+			<button @onclick="() => {_helpPopUp = !_helpPopUp;}"><i>Help</i></button>
+			<button @onclick="Exit"><i>Exit</i></button>
+		</div>
+	</div>
 </div>
+<div class="middle">
 
 <div class="bar-container">
     @for (int i = 0; i < _numberOfBars; i++)
@@ -23,33 +34,43 @@
     }
 </div>
 <div
-class="bottem"
-tabindex="0"              
-@ref="_wrapper"             
-@onkeydown="OnKeyDown" 
-@onkeyup="OnKeyUp"  
-@onfocusout="OnFocusOut"
->
-    <Piano @ref="_piano" />    
-    <Result PopupZichtbaar="@popupZichtbaar" SluitPopup="SluitPopup"></Result>
+	class="bottem"
+	tabindex="0"              
+	@ref="_wrapper"             
+	@onkeydown="OnKeyDown" 
+	@onkeyup="OnKeyUp"  
+	@onfocusout="OnFocusOut">
+	<Piano @ref="_piano" />    
 </div>
 
-
-
-
-@code {
-    private bool popupZichtbaar = false;
-    private Random _random = new();
-    private Dictionary<int, List<int>> _blockMap = new();
-    private int _numberOfBars = 24;
-
-	private void ToonPopup()
+@{
+	if (_helpPopUp)
 	{
-		popupZichtbaar = true;
+		<div class="popup">
+			<div>
+				<h1>Help:</h1>
+				<Help></Help>
+				<button @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Close</button>
+			</div>
+		</div>
 	}
-	private void SluitPopup()
-	{
-		popupZichtbaar = false;
+	if (_resultPopUp){
+		<div class="popup">
+			<div>
+				<h1>Results</h1>
+				<Result></Result>
+				<button @onclick="() => {_resultPopUp = !_resultPopUp; OnAfterRenderAsync(true);}">Close</button>
+			</div>
+		</div>
+	}
+	if (_songPopUp){
+		<div class="popup">
+			<div>
+				<h1>Menu</h1>
+				<MainMenu></MainMenu>
+				<button @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Close</button>
+			</div>
+		</div>
 	}
 
 
