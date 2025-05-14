@@ -33,7 +33,7 @@ div{
     display: flex;
     flex-direction: row;
     width: 100vw;
-    height: 55vh;
+    height: 60vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -46,7 +46,7 @@ div{
     position: relative;
     overflow: hidden;
     border-right: 1px solid #ccc;
-    background-color: rgba(0, 0, 255, 0.05);
+    background-color: lightblue;
 }
 
 .falling-block {
