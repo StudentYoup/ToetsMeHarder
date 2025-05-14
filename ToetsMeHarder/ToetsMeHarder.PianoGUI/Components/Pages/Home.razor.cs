@@ -9,12 +9,11 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
     public partial class Home
     {
         //PopUps:
-        public bool helpPopUp = false;
-        public bool resultPopUp = false;
-        public bool songPopUp = false;
+        private bool _helpPopUp = false;
+        private bool _resultPopUp = false;
+        private bool _songPopUp = false;
 
 
-        private bool _isFocused = false;
         private ElementReference _wrapper;
         private Piano? _piano;
 
@@ -31,9 +30,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender || !_isFocused)
+            if (firstRender)
             {
-                _isFocused = true;
                 await _wrapper.FocusAsync(); // focus op de piano wrapper bij eerste render
             }
         }

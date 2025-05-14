@@ -12,10 +12,10 @@
 	</div>
 	<div class="right">
 		<div class="menu">
-			<button @onclick="() => {songPopUp = !songPopUp;}"><i>Songs</i></button>
-			<button @onclick="() => {resultPopUp = !resultPopUp;}"><i>Toon results</i></button>
+			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>Songs</i></button>
+			<button @onclick="() => {_resultPopUp = !_resultPopUp;}"><i>Toon results</i></button>
 			<button><i>Options</i></button>
-			<button @onclick="() => {helpPopUp = !helpPopUp;}"><i>Help</i></button>
+			<button @onclick="() => {_helpPopUp = !_helpPopUp;}"><i>Help</i></button>
 			<button @onclick="Exit"><i>Exit</i></button>
 		</div>
 	</div>
@@ -34,31 +34,31 @@
 </div>
 
 @{
-	if (helpPopUp)
+	if (_helpPopUp)
 	{
 		<div class="popup">
 			<div>
 				<h1>Help:</h1>
 				<Help></Help>
-				<button @onclick="() => {helpPopUp = !helpPopUp; OnAfterRenderAsync(true);}">Close</button>
+				<button @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
 	}
-	if (resultPopUp){
+	if (_resultPopUp){
 		<div class="popup">
 			<div>
 				<h1>Results</h1>
 				<Result></Result>
-				<button @onclick="() => {resultPopUp = !resultPopUp; OnAfterRenderAsync(true);}">Close</button>
+				<button @onclick="() => {_resultPopUp = !_resultPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
 	}
-	if (songPopUp){
+	if (_songPopUp){
 		<div class="popup">
 			<div>
 				<h1>Menu</h1>
 				<MainMenu></MainMenu>
-				<button @onclick="() => {songPopUp = !songPopUp; OnAfterRenderAsync(true);}">Close</button>
+				<button @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
 	}
