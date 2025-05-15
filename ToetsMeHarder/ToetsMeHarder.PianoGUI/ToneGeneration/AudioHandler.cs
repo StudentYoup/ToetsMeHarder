@@ -30,7 +30,6 @@ public class AudioHandler : IAudioHandler
     public async Task<IAudioPlayer> PlayAudio(Note note)
     {
         Stream audiostream = await Task.Run(() => GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4));
-        parent of c78a21d (Revert "Merge pull request #17 from StudentYoup/feature/PianoGeluid")
         IAudioPlayer player = audioManager.CreatePlayer(audiostream);
         player.Play();
 
