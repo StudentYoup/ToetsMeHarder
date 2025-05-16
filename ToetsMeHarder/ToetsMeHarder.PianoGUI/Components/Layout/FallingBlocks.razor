@@ -1,13 +1,24 @@
 @using ToetsMeHarder.Business.LiedjesComponent;
+@using ToetsMeHarder.Business.FallingBlocks;
+@using ToetsMeHarder.PianoGUI.Components.Layout;
+@using HtmlAgilityPack;
 
-<div class="bar-container">
-		@for (int i = 0; i < nummer.Duration; i++)
-		{
-			<div class="grid-cell"></div>
-		}
-	</div>
+<div class="grid-container">
+	@for (int i = 0; i < _blocks.GridDivs.Count; i++)
+	{
+    @((MarkupString)_blocks.GridDivs[i])
+	}
+</div>
+
+@* <div class="testDiv">hello world</div> *@
 
 @code{
-Song nummer = new Song("test", 60);
+	private FallingBlocks _blocks;
+	private HtmlDocument _doc;
 
+	protected override void OnInitialized()
+	{
+		_blocks = new FallingBlocks(40, new Song("test", 60));
+		_doc = new HtmlDocument();
+	}
 }

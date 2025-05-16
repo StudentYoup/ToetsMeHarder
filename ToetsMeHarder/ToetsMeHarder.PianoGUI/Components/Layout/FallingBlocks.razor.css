@@ -68,16 +68,25 @@ div {
     }
 }
 
-
-.Grid-Container {
+.grid-container {
     display: grid;
-    grid-template-columns: repeat(var(--vertical-units), 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    height: 100%;
-    width: 100%;
+    color: white;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 10px;
 }
 
-.grid-cell {
-    background-color: lightgray;
+.Grid-block {
+    background-color: red;
+    padding: 20px;
+    text-align: center;
     border: 1px solid #ccc;
+    border-radius: 8px;
 }
+
+/*.TestDiv {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 10px;
+    text-align: center;
+}*/
