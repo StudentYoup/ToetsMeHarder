@@ -28,8 +28,6 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MetronomeService>(); // maar 1 instantie die door de applicatie gedeeld wordt
 		builder.Services.AddTransient<MainPage>(); 
 
-
-
 		return builder.Build();
 	}
 }

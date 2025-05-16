@@ -1,0 +1,68 @@
+
+div {
+    overflow: hidden;
+}
+
+.bar-container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 50vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.left {
+    height: 100%;
+    width: 30%;
+}
+
+.center {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid #ccc;
+    background-color: lightblue;
+    width: 40%;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 30%;
+}
+
+.center h1 {
+    width: 100%;
+    height: 40px;
+    background-color: red;
+    position: absolute;
+    top: 0px;
+    animation: fall 3s linear forwards;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+}
+
+.center h4 {
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+/* Animation */
+@keyframes fall {
+    0% {
+        top: 0px;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+

@@ -8,7 +8,7 @@
 		<Metronome/>
 	</div>
 	<div class="center">
-		 <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
+		<h1> @(SongManager.Instance.GekozenLiedje.Naam)</h1>
 	</div>
 	<div class="right">
 		<div class="menu">
@@ -21,17 +21,9 @@
 	</div>
 </div>
 <div class="middle">
-
-<div class="bar-container">
-    @for (int i = 0; i < _numberOfBars; i++)
-    {
-        <div class="vertical-bar">
-        @foreach (var block in _blockMap[i])
-        {
-            <div class="falling-block"></div>
-        }
-        </div>
-    }
+	<div class="falling-block">
+		<FallingBlocks/>
+	</div>
 </div>
 <div
 	class="bottem"
@@ -72,7 +64,4 @@
 			</div>
 		</div>
 	}
-
-
-
 }
