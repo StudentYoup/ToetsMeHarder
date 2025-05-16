@@ -1,8 +1,13 @@
-	<div class="bar-container">
-		@for (int i = 0; i < _numberOfBars; i++)
+@using ToetsMeHarder.Business.LiedjesComponent;
+
+<div class="bar-container">
+		@for (int i = 0; i < nummer.Duration; i++)
 		{
-			<div>
-				
-			</div>
+			<div class="grid-cell"></div>
 		}
 	</div>
+
+@code{
+Song nummer = new Song("test", 60);
+
+}

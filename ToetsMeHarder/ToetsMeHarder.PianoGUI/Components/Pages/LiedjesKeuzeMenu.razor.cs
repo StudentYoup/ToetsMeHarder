@@ -6,7 +6,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages;
 public partial class LiedjesKeuzeMenu_razor : ComponentBase
 {
     private SongManager _liedjesManager = SongManager.Instance;
-    Liedje lied = new Liedje("TEST",120);
+    Song lied = new Song("TEST",120);
     
     [Parameter] public EventCallback OnOpen { get; set;}
     [Parameter] public EventCallback OnClose { get; set;}

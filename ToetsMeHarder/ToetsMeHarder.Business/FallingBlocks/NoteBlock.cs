@@ -13,5 +13,7 @@ namespace ToetsMeHarder.Business.FallingBlocks
         public string Key { get; set; }
         public int Length { get; set; }
         public Double StartPosition { get; set; }
+
+        List<NoteBlock> _noteBlocks = new List<NoteBlock>();
     }
 }
