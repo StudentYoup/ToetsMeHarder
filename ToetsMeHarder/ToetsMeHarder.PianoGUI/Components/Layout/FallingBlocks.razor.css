@@ -1,3 +1,6 @@
+:root{
+    --vertical-units : 40; /*amount of vertical bars*/
+}
 
 div {
     overflow: hidden;
@@ -66,3 +69,15 @@ div {
 }
 
 
+.Grid-Container {
+    display: grid;
+    grid-template-columns: repeat(var(--vertical-units), 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    height: 100%;
+    width: 100%;
+}
+
+.grid-cell {
+    background-color: lightgray;
+    border: 1px solid #ccc;
+}

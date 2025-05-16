@@ -24,8 +24,8 @@ public class SongManager
     //het gekoze liedje kan overal veranderd worden. dit is makkelijk voor het gebruik in menu's.
     //de event kan gebruikt worden om ui te verversen bij het veranderen van deze propertie.
     //ook kan deze event in de toekomst gebruikt worden om andere properties door te sturen.
-    private Liedje _gekozenLiedje = new Liedje("Geen liedje Geselecteerd",60);
-    public Liedje GekozenLiedje
+    private Song _gekozenLiedje = new Song("Geen liedje Geselecteerd",60);
+    public Song GekozenLiedje
     {
         get => _gekozenLiedje;
         set
@@ -35,7 +35,7 @@ public class SongManager
         }
     }
 
-    public List<Liedje> MogelijkeLiedjes { get; private set; } = new List<Liedje>();
+    public List<Song> MogelijkeLiedjes { get; private set; } = new List<Song>();
     private event PropertyChangedEventHandler PropertyChangedEvent;
     public void RegisterPropertyChangedFunction(PropertyChangedEventHandler eventHandler)
     {
