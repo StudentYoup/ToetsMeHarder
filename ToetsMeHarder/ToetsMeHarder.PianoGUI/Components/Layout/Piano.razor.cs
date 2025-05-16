@@ -142,8 +142,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequency).Key;
             if (_pressedKeys.ContainsKey(key)) return;
-            IAudioPlayer audioplayer = await _audioHandler.PlayAudio(new Note(frequency));
-            _pressedKeys.Add(key,  audioplayer);
+            try
+            {
+                IAudioPlayer audioplayer = await _audioHandler.PlayAudio(new Note(frequency));
+                _pressedKeys.Add(key, audioplayer);
+            }
+            catch (ArgumentException e)
+            { }
         }
         private void StopNote(string key)
         {

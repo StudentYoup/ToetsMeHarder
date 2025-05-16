@@ -24,9 +24,28 @@ public class AudioHandler : IAudioHandler
     private const double DECAYTIME = 0.05;
     private const double SUSTAINLEVEL = 0.6;
     private const double RELEASETIME = 0.9;
-    
+
+    private double[] sineTable = new double[SAMPLESIZE];
+   
     private IAudioManager audioManager = AudioManager.Current;
     
+    public AudioHandler():base()
+    {
+        for(int i = 0; i < SAMPLESIZE; i++)
+        {
+            sineTable[i] = Math.Sin((double)i / SAMPLESIZE * TAU);
+        }
+    }
+
+    private double GetSine(double phase)
+    {
+        phase = phase % 1.0;
+        if (phase < 0) phase += 1.0;
+        int index = (int)((phase * SAMPLESIZE) % SAMPLESIZE);
+        return sineTable[index];
+    }
+
+
     public async Task<IAudioPlayer> PlayAudio(Note note)
     {
         Stream audiostream = await Task.Run(() => GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4));
@@ -83,12 +102,13 @@ public class AudioHandler : IAudioHandler
         for (int i = 0; i < samples; i++)
         {
             double time = (double)i / SAMPLESIZE;
+            double phase = frequentie * time;
             double value = 0;
-            value += Math.Sin(frequentie * TAU * time);
-            value += 0.5 * Math.Sin(frequentie * TAU * 2 * time);
-            value += 0.25 * Math.Sin(frequentie * TAU * 3 * time);
-            value += 0.12 * Math.Sin(frequentie * TAU * 4 * time);
-            value += 0.07 * Math.Sin(frequentie * TAU * 5 * time);
+            value += GetSine(1 * phase);
+            value += 0.5 * GetSine(2 * phase);
+            value += 0.25 * GetSine(3 * phase);
+            value += 0.12 * GetSine(4 * phase);
+            value += 0.07 * GetSine(5 * phase);
 
             value *= GetADSR(time, samples);
 
