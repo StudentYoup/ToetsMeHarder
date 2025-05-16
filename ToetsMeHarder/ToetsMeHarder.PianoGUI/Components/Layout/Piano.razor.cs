@@ -11,8 +11,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
     public partial class Piano
     {
         private AudioHandler _audioHandler = new AudioHandler();
-    
-        private Dictionary<string, IAudioPlayer> _pressedKeys = new Dictionary<string, IAudioPlayer>();
 
         private readonly Dictionary<string, string> _pianoKeys = new()
         {
@@ -108,53 +106,33 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         [Inject] private IJSRuntime JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
         {
-            if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(e.Key))
-            {
-                var noteId = _pianoKeys[e.Key];
-
-                PlayNote(_noteFrequencies[noteId]);
-
-                JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
-            }
+            if (!_pianoKeys.ContainsKey(e.Key)) return;
+            var noteId = _pianoKeys[e.Key];
+            PlayNote(_noteFrequencies[noteId]);
+            JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
         }
         public void HandleKeyUp(KeyboardEventArgs e)
         {
-            if (_pianoKeys.ContainsKey(e.Key))
-            {
-                var noteId = _pianoKeys[e.Key];
-                if (!_pressedKeys.ContainsKey(noteId)) return;
-
-                StopNote(noteId);
-
-                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
-            }
+            if (!_pianoKeys.ContainsKey(e.Key)) return;
+            var noteId = _pianoKeys[e.Key];
+            StopNote(noteId);
+            JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
         }
 
         public void OnLostFocus()
         {
-            foreach (var key in _pressedKeys.Keys.ToList())
-            {
-                StopNote(key);
-            }
+            //throw new NotImplementedException();
         }
 
         private async void PlayNote(double frequency)
         {
             var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequency).Key;
-            if (_pressedKeys.ContainsKey(key)) return;
-            try
-            {
-                IAudioPlayer audioplayer = await _audioHandler.PlayAudio(new Note(frequency));
-                _pressedKeys.Add(key, audioplayer);
-            }
-            catch (ArgumentException e)
-            { }
+            _audioHandler.RegisterCommand(new AudioStartCommand(new Note(frequency)));
         }
-        private void StopNote(string key)
+        private void StopNote(string noteID)
         {
-            if (!_pressedKeys.ContainsKey(key)) return;
-            _audioHandler.StopAudio(_pressedKeys[key]);
-            _pressedKeys.Remove(key);
+            double frequency = _noteFrequencies[noteID];
+            _audioHandler.RegisterCommand(new AudioStopCommand(new Note(frequency)));
         }
 
         private string _keyModus = "Key";
