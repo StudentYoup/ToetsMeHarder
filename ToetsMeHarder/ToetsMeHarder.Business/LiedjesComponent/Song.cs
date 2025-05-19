@@ -1,4 +1,6 @@
-﻿namespace ToetsMeHarder.Business.LiedjesComponent;
+﻿using ToetsMeHarder.Business.FallingBlocks;
+
+namespace ToetsMeHarder.Business.LiedjesComponent;
 
 public class Song(string naam, int bpm)
 {
@@ -7,4 +9,16 @@ public class Song(string naam, int bpm)
     public int BPM { get; set; } = bpm;
     public int Duration { get; set; }
     public string Key { get; set; }
+
+    public List<NoteBlock> blocks { get; set; }
+
+    public void FillBlocks()
+    {
+        Random r = new Random();
+        var values = Enum.GetValues(typeof(NoteBlock.KeyValues));
+        for (int i = 0; i < 20; i++)
+        {
+            blocks.Add(new NoteBlock(i, 0, (NoteBlock.KeyValues)values.GetValue(r.Next(values.Length)), r.Next(3), i));
+        }
+    } 
 }

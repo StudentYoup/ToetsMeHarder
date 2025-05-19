@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using ToetsMeHarder.Business.FallingBlocks;
@@ -34,6 +35,19 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             }
 
             return GridDivs = divs;
+        }
+
+        public List<string> GenerateBlocks(Song song)
+        {
+            song.FillBlocks();
+            List<string> blocks = new List<string>();
+
+            foreach (var b in song.blocks)
+            {
+                blocks.Add("<div class = 'falling-block'></div>");
+            }
+
+            return blocks;
         }
     }
 }

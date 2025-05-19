@@ -68,6 +68,17 @@ div {
     }
 }
 
+.falling-block {
+    position: absolute;
+    width: 12.5%;
+    height: 40px;
+    background-color: red;
+    top: -40px;
+    animation: fall 3s linear forwards;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
 .grid-container {
     display: grid;
     color: white;
