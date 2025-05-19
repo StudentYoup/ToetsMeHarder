@@ -12,21 +12,20 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
     public partial class FallingBlocks
     {
         private Song song;
-        private List<NoteBlock> noteBlocks = new List<NoteBlock>();
         public List<string> GridDivs { get; set; } = new();
         
         public FallingBlocks()
         {
-            GenerateDivs(40);
+            GenerateGrid(40);
         }
 
         public FallingBlocks(int amount, Song song)
         {
             this.song = song;
-            GenerateDivs(amount);
+            GenerateGrid(amount);
         }
 
-        public List<string> GenerateDivs(int count)
+        public List<string> GenerateGrid(int count)
         {
             List<string> divs = new List<string>();
             for (int i = 0; i < count; i++)
@@ -40,14 +39,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         public List<string> GenerateBlocks(Song song)
         {
             song.FillBlocks();
-            List<string> blocks = new List<string>();
+            List<string> comps = new List<string>();
 
             foreach (var b in song.blocks)
             {
-                blocks.Add("<div class = 'falling-block'></div>");
+                comps.Add($"<div class = 'falling-block'>{b.Key}</div>");
             }
-
-            return blocks;
+            return comps;
         }
+
+
     }
 }
