@@ -1,18 +1,19 @@
 ﻿@page "/piano"
 @using ToetsMeHarder.Business
+@using ToetsMeHarder.Business.FallingBlocks
 <div class="menu">
     <button class="KeyModeButton" @onclick="ChangeKeyModus"><b>Keymode: <i>@_keyModus</i></b></button>
 </div>
 <ul class="set">
     @{
-        foreach ((string key, double frequency) in _noteFrequencies)
+        foreach ((KeyValue key, double frequency) in _noteFrequencies)
         {
-            <li id="@key" @onpointerdown="() => PlayNote(frequency)" @onpointerup="() => StopNote(key)" @onpointerleave="() => StopNote(key)" class="@CreateCSSClass(key)">
+            <li id="@key" @onpointerdown="() => PlayNote(key)" @onpointerup="() => StopNote(key)" @onpointerleave="() => StopNote(key)" class="@CreateCSSClass(key.ToString())">
 				
                 <b>
                     @if (_keyModus == "Note")
                     {
-                        <text>@key.ToUpper()</text>
+                        <text>@GetKeyName(key)</text>
                     }
                     else if (_keyModus == "Key")
                     {

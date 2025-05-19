@@ -2,13 +2,13 @@
 
 namespace ToetsMeHarder.Business.LiedjesComponent;
 
-public class Song(string naam, int bpm)
+public class Song(string naam, int bpm,int duration, string key,int id)
 {
-    public int Id { get; set; }
+    public int Id { get; set; } = id;
     public string Naam { get; set; } = naam;
     public int BPM { get; set; } = bpm;
-    public int Duration { get; set; }
-    public string Key { get; set; }
+    public int Duration { get; set; } = duration;
+    public string Key { get; set; } = key;
 
     public List<NoteBlock> blocks = new List<NoteBlock>();
 

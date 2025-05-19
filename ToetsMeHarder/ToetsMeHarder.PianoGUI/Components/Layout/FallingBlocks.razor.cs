@@ -8,6 +8,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         public List<string> GridDivs { get; set; } = new();
         public List<string> fallingblocks;
         
+
+        private FallingBlocks _blocks;
+        protected override void OnInitialized()
+        {
+            _blocks = new FallingBlocks(40, new Song("test", 60,2000,"C",0));
+        }
+
         public FallingBlocks()
         {
             GenerateGrid(400);
@@ -17,7 +24,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             this.song = song;
             GenerateGrid(amount);
-            GenerateBlocks(song);
         }
 
         public List<string> GenerateGrid(int count)
@@ -25,7 +31,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             List<string> divs = new List<string>();
             for (int i = 0; i < count; i++)
             {
-                divs.Add($"<div class='grid-block' style='width: {100 / count}%;'></div>"); //make the divs with a width based on the total amount(100/count = %%)
+                divs.Add($"<div class='Grid-block' style='width: {100 / count}%;'>test</div>"); //make the divs with a width based on the total amount(100/count = %%)
             }
 
             return GridDivs = divs;
@@ -40,7 +46,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 comps.Add($"<div class = 'falling-block'>{b.Key}</div>");
             }
-            return fallingblocks = comps;
+            return comps;
         }
 
 

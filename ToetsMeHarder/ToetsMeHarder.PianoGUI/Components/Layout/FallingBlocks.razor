@@ -8,20 +8,4 @@
 	{
 		@((MarkupString)_blocks.GridDivs[i])
 	}
-	@* @for (int i = 0; i < _blocks.fallingblocks.Count; i++) *@
-	@* { *@
-	@* 	@((MarkupString)_blocks.fallingblocks[i]) *@
-	@* } *@
-
-	<div class="falling-block">test</div>
-
 </div>
-
-@code{
-	private FallingBlocks _blocks;
-
-	protected override void OnInitialized()
-	{
-		_blocks = new FallingBlocks(400, new Song("test", 60));
-	}
-}
