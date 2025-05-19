@@ -1,59 +1,120 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Multimedia;
+using Usb.Events;
 
 namespace ToetsMeHarder.Business.Midi
 {
-    public class MidiService
+    public class MidiService : IDisposable
     {
-        private InputDevice inputDevice;
+        private InputDevice _inputDevice;
+        private IUsbEventWatcher _usbWatcher;
+
         public event Action<int, int, int> OnMidiDown;
-        public event Action<int, int, int> OnMidiUp;
-        public void StartListening()
+        public event Action<int, int, int> OnMidiUp;        
+        public event Action<string> OnMidiConnected;
+        public event Action<string> OnMidiDisconnected;
+        public string MidiName { get; private set; }
+
+        public MidiService()
         {
-            var devices = InputDevice.GetAll();
-            inputDevice = devices.FirstOrDefault(); // Kies je piano
+            _usbWatcher = new UsbEventWatcher(
+                startImmediately: true,
+                addAlreadyPresentDevicesToList: true,
+                usePnPEntity: true);
 
-            if (inputDevice != null)
+            // 2) Subscribe op USB-inserts/removals
+            _usbWatcher.UsbDeviceAdded += Watcher_DeviceAdded;
+            _usbWatcher.UsbDeviceRemoved += Watcher_DeviceRemoved;
+
+            // Probeer meteen een bestaand apparaat te openen
+            TryOpenFirstDevice();
+        }
+
+        private void TryOpenFirstDevice()
+        {
+            var first = InputDevice.GetAll().FirstOrDefault();
+            if (first != null)
+                OpenDevice(first);
+        }
+
+        private void Watcher_DeviceAdded(object? sender, UsbDevice usb)
+        {
+            // e.Device is InputDevice of OutputDevice; we willen alleen InputDevice
+            if (_inputDevice == null)
+                TryOpenFirstDevice();
+        }
+
+        private void Watcher_DeviceRemoved(object? sender, UsbDevice usb)
+        {
+            if (_inputDevice != null
+                && InputDevice.GetDevicesCount() == 0)   // compare op name of UniqueId
             {
-                midiName = inputDevice.Name;
+                CloseCurrentDevice();
+            }
+        }
 
-                inputDevice.EventReceived += (sender, e) =>
-                {
-                    if (e.Event is NoteOnEvent noteOn)
-                    {
-                        if (noteOn.Velocity == 0)
-                        {
-                            // Deze wordt vaak gestuurd in plaats van NoteOff
-                            OnMidiUp?.Invoke(0x80, noteOn.NoteNumber, 0);
-                        }
-                        else
-                        {
-                            OnMidiDown?.Invoke(0x90, noteOn.NoteNumber, noteOn.Velocity);
-                        }
-                    }
-                    else if (e.Event is NoteOffEvent noteOff)
-                    {
-                        // Wordt niet vaak gebruikt, maar wel correct als die komt
-                        OnMidiUp?.Invoke(0x80, noteOff.NoteNumber, noteOff.Velocity);
-                    }
-                };
-                inputDevice.StartEventsListening();
+        private void OpenDevice(InputDevice device)
+        {
+            _inputDevice = device;
+            MidiName = device.Name;
+
+            _inputDevice.EventReceived += InputDevice_EventReceived;
+            _inputDevice.StartEventsListening();
+
+            OnMidiConnected?.Invoke(MidiName);
+        }
+
+        private void CloseCurrentDevice()
+        {
+            if (_inputDevice == null) return;
+
+            _inputDevice.EventReceived -= InputDevice_EventReceived;
+            try
+            {
+                _inputDevice.StopEventsListening();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            _inputDevice.Dispose();
+            _inputDevice = null;
+
+            OnMidiDisconnected?.Invoke(MidiName);
+
+            MidiName = null;
+        }
+
+        private void InputDevice_EventReceived(object sender, MidiEventReceivedEventArgs e)
+        {
+            switch (e.Event)
+            {
+                case NoteOnEvent noteOn:
+                    if (noteOn.Velocity == 0)
+                        OnMidiUp?.Invoke(0x80, noteOn.NoteNumber, 0);
+                    else
+                        OnMidiDown?.Invoke(0x90, noteOn.NoteNumber, noteOn.Velocity);
+                    break;
+
+                case NoteOffEvent noteOff:
+                    OnMidiUp?.Invoke(0x80, noteOff.NoteNumber, noteOff.Velocity);
+                    break;
             }
         }
 
         public void StopListening()
         {
-            midiName = null;
-            inputDevice?.StopEventsListening();
-            inputDevice?.Dispose();
+            CloseCurrentDevice();
         }
 
-        public string? midiName = null;
+        public void Dispose()
+        {
+            StopListening();
+            _usbWatcher.UsbDeviceAdded -= Watcher_DeviceAdded;
+            _usbWatcher.UsbDeviceRemoved -= Watcher_DeviceRemoved;
+        }
         public Dictionary<int, string> midiNotes = new Dictionary<int, string>
         {
             { 21, "a0" },

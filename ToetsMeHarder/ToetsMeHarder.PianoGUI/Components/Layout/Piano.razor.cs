@@ -6,6 +6,7 @@ using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.Midi;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
@@ -173,8 +174,18 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             MidiService.OnMidiDown += OnMidiDown;
             MidiService.OnMidiUp += OnMidiUp;
-            MidiService.StartListening();
-            midiName = MidiService.midiName;
+
+            MidiService.OnMidiConnected += name =>
+            {
+                midiName = name;
+                InvokeAsync(StateHasChanged);
+            };
+            MidiService.OnMidiDisconnected += name =>
+            {
+                midiName = null;
+                InvokeAsync(StateHasChanged);
+            };
+            midiName = MidiService.MidiName;
         }
 
         private void OnMidiDown(int status, int note, int velocity)
