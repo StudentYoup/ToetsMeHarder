@@ -1,21 +1,65 @@
 ﻿@page "/"
+@using ToetsMeHarder.Business.LiedjesComponent
 @using ToetsMeHarder.PianoGUI.Components.Layout
-@using ToetsMeHarder.PianoGUI.Pages
+@using ToetsMeHarder.PianoGUI.Components.Pages.HelpPages
 
 <div class="top">
- <Metronome/>
+	<div class="left">
+		<Metronome/>
+	</div>
+	<div class="center">
+		 <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
+	</div>
+	<div class="right">
+		<div class="menu">
+			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>Songs</i></button>
+			<button @onclick="() => {_resultPopUp = !_resultPopUp;}"><i>Toon results</i></button>
+			<button><i>Options</i></button>
+			<button @onclick="() => {_helpPopUp = !_helpPopUp;}"><i>Help</i></button>
+			<button @onclick="Exit"><i>Exit</i></button>
+		</div>
+	</div>
 </div>
 <div class="middle">
 
 </div>
 <div
 	class="bottem"
-  tabindex="0"              
-  @ref="_wrapper"             
-  @onkeydown="OnKeyDown" 
-  @onkeyup="OnKeyUp"  
-  @onfocusout="OnFocusOut"
->
-  <Piano @ref="_piano" />    
+	tabindex="0"              
+	@ref="_wrapper"             
+	@onkeydown="OnKeyDown" 
+	@onkeyup="OnKeyUp"  
+	@onfocusout="OnFocusOut">
+	<Piano @ref="_piano" />    
 </div>
 
+@{
+	if (_helpPopUp)
+	{
+		<div class="popup">
+			<div>
+				<h1>Help:</h1>
+				<Help></Help>
+				<button @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Close</button>
+			</div>
+		</div>
+	}
+	if (_resultPopUp){
+		<div class="popup">
+			<div>
+				<h1>Results</h1>
+				<Result></Result>
+				<button @onclick="() => {_resultPopUp = !_resultPopUp; OnAfterRenderAsync(true);}">Close</button>
+			</div>
+		</div>
+	}
+	if (_songPopUp){
+		<div class="popup">
+			<div>
+				<h1>Menu</h1>
+				<MainMenu></MainMenu>
+				<button @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Close</button>
+			</div>
+		</div>
+	}
+}

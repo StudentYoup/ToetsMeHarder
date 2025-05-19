@@ -1,23 +1,37 @@
 using ToetsMeHarder.PianoGUI.Components.Layout;
-using ToetsMeHarder.PianoGUI.Pages;
-using ToetsMeHarder.Business;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
+using ToetsMeHarder.Business.LiedjesComponent;
+using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 
 namespace ToetsMeHarder.PianoGUI.Components.Pages
 {
     public partial class Home
     {
-        private bool _isFocused = false;
+        //PopUps:
+        private bool _helpPopUp = false;
+        private bool _resultPopUp = false;
+        private bool _songPopUp = false;
+
+
         private ElementReference _wrapper;
         private Piano? _piano;
 
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            LiedjesManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
+        }
+
+        private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(LiedjesManager.Instance.GekozenLiedje))InvokeAsync(StateHasChanged);
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender && !_isFocused)
+            if (firstRender)
             {
-                _isFocused = true;
                 await _wrapper.FocusAsync(); // focus op de piano wrapper bij eerste render
             }
         }
@@ -33,6 +47,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 
         private void OnFocusOut(){
             _piano.OnLostFocus();
+        }
+        private void Exit()
+        {
+            Application.Current.Quit(); 
         }
     }
 }
