@@ -15,10 +15,10 @@ public class Song(string naam, int bpm)
     public void FillBlocks()
     {
         Random r = new Random();
-        var values = Enum.GetValues(typeof(NoteBlock.KeyValues));
+        var values = Enum.GetValues(typeof(KeyValue));
         for (int i = 0; i < 20; i++)
         {
-            blocks.Add(new NoteBlock(i, 0, (NoteBlock.KeyValues)values.GetValue(r.Next(values.Length)), r.Next(3), i));
+            blocks.Add(new NoteBlock(i, 0, (KeyValue)values.GetValue(r.Next(values.Length)), r.Next(3), i));
         }
     } 
 }

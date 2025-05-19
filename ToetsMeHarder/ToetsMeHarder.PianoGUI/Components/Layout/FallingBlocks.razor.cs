@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using ToetsMeHarder.Business.FallingBlocks;
-using ToetsMeHarder.Business.LiedjesComponent;
+﻿using ToetsMeHarder.Business.LiedjesComponent;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
@@ -16,7 +9,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         
         public FallingBlocks()
         {
-            GenerateGrid(40);
+            GenerateGrid(400);
         }
 
         public FallingBlocks(int amount, Song song)
