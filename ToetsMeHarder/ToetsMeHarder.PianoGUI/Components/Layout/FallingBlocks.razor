@@ -6,11 +6,16 @@
 <div class="grid-container">
 	@for (int i = 0; i < _blocks.GridDivs.Count; i++)
 	{
-    @((MarkupString)_blocks.GridDivs[i])
+		@((MarkupString)_blocks.GridDivs[i])
 	}
-</div>
+	@* @for (int i = 0; i < _blocks.fallingblocks.Count; i++) *@
+	@* { *@
+	@* 	@((MarkupString)_blocks.fallingblocks[i]) *@
+	@* } *@
 
-@* <div class="testDiv">hello world</div> *@
+	<div class="falling-block">test</div>
+
+</div>
 
 @code{
 	private FallingBlocks _blocks;

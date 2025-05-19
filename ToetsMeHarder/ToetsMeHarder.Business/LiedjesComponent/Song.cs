@@ -10,7 +10,7 @@ public class Song(string naam, int bpm)
     public int Duration { get; set; }
     public string Key { get; set; }
 
-    public List<NoteBlock> blocks { get; set; }
+    public List<NoteBlock> blocks = new List<NoteBlock>();
 
     public void FillBlocks()
     {
