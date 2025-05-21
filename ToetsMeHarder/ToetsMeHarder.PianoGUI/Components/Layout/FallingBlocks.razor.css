@@ -61,6 +61,8 @@ div {
     top: 0px;
     border-radius: 4px;
     animation: fall var(--fall-duration) linear forwards paused;
+    color: red;
+    font-size: 35px;
 }
 
 /*start and end of animation*/
@@ -82,4 +84,5 @@ div {
   height: 4px;              
   background-color: red;
   z-index: 69;
+
 }

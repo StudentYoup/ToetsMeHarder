@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
-using ToetsMeHarder.Business.LiedjesComponent;
-using ToetsMeHarder.PianoGUI.Pages;
+
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
@@ -14,6 +14,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private Random _random = new();
         private Dictionary<int, List<int>> _blockMap = new();
         private int _numberOfBars = 40;
+        private const int MINUTE = 60_000;
 
         protected override void OnInitialized()
         {
@@ -25,7 +26,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 _blockMap[i] = new List<int> { 1 };
             }
             DropBlock();
-            
+
         }
 
         /*make one new block per second*/
@@ -38,9 +39,29 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     int barIndex = _random.Next(0, _numberOfBars);
                     _blockMap[barIndex].Add(_random.Next());
                     StateHasChanged();
+                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox
+                    double triggerEnterMs = totalTravelMs * .9; // hitbox zit op 90%
+                    _ = TrackTrigger(_blockMap[barIndex].Last(), (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
-                await Task.Delay(60_000 / Metronome.BPM); // Timing = 1min / bpm
+                await Task.Delay(MINUTE / Metronome.BPM); // Timing = 1min / bpm
             }
+        }
+
+        private async Task TrackTrigger(int blockId, int enterDelay, int exitDelay)
+        {
+            await Task.Delay(enterDelay);
+            OnTriggerEntry(blockId);
+            await Task.Delay(exitDelay - enterDelay);
+            OnTriggerExit(blockId);
+        }
+
+        private void OnTriggerEntry(int blockId)
+        {
+            Debug.WriteLine($"{blockId} IN TRIGGER ZONE LIJN");
+        }
+        private void OnTriggerExit(int blockId)
+        {
+            Debug.WriteLine($"{blockId} UIT TRIGGER ZONE LIJN");
         }
 
 

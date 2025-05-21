@@ -8,6 +8,7 @@
                 <div class="falling-block"
                     style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
                     --fall-duration: @_fallDuration;">
+                    @(_blockMap[i].IndexOf(block) + 1)
                 </div>
 
             }
@@ -18,3 +19,4 @@
 @code {
   private string _fallDuration => $"{300 / Metronome.BPM}s";
 }
+
