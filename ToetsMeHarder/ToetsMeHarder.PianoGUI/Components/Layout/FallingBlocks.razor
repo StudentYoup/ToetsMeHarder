@@ -4,7 +4,10 @@
         <div class="vertical-bar">
             @foreach (var block in _blockMap[i])
             {
-                <div class="falling-block"></div>
+                <div class="falling-block"
+                    style="--fall-duration: @(300/Metronome.BPM)s">
+                </div>
+
             }
         </div>
     }
