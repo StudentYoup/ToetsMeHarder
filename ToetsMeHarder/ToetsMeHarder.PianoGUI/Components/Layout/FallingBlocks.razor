@@ -5,10 +5,15 @@
             @foreach (var block in _blockMap[i])
             {
                 <div class="falling-block"
-                    style="--fall-duration: @(300/Metronome.BPM)s">
+                    style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
+                    --fall-duration: @_fallDuration;">
                 </div>
 
             }
         </div>
     }
 </div>
+
+@code {
+  private string _fallDuration => $"{300 / Metronome.BPM}s";
+}

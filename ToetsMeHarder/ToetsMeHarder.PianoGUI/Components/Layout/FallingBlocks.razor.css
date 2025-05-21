@@ -60,7 +60,7 @@ div {
     position: absolute;
     top: 0px;
     border-radius: 4px;
-    animation: fall var(--fall-duration) linear forwards;
+    animation: fall var(--fall-duration) linear forwards paused;
 }
 
 /*start and end of animation*/

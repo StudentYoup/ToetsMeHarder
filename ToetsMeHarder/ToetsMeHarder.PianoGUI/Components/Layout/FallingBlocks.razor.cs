@@ -33,9 +33,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             while (true)
             {
-                int barIndex = _random.Next(0, _numberOfBars);
-                _blockMap[barIndex].Add(_random.Next());
-                StateHasChanged();
+                if (Metronome.IsRunning)
+                {
+                    int barIndex = _random.Next(0, _numberOfBars);
+                    _blockMap[barIndex].Add(_random.Next());
+                    StateHasChanged();
+                }
                 await Task.Delay(60_000 / Metronome.BPM); // Timing = 1min / bpm
             }
         }
