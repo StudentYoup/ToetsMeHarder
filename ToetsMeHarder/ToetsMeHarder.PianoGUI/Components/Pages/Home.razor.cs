@@ -12,7 +12,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         private bool _helpPopUp = false;
         private bool _resultPopUp = false;
         
-        private bool _songPopUp = false;
+        public bool _songPopUp = false;
 
 
         private ElementReference _wrapper;
@@ -29,6 +29,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
             if (e.PropertyName == nameof(LiedjesManager.Instance.GekozenLiedje))InvokeAsync(StateHasChanged);
         }
 
+        private void OnLiedjeGekozen()
+        {
+            _songPopUp = false;
+            StateHasChanged(); // update UI
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -36,6 +42,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
                 await _wrapper.FocusAsync(); // focus op de piano wrapper bij eerste render
             }
         }
+        
 
         private void OnKeyDown(KeyboardEventArgs e)
         {
