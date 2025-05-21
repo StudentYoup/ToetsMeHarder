@@ -22,13 +22,12 @@ namespace ToetsMeHarder.Business.Midi
             _usbWatcher = new UsbEventWatcher(
                 startImmediately: true,
                 addAlreadyPresentDevicesToList: true,
-                usePnPEntity: true);
+                usePnPEntity: true
+            );
 
-            // 2) Subscribe op USB-inserts/removals
             _usbWatcher.UsbDeviceAdded += Watcher_DeviceAdded;
             _usbWatcher.UsbDeviceRemoved += Watcher_DeviceRemoved;
 
-            // Probeer meteen een bestaand apparaat te openen
             TryOpenFirstDevice();
         }
 
@@ -41,7 +40,6 @@ namespace ToetsMeHarder.Business.Midi
 
         private void Watcher_DeviceAdded(object? sender, UsbDevice usb)
         {
-            // e.Device is InputDevice of OutputDevice; we willen alleen InputDevice
             if (_inputDevice == null)
                 TryOpenFirstDevice();
         }
@@ -49,7 +47,7 @@ namespace ToetsMeHarder.Business.Midi
         private void Watcher_DeviceRemoved(object? sender, UsbDevice usb)
         {
             if (_inputDevice != null
-                && InputDevice.GetDevicesCount() == 0)   // compare op name of UniqueId
+                && InputDevice.GetDevicesCount() == 0)
             {
                 CloseCurrentDevice();
             }
