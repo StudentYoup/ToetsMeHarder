@@ -1,52 +1,43 @@
-﻿using ToetsMeHarder.Business.LiedjesComponent;
+﻿using Microsoft.AspNetCore.Components;
+using ToetsMeHarder.Business;
+using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.PianoGUI.Pages;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class FallingBlocks
     {
-        private Song song;
-        public List<string> GridDivs { get; set; } = new();
-        public List<string> fallingblocks;
-        
 
-        private FallingBlocks _blocks;
+        [Inject]
+        public MetronomeService Metronome { get; set; } = default!;
+        public List<string> Blocks = new List<string>();
+        private Random _random = new();
+        private Dictionary<int, List<int>> _blockMap = new();
+        private int _numberOfBars = 40;
+
         protected override void OnInitialized()
         {
-            _blocks = new FallingBlocks(40, new Song("test", 60,2000,"C",0));
-        }
+            base.OnInitialized();
 
-        public FallingBlocks()
-        {
-            GenerateGrid(400);
-        }
-
-        public FallingBlocks(int amount, Song song)
-        {
-            this.song = song;
-            GenerateGrid(amount);
-        }
-
-        public List<string> GenerateGrid(int count)
-        {
-            List<string> divs = new List<string>();
-            for (int i = 0; i < count; i++)
+            // Randomly populate each bar with block IDs (just for demo)
+            for (int i = 0; i < _numberOfBars; i++)
             {
-                divs.Add($"<div class='Grid-block' style='width: {100 / count}%;'>test</div>"); //make the divs with a width based on the total amount(100/count = %%)
+                _blockMap[i] = new List<int> { 1 };
             }
-
-            return GridDivs = divs;
+            DropBlock();
+            
         }
 
-        public List<string> GenerateBlocks(Song song)
+        /*make one new block per second*/
+        public async Task DropBlock()
         {
-            song.FillBlocks();
-            List<string> comps = new List<string>();
-
-            foreach (var b in song.blocks)
+            while (true)
             {
-                comps.Add($"<div class = 'falling-block'>{b.Key}</div>");
+                int barIndex = _random.Next(0, _numberOfBars);
+                _blockMap[barIndex].Add(_random.Next());
+                StateHasChanged();
+                await Task.Delay(60_000 / Metronome.BPM); // Timing = 1min / bpm
             }
-            return comps;
         }
 
 

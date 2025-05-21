@@ -1,11 +1,11 @@
-@using ToetsMeHarder.Business.LiedjesComponent;
-@using ToetsMeHarder.Business.FallingBlocks;
-@using ToetsMeHarder.PianoGUI.Components.Layout;
-@using HtmlAgilityPack;
-
-<div class="grid-container">
-	@for (int i = 0; i < _blocks.GridDivs.Count; i++)
-	{
-		@((MarkupString)_blocks.GridDivs[i])
-	}
+<div class="bar-container">
+    @for (int i = 0; i < _numberOfBars; i++)
+    {
+        <div class="vertical-bar">
+            @foreach (var block in _blockMap[i])
+            {
+                <div class="falling-block"></div>
+            }
+        </div>
+    }
 </div>
