@@ -39,8 +39,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     int barIndex = _random.Next(0, _numberOfBars);
                     _blockMap[barIndex].Add(_random.Next());
                     StateHasChanged();
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox
-                    double triggerEnterMs = totalTravelMs * .9; // hitbox zit op 90%
+                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
+                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                     _ = TrackTrigger(_blockMap[barIndex].Last(), (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
                 await Task.Delay(MINUTE / Metronome.BPM); // Timing = 1min / bpm
