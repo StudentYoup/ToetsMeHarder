@@ -1,17 +1,9 @@
 ﻿@page "/LiedjesKeuzeMenu"
 @inherits LiedjesKeuzeMenu_razor
 
-@if (!IsOpen)
-{
-    <button @onclick="Open" class="MenuButtons">Liedje Kiezen</button>
-}
-@if (IsOpen)
-{
-    <div class="Overlay">
         <button @onclick="Close" class="exitButton">X</button>
         <div id="Menu">
-            <h3>Liedje Kiezen</h3>
             <button class="MenuButtons" @onclick="SetLiedje">Test Lied</button>
         </div>
-    </div>
-}
+    
+

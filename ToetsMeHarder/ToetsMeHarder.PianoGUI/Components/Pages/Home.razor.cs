@@ -11,6 +11,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         //PopUps:
         private bool _helpPopUp = false;
         private bool _resultPopUp = false;
+        
         private bool _songPopUp = false;
 
 
