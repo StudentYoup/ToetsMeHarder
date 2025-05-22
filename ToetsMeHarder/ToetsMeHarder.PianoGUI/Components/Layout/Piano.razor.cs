@@ -177,6 +177,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         //Midi:
         [Inject] private MidiService MidiService { get; set; }
         private string? midiName = null;
+        
         protected override void OnInitialized()
         {
             MidiService.OnMidiDown += OnMidiDown;
@@ -191,6 +192,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 midiName = null;
                 InvokeAsync(StateHasChanged);
+                OnLostFocus();
             };
             midiName = MidiService.MidiName;
         }
