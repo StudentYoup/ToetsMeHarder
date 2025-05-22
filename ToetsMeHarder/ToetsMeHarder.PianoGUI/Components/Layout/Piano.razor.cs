@@ -124,7 +124,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
                 PlayNote(noteId);
 
-                JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
+                JSRuntime.InvokeVoidAsync("setKeyActive", _pianoKeys[e.Key].ToString());
             }
         }
         public void HandleKeyUp(KeyboardEventArgs e)
@@ -136,7 +136,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
                 StopNote(noteId);
 
-                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
+                JSRuntime.InvokeVoidAsync("setKeyInactive", _pianoKeys[e.Key].ToString());
             }
         }
 
@@ -215,7 +215,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 PlayNote(noteId);
 
-                JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
+                JSRuntime.InvokeVoidAsync("setKeyActive", noteId.ToString());
             }
         }
         private void OnMidiUp(int status, int note, int velocity)
@@ -228,7 +228,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
                 StopNote(noteId);
 
-                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
+                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId.ToString());
             }
         }
     }
