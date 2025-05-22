@@ -11,12 +11,13 @@ public partial class LiedjesKeuzeMenu_razor : ComponentBase
     [Parameter] public EventCallback OnOpen { get; set;}
     [Parameter] public EventCallback OnClose { get; set;}
     [Parameter] public bool IsOpen { get; set; } = false;
-
-    public void SetLiedje()
+    [Parameter] public EventCallback LiedjeGekozen { get; set; }
+    public async Task SetLiedje()
     {
         _liedjesManager.GekozenLiedje = lied;
+        await LiedjeGekozen.InvokeAsync(); // Notify parent to close pop-up
     }
-    
+
     public async void Open()
     {
         await OnOpen.InvokeAsync();

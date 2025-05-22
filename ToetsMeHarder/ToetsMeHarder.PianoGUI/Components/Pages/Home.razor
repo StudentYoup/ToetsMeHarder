@@ -12,9 +12,8 @@
 	</div>
 	<div class="right">
 		<div class="menu">
-			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>Songs</i></button>
+			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>liedjes</i></button>
 			<button @onclick="() => {_resultPopUp = !_resultPopUp;}"><i>Toon results</i></button>
-			<button><i>Options</i></button>
 			<button @onclick="() => {_helpPopUp = !_helpPopUp;}"><i>Help</i></button>
 			<button @onclick="Exit"><i>Exit</i></button>
 		</div>
@@ -40,7 +39,7 @@
 			<div>
 				<h1>Help:</h1>
 				<Help></Help>
-				<button @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Close</button>
+				<button @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Close</button> 
 			</div>
 		</div>
 	}
@@ -56,8 +55,8 @@
 	if (_songPopUp){
 		<div class="popup">
 			<div>
-				<h1>Menu</h1>
-				<MainMenu></MainMenu>
+				<h1>Liedjes</h1>
+				<LiedjesKeuzeMenu LiedjeGekozen="@OnLiedjeGekozen"></LiedjesKeuzeMenu>
 				<button @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
