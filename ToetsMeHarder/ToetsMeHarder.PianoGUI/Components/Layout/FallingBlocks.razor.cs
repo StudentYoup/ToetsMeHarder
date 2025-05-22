@@ -24,25 +24,18 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 _blockMap[i] = new List<int> { 1 };
             }
-            DropBlock();
+            Metronome.Beat += OnBeat;
             
         }
 
-        /*make one new block per second*/
-        public async Task DropBlock()
+        private void OnBeat(object? sender, EventArgs e)
         {
-            while (true)
+            InvokeAsync(() =>
             {
-                if (Metronome.IsRunning)
-                {
-                    int barIndex = _random.Next(0, _numberOfBars);
-                    _blockMap[barIndex].Add(_random.Next());
-                    StateHasChanged();
-                }
-                await Task.Delay(60_000 / Metronome.BPM); // Timing = 1min / bpm
-            }
+                int barIndex = _random.Next(0, _numberOfBars);
+                _blockMap[barIndex].Add(_random.Next());
+                StateHasChanged();
+            });
         }
-
-
     }
 }
