@@ -9,11 +9,10 @@ namespace ToetsMeHarder.Business.FallingBlocks
 {
     public class TestSongs
     {
-        public TestSongs() 
+        public TestSongs()
         {
-            CreateSong1();
         }
-        private List<NoteBlock> CreateSong1()
+        public static List<NoteBlock> CreateSong1()
         {
             List<NoteBlock> song = new List<NoteBlock>();
 
@@ -38,6 +37,19 @@ namespace ToetsMeHarder.Business.FallingBlocks
             song.Add(new NoteBlock(0, 1, KeyValue.a4, 8, 16.5));
 
             return song;
+        }
+
+        public static Dictionary<int, List<NoteBlock>> convertToBlockMap(List<NoteBlock> song, Dictionary<int, List<NoteBlock>> blockMap)
+        {
+            foreach (int key in blockMap.Keys) 
+            {
+                var notes = song.Where(q => q.Key == (KeyValue)key);
+                foreach (var note in notes) 
+                {
+                    blockMap[key].Add(note);
+                }
+            } 
+            return blockMap;
         }
     }
 }

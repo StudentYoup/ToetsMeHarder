@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
+using ToetsMeHarder.Business.FallingBlocks;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
@@ -8,9 +9,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         [Inject]
         public MetronomeService Metronome { get; set; } = default!;
-        public List<string> Blocks = new List<string>();
-        private Random _random = new();
-        private Dictionary<int, List<int>> _blockMap = new();
+
+        private Dictionary<int, List<NoteBlock>> _blockMap = new();
         private int _numberOfBars = 40;
         private double beats = 0;
 
@@ -23,19 +23,29 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             // Randomly populate each bar with block IDs (just for demo)
             for (int i = 0; i < _numberOfBars; i++)
             {
-                _blockMap[i] = new List<int> { 1 };
+                _blockMap[i] = new List<NoteBlock>();
             }
             Metronome.Beat += OnBeat;
-            
         }
 
         private void OnBeat(object? sender, EventArgs e)
         {
-            InvokeAsync(() =>
+            InvokeAsync(async () =>
             {
-                int barIndex = _random.Next(0, _numberOfBars);
-                _blockMap[barIndex].Add(_random.Next());
                 beats++;
+                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats)) 
+                {
+                    _blockMap[(int)block.Key].Add(block);
+                }
+
+                await Task.Delay(60_000 / Metronome.BPM / 2);
+
+                beats += 0.5;
+                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
+                {
+                    _blockMap[(int)block.Key].Add(block);
+                }
+
                 StateHasChanged();
             });
         }
