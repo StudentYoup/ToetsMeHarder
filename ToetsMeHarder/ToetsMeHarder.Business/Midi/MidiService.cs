@@ -20,7 +20,7 @@ namespace ToetsMeHarder.Business.Midi
         public MidiService()
         {
             _usbWatcher = new UsbEventWatcher(
-                startImmediately: true,
+                startImmediately: false,
                 addAlreadyPresentDevicesToList: true,
                 usePnPEntity: true
             );
@@ -29,6 +29,11 @@ namespace ToetsMeHarder.Business.Midi
             _usbWatcher.UsbDeviceRemoved += Watcher_DeviceRemoved;
 
             TryOpenFirstDevice();
+        }
+
+        public void StartUSBWatcher()
+        {
+            _usbWatcher.Start();
         }
 
         private void TryOpenFirstDevice()

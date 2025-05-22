@@ -13,6 +13,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class Piano
     {
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                MidiService.StartUSBWatcher();
+            }
+        }
         private AudioHandler _audioHandler = new AudioHandler();
     
         private Dictionary<string, IAudioPlayer> _pressedKeys = new Dictionary<string, IAudioPlayer>();
