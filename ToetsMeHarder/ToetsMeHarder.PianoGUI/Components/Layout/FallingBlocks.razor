@@ -8,12 +8,7 @@
                     style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
                     --fall-duration: @_fallDuration;">
                 </div>
-
             }
         </div>
     }
 </div>
-
-@code {
-  private string _fallDuration => $"{300 / Metronome.BPM}s";
-}

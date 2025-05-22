@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
-using ToetsMeHarder.Business.LiedjesComponent;
-using ToetsMeHarder.PianoGUI.Pages;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
@@ -14,6 +12,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private Random _random = new();
         private Dictionary<int, List<int>> _blockMap = new();
         private int _numberOfBars = 40;
+        private double beats = 0;
+
+        private string _fallDuration => $"{300 / Metronome.BPM}s";
 
         protected override void OnInitialized()
         {
@@ -34,6 +35,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 int barIndex = _random.Next(0, _numberOfBars);
                 _blockMap[barIndex].Add(_random.Next());
+                beats++;
                 StateHasChanged();
             });
         }

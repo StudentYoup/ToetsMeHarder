@@ -12,9 +12,6 @@ namespace ToetsMeHarder.Business
         public event EventHandler? Beat;
 
         public bool IsRunning => _timer.Enabled;
-        
-        
-        
 
         public int BPM
         {
