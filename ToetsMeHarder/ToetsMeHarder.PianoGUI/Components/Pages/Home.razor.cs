@@ -11,9 +11,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         //PopUps:
         private bool _helpPopUp = false;
         private bool _resultPopUp = false;
-        
         public bool _songPopUp = false;
-
 
         private ElementReference _wrapper;
         private Piano? _piano;
@@ -43,7 +41,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
             }
         }
         
-
         private void OnKeyDown(KeyboardEventArgs e)
         {
             _piano?.HandleKeyDown(e);  
