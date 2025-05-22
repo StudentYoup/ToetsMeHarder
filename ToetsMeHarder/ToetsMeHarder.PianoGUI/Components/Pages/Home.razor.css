@@ -53,7 +53,7 @@ div{
 
 .menu{
     height: 50px;
-    width: 80%;
+    width: auto;
     background-color: #808080;
     display: flex;
     align-items: center;
