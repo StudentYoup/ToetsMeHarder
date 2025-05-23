@@ -24,7 +24,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 
         private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(LiedjesManager.Instance.GekozenLiedje))InvokeAsync(StateHasChanged);
+            if (e.PropertyName == nameof(LiedjesManager.Instance.ChosenSong))InvokeAsync(StateHasChanged);
         }
 
         private void OnLiedjeGekozen()

@@ -26,8 +26,8 @@ namespace ToetsMeHarder.PianoGUI.Pages
 
         private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName != nameof(LiedjesManager.Instance.GekozenLiedje)) return;
-            Metronome.BPM = LiedjesManager.Instance.GekozenLiedje.BPM;
+            if(e.PropertyName != nameof(LiedjesManager.Instance.ChosenSong)) return;
+            Metronome.BPM = LiedjesManager.Instance.ChosenSong.BPM;
             BpmText = Metronome.BPM.ToString();
             InvokeAsync(StateHasChanged);
         }
