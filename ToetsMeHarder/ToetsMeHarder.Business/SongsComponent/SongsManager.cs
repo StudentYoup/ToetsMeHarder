@@ -2,24 +2,24 @@
 
 namespace ToetsMeHarder.Business.LiedjesComponent;
 
-public class LiedjesManager
+public class SongsManager
 {
     //Dit is het singleton patroon dit zorgt ervoor dat er maar 1 van deze class aanwezig kan zijn.
-    private static LiedjesManager _SongsManager;
-    public static LiedjesManager Instance
+    private static SongsManager _SongsManager;
+    public static SongsManager Instance
     {
         get
         {
             if (_SongsManager == null)
             {
-                _SongsManager = new LiedjesManager();
+                _SongsManager = new SongsManager();
             }
             return _SongsManager;
         }
     }
     
     //dit blokeerd het maken van nieuwe instances van deze singleton
-    private LiedjesManager(){}
+    private SongsManager(){}
 
     //het gekoze liedje kan overal veranderd worden. dit is makkelijk voor het gebruik in menu's.
     //de event kan gebruikt worden om ui te verversen bij het veranderen van deze propertie.

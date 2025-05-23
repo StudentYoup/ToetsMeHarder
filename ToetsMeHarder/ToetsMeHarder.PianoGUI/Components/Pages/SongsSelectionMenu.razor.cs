@@ -3,9 +3,9 @@ using ToetsMeHarder.Business.LiedjesComponent;
 
 namespace ToetsMeHarder.PianoGUI.Components.Pages;
 
-public partial class LiedjesKeuzeMenu_razor : ComponentBase
+public partial class SongsSelectionMenu_razor : ComponentBase
 {
-    private LiedjesManager _songManager = LiedjesManager.Instance;
+    private SongsManager _songManager = SongsManager.Instance;
     Songs song = new Songs("TEST",120);
     
     [Parameter] public EventCallback OnOpen { get; set;}
