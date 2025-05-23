@@ -19,12 +19,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            LiedjesManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
+            SongManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
         }
 
         private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(LiedjesManager.Instance.GekozenLiedje))InvokeAsync(StateHasChanged);
+            if (e.PropertyName == nameof(SongManager.Instance.GekozenLiedje))InvokeAsync(StateHasChanged);
         }
 
         private void OnLiedjeGekozen()
