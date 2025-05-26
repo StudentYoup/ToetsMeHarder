@@ -35,7 +35,7 @@ public class SongsManager
         }
     }
 
-    public List<Songs> MogelijkeLiedjes { get; private set; } = new List<Songs>();
+    public List<Songs> PossibleSongs { get; private set; } = new List<Songs>();
     private event PropertyChangedEventHandler PropertyChangedEvent;
     public void RegisterPropertyChangedFunction(PropertyChangedEventHandler eventHandler)
     {
