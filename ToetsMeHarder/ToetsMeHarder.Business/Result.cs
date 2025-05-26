@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace ToetsMeHarder.Business
 {
-    internal class Result
+    public class Result
     {
+       public String Username;
+        public int SongID;
+        public int Accuracy;
+        public int Speed;
+        public int Total;
+        public String SongTitle;
+
+
+
+    
+     
     }
 }
