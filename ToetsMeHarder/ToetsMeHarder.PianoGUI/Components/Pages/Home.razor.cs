@@ -1,7 +1,7 @@
 using ToetsMeHarder.PianoGUI.Components.Layout;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 
 namespace ToetsMeHarder.PianoGUI.Components.Pages
@@ -19,15 +19,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            SongManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
+            SongsManager.Instance.RegisterPropertyChangedFunction(OnsongChanged);
         }
 
-        private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
+        private void OnsongChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(SongManager.Instance.GekozenLiedje))InvokeAsync(StateHasChanged);
+            if (e.PropertyName == nameof(SongsManager.Instance.ChosenSong))InvokeAsync(StateHasChanged);
         }
 
-        private void OnLiedjeGekozen()
+        private void OnSongChanged()
         {
             _songPopUp = false;
             StateHasChanged(); // update UI

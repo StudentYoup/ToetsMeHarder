@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using ToetsMeHarder.Business.LiedjesComponent
+@using ToetsMeHarder.Business.SongsComponent
 @using ToetsMeHarder.PianoGUI.Components.Layout
 @using ToetsMeHarder.PianoGUI.Components.Pages.HelpPages
 
@@ -8,7 +8,7 @@
 		<Metronome/>
 	</div>
 	<div class="center">
-		<h1> @(SongManager.Instance.GekozenLiedje.Naam)</h1>
+		 <h1> @(SongsManager.Instance.ChosenSong.Name)</h1>
 	</div>
 	<div class="right">
 		<div class="menu">
@@ -56,7 +56,7 @@
 		<div class="popup">
 			<div>
 				<h1>Liedjes</h1>
-				<LiedjesKeuzeMenu LiedjeGekozen="@OnLiedjeGekozen"></LiedjesKeuzeMenu>
+				<SongsSelectionMenu SongChosen="@OnSongChanged"></SongsSelectionMenu>
 				<button @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Close</button>
 			</div>
 		</div>
