@@ -38,6 +38,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
+                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
+                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
+                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
 
                 await Task.Delay(MINUTE / Metronome.BPM / 2);
@@ -46,13 +49,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
+                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
+                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
+                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
-
-                double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                 StateHasChanged();
-                _ = TrackTrigger(_blockMap[barIndex].Last(), (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
-            });
+                });
         }
 
 
@@ -62,7 +64,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             return $"vertical-bar-{color}";// bijvoorbeeld: "black-bar" of "white-bar"
         }
 
-        private async Task TrackTrigger(int blockId, int enterDelay, int exitDelay)
+        private async Task TrackTrigger(NoteBlock blockId, int enterDelay, int exitDelay)
         {
             await Task.Delay(enterDelay);
             OnTriggerEntry(blockId);
