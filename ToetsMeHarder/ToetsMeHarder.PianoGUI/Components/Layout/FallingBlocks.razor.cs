@@ -34,7 +34,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             InvokeAsync(async () =>
             {
-                beats++;
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
@@ -42,10 +41,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                     _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
-
+                beats += 0.5;
+                StateHasChanged();
                 await Task.Delay(MINUTE / Metronome.BPM / 2);
 
-                beats += 0.5;
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
@@ -53,6 +52,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                     _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
+                beats += 0.5;
                 StateHasChanged();
             });
         }
