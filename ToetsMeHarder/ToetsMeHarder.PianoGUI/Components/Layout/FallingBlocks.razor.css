@@ -48,10 +48,9 @@ div {
     height: 100%;
     flex: 1;
     z-index: 1;
-    border-left: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
-    border-radius: 0 0 5px 5px;
-    color: black;
+    border: 1px solid #000;
+    color: white;
+    background: white;
 }
 
 .vertical-bar-black {
@@ -60,8 +59,8 @@ div {
     margin: 0 0 0 -1em;
     z-index: 2;
     border: 1px solid #000;
-    border-radius: 0 0 3px 3px;
     color : white;
+    background: black;
 }
 
 .falling-block {

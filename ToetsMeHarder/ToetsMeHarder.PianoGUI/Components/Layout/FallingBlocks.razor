@@ -1,8 +1,11 @@
+@using ToetsMeHarder.Business
+@using ToetsMeHarder.Business.FallingBlocks
+@using ToetsMeHarder.PianoGUI.Components.Layout
 <div class="bar-container">
-    @for (int i = 0; i < _numberOfBars; i++)
+    @foreach (var key in Keys)
     {
-        <div class="vertical-bar">
-            @foreach (var block in _blockMap[i])
+        <div class="@CreateCSSClass(key.ToString())">
+            @foreach (var block in _blockMap[key])
             {
                 <div class="falling-block"
                     style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");

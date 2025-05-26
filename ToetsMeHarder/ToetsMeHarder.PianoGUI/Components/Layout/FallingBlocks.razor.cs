@@ -10,20 +10,23 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         [Inject]
         public MetronomeService Metronome { get; set; } = default!;
 
-        private Dictionary<int, List<NoteBlock>> _blockMap = new();
+        private Dictionary<KeyValue, List<NoteBlock>> _blockMap = new();
         private int _numberOfBars = 40;
         private double beats = 0;
-
+        private KeyValue key = new KeyValue();
         private string _fallDuration => $"{300 / Metronome.BPM}s";
+
+        private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
+
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
             // Randomly populate each bar with block IDs (just for demo)
-            for (int i = 0; i < _numberOfBars; i++)
+            foreach(KeyValue key in Keys)
             {
-                _blockMap[i] = new List<NoteBlock>();
+                _blockMap[key] = new List<NoteBlock>();
             }
             Metronome.Beat += OnBeat;
         }
@@ -35,7 +38,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 beats++;
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats)) 
                 {
-                    _blockMap[(int)block.Key].Add(block);
+                    _blockMap[block.Key].Add(block);
                 }
 
                 await Task.Delay(60_000 / Metronome.BPM / 2);
@@ -43,11 +46,19 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 beats += 0.5;
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
-                    _blockMap[(int)block.Key].Add(block);
+                    _blockMap[block.Key].Add(block);
                 }
 
                 StateHasChanged();
             });
         }
+
+
+        private string CreateCSSClass(string key) //create classes for bars above white and above black keys
+        {
+            string color = key.Contains("1") ? "black " : "white ";
+            return $"vertical-bar-{color}";// bijvoorbeeld: "black-bar" of "white-bar"
+        }
+
     }
 }
