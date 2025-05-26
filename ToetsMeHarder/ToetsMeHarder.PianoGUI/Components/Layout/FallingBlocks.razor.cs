@@ -54,7 +54,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
                 StateHasChanged();
-                });
+            });
         }
 
 
@@ -64,12 +64,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             return $"vertical-bar-{color}";// bijvoorbeeld: "black-bar" of "white-bar"
         }
 
-        private async Task TrackTrigger(NoteBlock blockId, int enterDelay, int exitDelay)
+        private async Task TrackTrigger(NoteBlock block, int enterDelay, int exitDelay)
         {
             await Task.Delay(enterDelay);
-            OnTriggerEntry(blockId);
+            OnTriggerEntry(block.Id);
             await Task.Delay(exitDelay - enterDelay);
-            OnTriggerExit(blockId);
+            OnTriggerExit(block.Id);
         }
 
         private void OnTriggerEntry(int blockId)
