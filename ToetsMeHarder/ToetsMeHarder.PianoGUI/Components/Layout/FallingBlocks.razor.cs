@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
 
@@ -14,17 +15,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private int _numberOfBars = 40;
         private double beats = 0;
         private KeyValue key = new KeyValue();
-        private string _fallDuration => $"{300 / Metronome.BPM}s";
-
+        private string _fallDuration => $"{300 / Metronome.BPM}s"; // 5 beats in de toekomst kijken
         private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
-
-
+        private const int MINUTE = 60_000;
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
             // Randomly populate each bar with block IDs (just for demo)
-            foreach(KeyValue key in Keys)
+            foreach (KeyValue key in Keys)
             {
                 _blockMap[key] = new List<NoteBlock>();
             }
@@ -36,12 +35,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             InvokeAsync(async () =>
             {
                 beats++;
-                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats)) 
+                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
                 }
 
-                await Task.Delay(60_000 / Metronome.BPM / 2);
+                await Task.Delay(MINUTE / Metronome.BPM / 2);
 
                 beats += 0.5;
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
@@ -49,7 +48,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     _blockMap[block.Key].Add(block);
                 }
 
+                double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
+                double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                 StateHasChanged();
+                _ = TrackTrigger(_blockMap[barIndex].Last(), (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
             });
         }
 
@@ -60,5 +62,21 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             return $"vertical-bar-{color}";// bijvoorbeeld: "black-bar" of "white-bar"
         }
 
+        private async Task TrackTrigger(int blockId, int enterDelay, int exitDelay)
+        {
+            await Task.Delay(enterDelay);
+            OnTriggerEntry(blockId);
+            await Task.Delay(exitDelay - enterDelay);
+            OnTriggerExit(blockId);
+        }
+
+        private void OnTriggerEntry(int blockId)
+        {
+            Debug.WriteLine($"{blockId} IN TRIGGER ZONE LIJN");
+        }
+        private void OnTriggerExit(int blockId)
+        {
+            Debug.WriteLine($"{blockId} UIT TRIGGER ZONE LIJN");
+        }
     }
 }

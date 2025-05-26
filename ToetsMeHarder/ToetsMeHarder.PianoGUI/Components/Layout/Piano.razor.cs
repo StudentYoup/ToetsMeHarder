@@ -4,12 +4,22 @@ using Microsoft.AspNetCore.Components;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
+using ToetsMeHarder.Business.Midi;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class Piano
     {
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                MidiService.StartUSBWatcher();
+            }
+        }
         private AudioHandler _audioHandler = new AudioHandler();
     
         private Dictionary<KeyValue, IAudioPlayer> _pressedKeys = new Dictionary<KeyValue, IAudioPlayer>();
@@ -114,7 +124,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
                 PlayNote(noteId);
 
-                JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
+                JSRuntime.InvokeVoidAsync("setKeyActive", _pianoKeys[e.Key].ToString());
             }
         }
         public void HandleKeyUp(KeyboardEventArgs e)
@@ -126,7 +136,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
                 StopNote(noteId);
 
-                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
+                JSRuntime.InvokeVoidAsync("setKeyInactive", _pianoKeys[e.Key].ToString());
             }
         }
 
@@ -173,6 +183,53 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             string name = key.ToString();
             name = name.Replace("1", "#");
             return name;
+        }
+        //Midi:
+        [Inject] private MidiService MidiService { get; set; }
+        private string? midiName = null;
+        
+        protected override void OnInitialized()
+        {
+            MidiService.OnMidiDown += OnMidiDown;
+            MidiService.OnMidiUp += OnMidiUp;
+
+            MidiService.OnMidiConnected += name =>
+            {
+                midiName = name;
+                InvokeAsync(StateHasChanged);
+            };
+            MidiService.OnMidiDisconnected += name =>
+            {
+                midiName = null;
+                InvokeAsync(StateHasChanged);
+                OnLostFocus();
+            };
+            midiName = MidiService.MidiName;
+        }
+
+        private void OnMidiDown(int status, int note, int velocity)
+        {
+            var noteId = MidiService.midiNotes[note];
+
+            if (_noteFrequencies.ContainsKey(noteId))
+            {
+                PlayNote(noteId);
+
+                JSRuntime.InvokeVoidAsync("setKeyActive", noteId.ToString());
+            }
+        }
+        private void OnMidiUp(int status, int note, int velocity)
+        {
+            var noteId = MidiService.midiNotes[note];
+
+            if (_noteFrequencies.ContainsKey(noteId))
+            {
+                if (!_pressedKeys.ContainsKey(noteId)) return;
+
+                StopNote(noteId);
+
+                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId.ToString());
+            }
         }
     }
 }

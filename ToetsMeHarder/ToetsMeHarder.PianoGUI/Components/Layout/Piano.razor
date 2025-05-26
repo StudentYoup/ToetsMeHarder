@@ -3,6 +3,18 @@
 @using ToetsMeHarder.Business.FallingBlocks
 <div class="menu">
     <button class="KeyModeButton" @onclick="ChangeKeyModus"><b>Keymode: <i>@_keyModus</i></b></button>
+    <button class="midi"><b>MIDI: <i>
+        @{
+            if(midiName != null)
+            {
+                <text>CONNECTED (@midiName)</text>
+            }
+            else
+            {
+                <text>DISCONNECTED</text>
+            }
+        }
+    </i></b></button>
 </div>
 <ul class="set">
     @{

@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.Business
 {
@@ -35,7 +35,7 @@ namespace ToetsMeHarder.Business
 
         private void UpdateTimerInterval()
         {
-            _timer.Interval = 60000.0 / _bpm;  // 1 minuut = 60_000 ms -> dit delen door bpm geeft tijd tussen beats
+            _timer.Interval = 60_000 / _bpm;  // 1 minuut = 60_000 ms -> dit delen door bpm geeft tijd tussen beats
         }
 
         public void Start()
