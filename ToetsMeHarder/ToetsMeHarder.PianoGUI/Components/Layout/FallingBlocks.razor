@@ -1,20 +1,14 @@
-@using ToetsMeHarder.Business
-@using ToetsMeHarder.Business.FallingBlocks
-
-<ul class="bar-container">
-    @{
-        @foreach ((KeyValue key, double frequency) in _noteFrequencies)
-        {
-            <li id="@key" class= "@CreateCSSClass(key.ToString())">
-                @foreach(var block in _blockMap[x])
-                {
-                    <div class="falling-block"></div>
-                    if(x < _blockMap.Count)
-                    {
-                        x++;
-                    }
-                }
-            </li>
-        }
+<div class="bar-container">
+    @for (int i = 0; i < _numberOfBars; i++)
+    {
+        <div class="vertical-bar">
+            @foreach (var block in _blockMap[i])
+            {
+                <div class="falling-block"
+                    style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
+                    --fall-duration: @_fallDuration;">
+                </div>
+            }
+        </div>
     }
-</ul>
+</div>
