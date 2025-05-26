@@ -1,0 +1,22 @@
+<div class="bar-container">
+    @for (int i = 0; i < _numberOfBars; i++)
+    {
+        <div class="vertical-bar">
+                  <div class="trigger-line"></div>
+            @foreach (var block in _blockMap[i])
+            {
+                <div class="falling-block"
+                    style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
+                    --fall-duration: @_fallDuration;">
+                    @(_blockMap[i].IndexOf(block) + 1)
+                </div>
+
+            }
+        </div>
+    }
+</div>
+
+@code {
+  
+}
+
