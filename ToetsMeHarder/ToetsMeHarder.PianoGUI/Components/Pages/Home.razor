@@ -12,10 +12,9 @@
 	</div>
 	<div class="right">
 		<div class="menu">
-			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>liedjes</i></button>
-			<button @onclick="() => {_resultPopUp = !_resultPopUp;}"><i>Toon results</i></button>
+			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>Liedjes</i></button>
 			<button @onclick="() => {_helpPopUp = !_helpPopUp;}"><i>Help</i></button>
-			<button @onclick="Exit"><i>Exit</i></button>
+			<button @onclick="Exit"><i>Afsluiten</i></button>
 		</div>
 	</div>
 </div>
@@ -39,7 +38,7 @@
 			<div>
 				<h1>Help:</h1>
 				<Help></Help>
-				<button @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Close</button> 
+				<button @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Sluit</button> 
 			</div>
 		</div>
 	}
@@ -48,7 +47,7 @@
 			<div>
 				<h1>Results</h1>
 				<Result></Result>
-				<button @onclick="() => {_resultPopUp = !_resultPopUp; OnAfterRenderAsync(true);}">Close</button>
+				<button @onclick="() => {_resultPopUp = !_resultPopUp; OnAfterRenderAsync(true);}">Sluit</button>
 			</div>
 		</div>
 	}
@@ -57,7 +56,7 @@
 			<div>
 				<h1>Liedjes</h1>
 				<SongsSelectionMenu SongChosen="@OnSongChanged"></SongsSelectionMenu>
-				<button @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Close</button>
+				<button @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Sluit</button>
 			</div>
 		</div>
 	}

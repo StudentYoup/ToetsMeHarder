@@ -8,9 +8,21 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 {
     public partial class Home
     {
+        public static Home Instance { get; private set; }
+
         //PopUps:
         private bool _helpPopUp = false;
         private bool _resultPopUp = false;
+        public bool resultPopUp { get
+            {
+                return _resultPopUp;
+            }
+            set
+            {
+                _resultPopUp = value;
+            }
+        }
+
         public bool _songPopUp = false;
 
         private ElementReference _wrapper;
@@ -20,6 +32,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         {
             base.OnInitialized();
             SongsManager.Instance.RegisterPropertyChangedFunction(OnsongChanged);
+            Home.Instance = this;
         }
 
         private void OnsongChanged(object? sender, PropertyChangedEventArgs e)

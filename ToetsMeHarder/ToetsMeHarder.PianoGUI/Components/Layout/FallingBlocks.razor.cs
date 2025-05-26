@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
+using ToetsMeHarder.Business.SongsComponent;
+using ToetsMeHarder.PianoGUI.Components.Pages;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class FallingBlocks
     {
-
         [Inject]
         public MetronomeService Metronome { get; set; } = default!;
 
@@ -55,6 +56,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 beats += 0.5;
                 StateHasChanged();
             });
+
+            if(beats > SongsManager.Instance.ChosenSong.Duration)
+            {
+                //popup weergeven einde liedje
+                Home.Instance.resultPopUp = true;
+            }
         }
 
 

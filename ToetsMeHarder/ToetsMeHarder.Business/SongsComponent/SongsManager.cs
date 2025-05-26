@@ -41,6 +41,4 @@ public class SongsManager
     {
         PropertyChangedEvent += eventHandler;
     }
-    
-    
 }
