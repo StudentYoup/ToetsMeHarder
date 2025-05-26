@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.Business
 {

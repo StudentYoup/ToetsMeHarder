@@ -1,11 +1,11 @@
 ﻿using ToetsMeHarder.Business.FallingBlocks;
 
-namespace ToetsMeHarder.Business.LiedjesComponent;
+namespace ToetsMeHarder.Business.SongsComponent;
 
-public class Song(string naam, int bpm,int duration, string key,int id)
+public class Songs(string name, int bpm, int duration, string key)
 {
-    public int Id { get; set; } = id;
-    public string Naam { get; set; } = naam;
+    public string Name { get; set; } = name;
+    public List<List<Note>> Notes { get; set; }
     public int BPM { get; set; } = bpm;
     public int Duration { get; set; } = duration;
     public string Key { get; set; } = key;
