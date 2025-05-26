@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.Business.FallingBlocks
 {
