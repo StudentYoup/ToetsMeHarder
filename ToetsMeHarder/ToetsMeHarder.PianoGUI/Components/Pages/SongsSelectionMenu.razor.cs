@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.PianoGUI.Components.Pages;
 

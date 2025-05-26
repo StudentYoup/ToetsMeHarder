@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using Moq;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 
-namespace ToetsMeHarder.Tests.LiedjeComponentTest;
+namespace ToetsMeHarder.Tests.SongsComponent;
 
 [TestFixture]
 public class SongManagerTest

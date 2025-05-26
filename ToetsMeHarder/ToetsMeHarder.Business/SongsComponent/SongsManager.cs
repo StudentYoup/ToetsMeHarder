@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ToetsMeHarder.Business.LiedjesComponent;
+namespace ToetsMeHarder.Business.SongsComponent;
 
 public class SongsManager
 {

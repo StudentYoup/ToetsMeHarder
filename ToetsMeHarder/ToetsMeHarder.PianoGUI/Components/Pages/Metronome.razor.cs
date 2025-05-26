@@ -2,7 +2,7 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.PianoGUI.Pages
 {

@@ -35,7 +35,6 @@ namespace ToetsMeHarder.Business.Midi
         {
             _usbWatcher.Start();
         }
-
         private void TryOpenFirstDevice()
         {
             var first = InputDevice.GetAll().FirstOrDefault();

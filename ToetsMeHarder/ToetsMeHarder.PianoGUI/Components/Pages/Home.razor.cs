@@ -1,7 +1,7 @@
 using ToetsMeHarder.PianoGUI.Components.Layout;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
-using ToetsMeHarder.Business.LiedjesComponent;
+using ToetsMeHarder.Business.SongsComponent;
 using PropertyChangedEventArgs = System.ComponentModel.PropertyChangedEventArgs;
 
 namespace ToetsMeHarder.PianoGUI.Components.Pages

@@ -1,4 +1,4 @@
-﻿namespace ToetsMeHarder.Business.LiedjesComponent;
+﻿namespace ToetsMeHarder.Business.SongsComponent;
 
 public class Songs(string name, int bpm)
 {
