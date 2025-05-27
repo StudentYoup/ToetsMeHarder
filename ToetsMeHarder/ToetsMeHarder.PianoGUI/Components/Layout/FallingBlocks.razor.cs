@@ -57,7 +57,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 StateHasChanged();
             });
 
-            if(beats > SongsManager.Instance.ChosenSong.Duration)
+            if(beats == SongsManager.Instance.ChosenSong.Duration)
             {
                 //popup weergeven einde liedje
                 Home.Instance.resultPopUp = true;
