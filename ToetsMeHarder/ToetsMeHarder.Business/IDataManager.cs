@@ -8,4 +8,5 @@ public interface IDataManager
     public void Connect();
     public void Disconnect();
     public void SetResult(Result r);
+    public Result GetResult(int SongID);
 }

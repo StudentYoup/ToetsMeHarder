@@ -78,6 +78,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ToetsMeHarder.Business\ToetsMeHarder.Business.csproj" />
+      <ProjectReference Include="..\ToetsMeHarder.DataAccess\ToetsMeHarder.DataAccess.csproj" />
     </ItemGroup>
 
     <ItemGroup>

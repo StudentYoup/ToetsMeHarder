@@ -1,5 +1,9 @@
+
 ﻿using MySqlConnector;
 using ToetsMeHarder.Business;
+
+
+
 
 namespace ToetsMeHarder.DataAccess;
 
@@ -23,11 +27,46 @@ public class DataManager : IDataManager
             Console.WriteLine(e.ToString());
         }
     }
+   
+
 
     public void Disconnect()
     {
          Connection.Close();
     }
+
+    public Result GetResult(int SongiD)
+    {
+        try
+        {
+            using var command = new MySqlCommand($"Select Title, Username, Song, Accuracy, Speed, Total From result Join song on ID = Song Where Song ={SongiD}", Connection);
+            using var reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                return new Result
+                {
+                    Username = reader.GetString("Username"),    // gebruik kolomnamen!
+                    SongID = reader.GetInt32("Song"),
+                    Accuracy = reader.GetInt32("Accuracy"),
+                    Speed = reader.GetInt32("Speed"),
+                    Total = reader.GetInt32("Total"),
+                    SongTitle = reader.GetString("Title")
+                };
+            }
+        }
+        catch (MySqlException e)
+        {
+            Console.WriteLine($"SQL ERROR: {e.Message}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+        }
+
+        return null;
+    }
+
 
     public async void SetResult(Result r)
     {

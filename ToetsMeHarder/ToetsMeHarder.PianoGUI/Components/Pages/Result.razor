@@ -1,12 +1,17 @@
-﻿
-<h3>Resultaat lied: (placeholder)</h3>
-<p>bpm: (placeholder)</p>
-<p>score: (placeholder)</p>
-<p>score: (placeholder)</p>
+﻿@page "/result"
+@using ToetsMeHarder.Business
 
 
 
-
-
-
-
+<h3>Resultaat lied: @result.SongTitle</h3>
+@if (result is not null)
+{
+    <P>Speler: @result.Username</P>
+    <p>bpm: @result.Speed</p>
+    <p>nauwkeurigheid: @result.Accuracy%</p>
+    <p>score: @result.Total</p>
+}
+else
+{
+    <p>Resultaat wordt geladen...</p>
+}
