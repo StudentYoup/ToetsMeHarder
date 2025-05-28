@@ -112,6 +112,17 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
+            foreach (List<NoteBlock> noteList in _blockMap.Values)
+            {
+                foreach (NoteBlock note in noteList)
+                {
+                    if (note.CurrentState == NoteBlock.NoteState.CanBeHit && pressedKeys.ContainsKey(note.Key))
+                    {
+                        note.CurrentState = NoteBlock.NoteState.Hit;
+                    }
+                }
+            }
+            StateHasChanged();
         }
 
     }
