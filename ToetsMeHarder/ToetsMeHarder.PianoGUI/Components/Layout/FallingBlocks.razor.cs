@@ -53,7 +53,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 {
                     _blockMap[block.Key].Add(block);
                     double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
+                    double triggerEnterMs = totalTravelMs * .95; //hitbox van 10%
                     _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
                 beats += 0.5;
@@ -119,12 +119,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
                             NoteBlock.NoteState.CanBeHit);
-
             if (canBeHit != null)
             {
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
                 StateHasChanged();
             }
+
 
         }
 
