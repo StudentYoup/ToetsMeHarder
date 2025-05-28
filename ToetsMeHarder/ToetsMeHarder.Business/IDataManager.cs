@@ -1,10 +1,11 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using MySqlConnector;
 
 namespace ToetsMeHarder.Business;
 
 public interface IDataManager
 {
-    public SqlConnection Connection { get; }
+    public MySqlConnection Connection { get; }
     public void Connect();
     public void Disconnect();
+    public void SetResult(Result r);
 }

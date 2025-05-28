@@ -12,7 +12,7 @@ public class SongManagerTest
     {
         bool eventFired = false;
         SongsManager.Instance.RegisterPropertyChangedFunction((object? sender,PropertyChangedEventArgs args)=>eventFired = true);
-        SongsManager.Instance.ChosenSong = new Songs("BOB", 120);
+        SongsManager.Instance.ChosenSong = new Songs("BOB", 120,1000,"A");
         Assert.That(eventFired, Is.True);
     }
 

@@ -14,10 +14,5 @@ namespace ToetsMeHarder.Business
         public int Speed;
         public int Total;
         public String SongTitle;
-
-
-
-    
-     
     }
 }

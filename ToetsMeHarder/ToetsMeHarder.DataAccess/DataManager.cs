@@ -1,30 +1,20 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using MySqlConnector;
 using ToetsMeHarder.Business;
 
 namespace ToetsMeHarder.DataAccess;
 
 public class DataManager : IDataManager
 {
-    public SqlConnection Connection { get; private set;}
-    public async void Connect()
-    {
-        SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder()
-        {
-            DataSource = "192.168.1.10",
-            UserID = "ToetsMeHarder",
-            Password = "Welkom01!",
-            InitialCatalog = "ToetsMeHarder",
-        };
-        
-        string connectionString = builder.ConnectionString;
+    public MySqlConnection Connection { get; private set;}
 
+    public void Connect()
+    {
         try
         {
-            await using SqlConnection connection = new SqlConnection(connectionString);
-            Connection = connection;
-            await Connection.OpenAsync();
+            Connection = new MySqlConnection("server=192.168.1.10;database=ToetsMeHarder;user=ToetsMeHarder;password=Welkom01!");
+            Connection.Open();
         }
-        catch (SqlException e)
+        catch (MySqlException e)
         {
             Console.WriteLine($"SQL ERROR: {e.Message}");
         }
@@ -33,8 +23,28 @@ public class DataManager : IDataManager
             Console.WriteLine(e.ToString());
         }
     }
-    public async void Disconnect()
+
+    public void Disconnect()
     {
-        await Connection.CloseAsync();
+         Connection.Close();
+    }
+
+    public async void SetResult(Result r)
+    {
+        if (Connection == null) return;
+        
+        try
+        {
+            string queery = $"INSERT INTO toetsmeharder.result (`Username`, `Song`, `Accuracy`, `Speed`, `Total`) VALUES ({r.Username},{r.SongID},{r.Accuracy},{r.Speed},{r.Total});";
+            await using var command = new MySqlCommand(queery, Connection);
+        }
+        catch (MySqlException e)
+        {
+            Console.WriteLine($"SQL ERROR: {e.Message}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+        }
     }
 }
