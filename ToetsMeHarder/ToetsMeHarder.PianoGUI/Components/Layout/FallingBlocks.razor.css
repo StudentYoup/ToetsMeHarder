@@ -1,98 +1,103 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .top {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 50px;
-    background-color: #131313;
-    height: 20%;
-    width: 100%;
-    color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 50px;
+  background-color: #131313;
+  height: 20%;
+  width: 100%;
+  color: white;
 }
 
 .middle {
-    display: block;
-    background-color: #808080;
-    height: 50%;
-    width: 100%;
+  display: block;
+  background-color: #808080;
+  height: 50%;
+  width: 100%;
 }
 
 .bottem {
-    display: block;
-    background-color: #5f0000;
-    height: 30%;
-    width: 100%;
+  display: block;
+  background-color: #5f0000;
+  height: 30%;
+  width: 100%;
 }
 
 div {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .bar-container {
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 50vh;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 50vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
 }
 
 .vertical-bar-white {
-    height: 100%;
-    flex: 1;
-    z-index: 1;
-    border: 1px solid #000;
-    color: white;
-    background: white;
+  height: 100%;
+  flex: 1;
+  z-index: 1;
+  border: 1px solid #000;
+  color: white;
+  background: white;
 }
 
 .vertical-bar-black {
-    height: 100%;
-    width: 2em;
-    margin: 0 0 0 -1em;
-    z-index: 2;
-    border: 1px solid #000;
-    color : white;
-    background: black;
+  height: 100%;
+  width: 2em;
+  margin: 0 0 0 -1em;
+  z-index: 2;
+  border: 1px solid #000;
+  color: white;
+  background: black;
 }
 
 .falling-block {
-    width: 100%;
-    height: 10%;
-    background-color: rgb(20, 0, 169);
-    position: absolute;
-    top: 0px;
-    border-radius: 4px;
-    animation: fall var(--fall-duration) linear forwards paused;
-    color: red;
-    font-size: 35px;
+  width: 100%;
+  height: 10%;
+  background-color: rgb(20, 0, 169);
+  position: absolute;
+  top: 0px;
+  border-radius: 4px;
+  animation: fall var(--fall-duration) linear forwards paused;
+  color: red;
+  font-size: 35px;
 }
 
 /*start and end of animation*/
 @keyframes fall {
-    0% {
-        top: 0%;
-    }
+  0% {
+    top: 0%;
+  }
 
-    100% {
-        top: 100%;
-    }
+  100% {
+    top: 100%;
+  }
 }
-
 
 .trigger-line {
   position: absolute;
   top: 85%;
   width: 100%;
-  height: 4px;              
+  height: 4px;
   background-color: red;
   z-index: 69;
-
+}
+.hit {
+  background-color: green;
+}
+.miss {
+  background-color: red;
 }
