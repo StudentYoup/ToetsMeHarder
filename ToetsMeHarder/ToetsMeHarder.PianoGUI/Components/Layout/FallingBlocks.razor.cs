@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Microsoft.IdentityModel.Tokens;
+using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
 
@@ -104,12 +105,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 default:
                     return "";
             }
-            
+
         }
 
-        public void CheckKeyPress(KeyValue pressedKey)
+        public void CheckKeyPress(Dictionary<KeyValue, IAudioPlayer> pressedKeys)
         {
-
+            //voor elke noot in het liedje moeten  checken of hij in de lijst zit
+            //&& hij moet op CanBeHit state zijn
         }
 
     }
