@@ -90,6 +90,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             switch (state)
             {
                 case NoteBlock.NoteState.Hit:
+                case NoteBlock.NoteState.CanBeHit:
                     return "hit";
                 case NoteBlock.NoteState.Miss:
                     return "miss";
