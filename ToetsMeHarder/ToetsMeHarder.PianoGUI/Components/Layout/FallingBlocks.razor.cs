@@ -24,7 +24,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             base.OnInitialized();
             SongsManager.Instance.RegisterPropertyChangedFunction(HandleSongChanged);
-
             // Randomly populate each bar with block IDs (just for demo)
             foreach (KeyValue key in Keys)
             {
