@@ -1,18 +1,29 @@
 @using ToetsMeHarder.Business
 @using ToetsMeHarder.Business.FallingBlocks
 @using ToetsMeHarder.PianoGUI.Components.Layout
-<div class="bar-container">
-    @foreach (var key in Keys)
-    {
-        <div class="trigger-line"></div>
-        <div class="@CreateCSSClass(key.ToString())">
-            @foreach (var block in _blockMap[key])
-            {
-                <div class="falling-block"
+@using ToetsMeHarder.Business.SongsComponent
+
+@if(selectedSong != null)
+{
+    <div class="bar-container">
+        @foreach (var key in Keys)
+        {
+            <div class="trigger-line"></div>
+            <div class="@CreateCSSClass(key.ToString())">
+                @foreach (var block in _blockMap[key])
+                {
+                    <div class="falling-block"
                     style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
                     --fall-duration: @_fallDuration;">
-                </div>
-            }
-        </div>
-    }
-</div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="bar-container">
+        <p class="no-song-text">Geen liedje geselecteerd, Liedjes->(Kies Liedje)</p>
+    </div>
+}
