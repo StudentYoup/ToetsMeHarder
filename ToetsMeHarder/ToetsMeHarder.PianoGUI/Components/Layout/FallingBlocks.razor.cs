@@ -51,8 +51,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .95; //hitbox van 10%
+                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.75; //10% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
+                    double triggerEnterMs = totalTravelMs * .90; //hitbox van 10%
                     _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
                 beats += 0.5;
@@ -103,6 +103,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     return "hit";
                 case NoteBlock.NoteState.Miss:
                     return "miss";
+                case NoteBlock.NoteState.CanBeHit:
+                    return "can-be-hit";
                 default:
                     return "";
             }
@@ -123,8 +125,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
                 StateHasChanged();
             }
-
-
         }
 
     }

@@ -98,6 +98,11 @@ div {
 .hit {
   background-color: green;
 }
+
 .miss {
   background-color: red;
+}
+
+.can-be-hit{
+    background-color:orange;
 }
