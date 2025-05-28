@@ -19,9 +19,11 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private string _fallDuration => $"{300 / Metronome.BPM}s"; // 5 beats in de toekomst kijken
         private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         private const int MINUTE = 60_000;
+        private Songs selectedSong = null;
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            SongsManager.Instance.RegisterPropertyChangedFunction(HandleSongChanged);
 
             // Randomly populate each bar with block IDs (just for demo)
             foreach (KeyValue key in Keys)
@@ -29,6 +31,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 _blockMap[key] = new List<NoteBlock>();
             }
             Metronome.Beat += OnBeat;
+        }
+
+        private void HandleSongChanged(object sender, EventArgs e)
+        {
+            selectedSong = SongsManager.Instance.ChosenSong;
+            StateHasChanged();
         }
 
         private void OnBeat(object? sender, EventArgs e)
