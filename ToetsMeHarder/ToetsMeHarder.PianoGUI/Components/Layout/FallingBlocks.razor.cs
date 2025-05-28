@@ -49,7 +49,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
+                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
                     double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                     _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
                 }
@@ -69,19 +69,27 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             await Task.Delay(enterDelay);
             OnTriggerEntry(block);
+            StateHasChanged();
+
             await Task.Delay(exitDelay - enterDelay);
             OnTriggerExit(block);
+            StateHasChanged();
+
         }
 
         private void OnTriggerEntry(NoteBlock noteBlock)
         {
             noteBlock.CurrentState = NoteBlock.NoteState.CanBeHit;
+            StateHasChanged();
+
         }
         private void OnTriggerExit(NoteBlock noteBlock)
         {
             if (noteBlock.CurrentState != NoteBlock.NoteState.Hit)
             {
                 noteBlock.CurrentState = NoteBlock.NoteState.Miss;
+                StateHasChanged();
+
             }
         }
 
@@ -97,6 +105,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 default:
                     return "";
             }
+            
         }
 
         public void CheckKeyPress(KeyValue pressedKey)
