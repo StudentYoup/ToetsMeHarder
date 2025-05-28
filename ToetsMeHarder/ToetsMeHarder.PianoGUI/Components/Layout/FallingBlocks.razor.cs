@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
+using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.SongsComponent;
@@ -10,7 +11,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
     public partial class FallingBlocks
     {
         public static FallingBlocks instance;
-
         [Inject]
         public MetronomeService Metronome { get; set; } = default!;
 
@@ -18,7 +18,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private int _numberOfBars = 40;
         private double beats = 0;
         private KeyValue key = new KeyValue();
-        private string _fallDuration => $"{300 / Metronome.BPM}s"; // 5 beats in de toekomst kijken
+        private string _fallDuration => $"{5 * (MINUTE / (Metronome.BPM)) }ms"; // 5 beats in de toekomst kijken
         private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         private const int MINUTE = 60_000;
         private Songs? selectedSong = null;
@@ -48,25 +48,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             InvokeAsync(async () =>
             {
-                foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
-                {
-                    _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
-                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
-                }
+                CalculateFallingBlock();
+
                 beats += 0.5;
                 StateHasChanged();
 
                 await Task.Delay(MINUTE / Metronome.BPM / 2);
 
-                foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
-                {
-                    _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
-                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
-                }
+                CalculateFallingBlock();
+
                 beats += 0.5;
                 StateHasChanged();
 
@@ -83,6 +73,16 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 }
             });
         }
+        private void CalculateFallingBlock()
+        {
+            foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
+            {
+                _blockMap[block.Key].Add(block);
+                double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; // triggerlijn op 85%
+                double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
+                _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
+            }
+        }
 
 
         private string CreateCSSClass(string key) //create classes for bars above white and above black keys
@@ -94,19 +94,63 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private async Task TrackTrigger(NoteBlock block, int enterDelay, int exitDelay)
         {
             await Task.Delay(enterDelay);
-            OnTriggerEntry(block.Id);
+            OnTriggerEntry(block);
+            StateHasChanged();
+
             await Task.Delay(exitDelay - enterDelay);
-            OnTriggerExit(block.Id);
+            OnTriggerExit(block);
+            StateHasChanged();
+
         }
 
-        private void OnTriggerEntry(int blockId)
+        private void OnTriggerEntry(NoteBlock noteBlock)
         {
-            Debug.WriteLine($"{blockId} IN TRIGGER ZONE LIJN");
+            noteBlock.CurrentState = NoteBlock.NoteState.CanBeHit;
+            StateHasChanged();
+
         }
-        private void OnTriggerExit(int blockId)
+        private void OnTriggerExit(NoteBlock noteBlock)
         {
-            Debug.WriteLine($"{blockId} UIT TRIGGER ZONE LIJN");
+            if (noteBlock.CurrentState != NoteBlock.NoteState.Hit)
+            {
+                noteBlock.CurrentState = NoteBlock.NoteState.Miss;
+                StateHasChanged();
+            }
         }
+
+        private string GetNoteClass(NoteBlock.NoteState state)
+        {
+            switch (state)
+            {
+                case NoteBlock.NoteState.Hit:
+                    return "hit";
+                case NoteBlock.NoteState.CanBeHit:
+                    return "can-be-hit";
+                case NoteBlock.NoteState.Miss:
+                    return "miss";
+                default:
+                    return "";
+            }
+        }
+
+        public void CheckKeyPress(KeyValue pressedKey)
+        {
+            //voor elke noot in het liedje moeten  checken of hij in de lijst zit
+            //&& hij moet op CanBeHit state zijn
+            if (!_blockMap.ContainsKey(pressedKey)) return;
+
+            var canBeHit = _blockMap[pressedKey]
+                            .FirstOrDefault(note => note.CurrentState ==
+                            NoteBlock.NoteState.CanBeHit);
+            if (canBeHit != null)
+            {
+                canBeHit.CurrentState = NoteBlock.NoteState.Hit;
+                StateHasChanged();
+            }
+
+
+        }
+
         public void Retry()
         {
             SongsManager.Instance.ChosenSong = lastSong;

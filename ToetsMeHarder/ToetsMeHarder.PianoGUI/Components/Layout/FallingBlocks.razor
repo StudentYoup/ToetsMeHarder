@@ -12,7 +12,7 @@
             <div class="@CreateCSSClass(key.ToString())">
                 @foreach (var block in _blockMap[key])
                 {
-                    <div class="falling-block"
+                    <div class="falling-block @(GetNoteClass(block.CurrentState))"
                     style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
                     --fall-duration: @_fallDuration;">
                     </div>
