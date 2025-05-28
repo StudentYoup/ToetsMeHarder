@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
+using Microsoft.IdentityModel.Tokens;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
 
@@ -67,18 +68,50 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private async Task TrackTrigger(NoteBlock block, int enterDelay, int exitDelay)
         {
             await Task.Delay(enterDelay);
-            OnTriggerEntry(block.Id);
+            OnTriggerEntry(block);
             await Task.Delay(exitDelay - enterDelay);
-            OnTriggerExit(block.Id);
+            OnTriggerExit(block);
         }
 
-        private void OnTriggerEntry(int blockId)
+        private void OnTriggerEntry(NoteBlock noteBlock)
         {
-            Debug.WriteLine($"{blockId} IN TRIGGER ZONE LIJN");
+            noteBlock.CurrentState = NoteBlock.NoteState.CanBeHit;
         }
-        private void OnTriggerExit(int blockId)
+        private void OnTriggerExit(NoteBlock noteBlock)
         {
-            Debug.WriteLine($"{blockId} UIT TRIGGER ZONE LIJN");
+            if (noteBlock.CurrentState != NoteBlock.NoteState.Hit)
+            {
+                noteBlock.CurrentState = NoteBlock.NoteState.Miss;
+            }
         }
+
+        private string GetNoteClass(NoteBlock.NoteState state)
+        {
+            switch (state)
+            {
+                case NoteBlock.NoteState.Hit:
+                    return "hit";
+                case NoteBlock.NoteState.Miss:
+                    return "miss";
+                default:
+                    return "";
+            }
+        }
+
+        public void CheckKeyPress(KeyValue pressedKey)
+        {
+            var activeNotes = _blockMap[pressedKey]
+                              .Where(note => note.CurrentState == NoteBlock.NoteState.CanBeHit)
+                              .ToList();
+
+            if (!activeNotes.IsNullOrEmpty())
+            {
+                foreach (NoteBlock note in activeNotes)
+                {
+                    note.CurrentState = NoteBlock.NoteState.Hit;
+                }
+            }
+        }
+
     }
 }
