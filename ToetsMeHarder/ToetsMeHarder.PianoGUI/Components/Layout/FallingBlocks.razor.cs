@@ -108,18 +108,18 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         }
 
-        public void CheckKeyPress(Dictionary<KeyValue, IAudioPlayer> pressedKeys)
+        public void CheckKeyPress(KeyValue pressedKey)
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
-            var canBeHit = _blockMap.Values
-                        .SelectMany(list => list)
-                        .Where(note => note.CurrentState == NoteBlock.NoteState.CanBeHit
-                                       && pressedKeys.ContainsKey(note.Key));
+            var canBeHit = _blockMap[pressedKey]
+                            .FirstOrDefault(note => note.CurrentState ==
+                            NoteBlock.NoteState.CanBeHit);
 
-            foreach (NoteBlock note in canBeHit)
+            if (canBeHit != null)
             {
-                note.CurrentState = NoteBlock.NoteState.Hit;
+                canBeHit.CurrentState = NoteBlock.NoteState.Hit;
+                StateHasChanged();
             }
 
         }

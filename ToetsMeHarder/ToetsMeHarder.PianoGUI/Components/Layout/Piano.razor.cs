@@ -126,7 +126,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 PlayNote(noteKeyVal);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", _pianoKeys[e.Key].ToString());
-                fallingBlocks.CheckKeyPress(_pressedKeys);
+                fallingBlocks.CheckKeyPress(_pianoKeys[e.Key]);
             }
         }
         public void HandleKeyUp(KeyboardEventArgs e)
