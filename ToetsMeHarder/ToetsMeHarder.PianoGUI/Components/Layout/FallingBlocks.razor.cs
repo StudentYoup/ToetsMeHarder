@@ -9,7 +9,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class FallingBlocks
     {
-
+        public static FallingBlocks instance;
         [Inject]
         public MetronomeService Metronome { get; set; } = default!;
 
@@ -23,6 +23,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         protected override void OnInitialized()
         {
             base.OnInitialized();
+
+            instance = this;
 
             // Randomly populate each bar with block IDs (just for demo)
             foreach (KeyValue key in Keys)
@@ -112,6 +114,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
+            if (!_blockMap.ContainsKey(pressedKey)) return;
+
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
                             NoteBlock.NoteState.CanBeHit);
