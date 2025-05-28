@@ -76,7 +76,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     Home.Instance.resultPopUp = true;
                     Metronome.Stop();
                     lastSong = selectedSong;
-                    selectedSong = null;
+                    SongsManager.Instance.ChosenSong = null;
                     beats = 0;
 
                     StateHasChanged();
@@ -109,7 +109,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         }
         public void Retry()
         {
-            selectedSong = lastSong;
+            SongsManager.Instance.ChosenSong = lastSong;
             Home.Instance.resultPopUp = false;
             StateHasChanged();
         }

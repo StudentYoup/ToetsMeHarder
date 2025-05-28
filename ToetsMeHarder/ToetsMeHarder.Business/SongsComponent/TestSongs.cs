@@ -12,6 +12,7 @@ namespace ToetsMeHarder.Business.SongsComponent
         private static List<Songs> Songs = new List<Songs>();
         public static List<Songs> GetTestSongs()
         {
+            Songs.Clear();
             Songs.Add(CreateSong1());
             return Songs;
         }

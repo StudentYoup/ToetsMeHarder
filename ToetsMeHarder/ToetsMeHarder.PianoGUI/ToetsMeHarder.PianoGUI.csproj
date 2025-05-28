@@ -64,6 +64,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="Components\Pages\SongsSelectionMenu.razor.css" />
+    </ItemGroup>
+
+    <ItemGroup>
      <!-- Dit is voor het geluidje van de metronoom -->
         <MauiAsset Include="Resources/Sound/metronoom.mp3" />
     </ItemGroup>
@@ -78,10 +82,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ToetsMeHarder.Business\ToetsMeHarder.Business.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="wwwroot\css\Menus.css" />
     </ItemGroup>
 
 </Project>

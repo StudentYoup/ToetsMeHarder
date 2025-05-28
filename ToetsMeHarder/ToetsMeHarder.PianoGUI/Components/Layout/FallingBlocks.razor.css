@@ -41,6 +41,7 @@ div {
     padding: 0;
     overflow: hidden;
     position: relative;
+    background-color: #2D3E48;
 }
 
 .vertical-bar-white {
@@ -48,7 +49,7 @@ div {
     flex: 1;
     z-index: 1;
     color: white;
-    background: #808080;
+    background: #33444E;
     position: relative;
     border-left: 1px solid black;
 }
@@ -59,7 +60,7 @@ div {
     margin: 0 0 0 -1em;
     z-index: 2;
     color: white;
-    background: #707070;
+    background: #2D3E48;
     position: relative;
     border-left: 1px solid black;
 }
@@ -96,15 +97,13 @@ div {
   height: 4px;              
   background-color: dodgerblue;
   z-index: 69;
-
 }
 
 .no-song-text {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 24px;
+    width: 100%;
+    color: gray;
+    font-style: italic;
+    font-size: 12px;
     text-align: center;
+    margin: auto;
 }
