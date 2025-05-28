@@ -20,6 +20,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
             set
             {
                 _resultPopUp = value;
+                StateHasChanged();
             }
         }
 

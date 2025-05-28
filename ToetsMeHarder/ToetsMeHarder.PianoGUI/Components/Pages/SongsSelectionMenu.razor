@@ -1,9 +1,11 @@
 ﻿@page "/LiedjesKeuzeMenu"
 @using PianoGUI.Components.Pages
-
-@inherits SongsSelectionMenu_razor
+@using ToetsMeHarder.Business.SongsComponent
 
 <button @onclick="Close" class="exitButton">X</button>
 <div id="Menu">
-    <button class="MenuButtons" @onclick="SetSong">Test Lied</button>
+    @foreach (Songs song in _songList)
+    {  
+        <button class="MenuButtons" @onclick="() => SetSong(song)">@song.Name</button>
+    }
 </div>

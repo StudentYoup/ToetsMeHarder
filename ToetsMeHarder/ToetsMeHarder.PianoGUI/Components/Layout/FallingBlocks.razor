@@ -6,7 +6,6 @@
 @if(selectedSong != null)
 {
     <div class="bar-container">
-
         @foreach (var key in Keys)
         {
             <div class="trigger-line"></div>
@@ -21,12 +20,10 @@
             </div>
         }
     </div>
-
-
 }
 else
 {
-        <div class="bar-container">
-            <p class="no-song-text">No song selected</p>
-        </div>
+    <div class="bar-container">
+        <p class="no-song-text">No song selected</p>
+    </div>
 }

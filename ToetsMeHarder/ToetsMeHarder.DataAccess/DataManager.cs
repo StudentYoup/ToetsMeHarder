@@ -6,7 +6,6 @@ namespace ToetsMeHarder.DataAccess;
 public class DataManager : IDataManager
 {
     public SqlConnection Connection { get; private set;}
-
     public async void Connect()
     {
         SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder()
@@ -34,7 +33,6 @@ public class DataManager : IDataManager
             Console.WriteLine(e.ToString());
         }
     }
-
     public async void Disconnect()
     {
         await Connection.CloseAsync();
