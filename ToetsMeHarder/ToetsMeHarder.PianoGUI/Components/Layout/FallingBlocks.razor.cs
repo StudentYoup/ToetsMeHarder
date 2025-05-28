@@ -119,10 +119,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     if (note.CurrentState == NoteBlock.NoteState.CanBeHit && pressedKeys.ContainsKey(note.Key))
                     {
                         note.CurrentState = NoteBlock.NoteState.Hit;
+                        StateHasChanged();
                     }
                 }
             }
-            StateHasChanged();
         }
 
     }
