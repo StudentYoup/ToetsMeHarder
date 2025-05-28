@@ -63,7 +63,7 @@
 		<div class="popup">
 			<div>
 				<h1>Liedjes</h1>
-				<SongChosen="@OnSongChanged" />
+				<SongsSelectionMenu SongChosen="@OnSongChanged"/>
 				<button class="closeBtn" @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Sluit</button>
 			</div>
 		</div>

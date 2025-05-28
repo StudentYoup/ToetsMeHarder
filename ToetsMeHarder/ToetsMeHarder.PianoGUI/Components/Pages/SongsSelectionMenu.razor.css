@@ -1,8 +1,12 @@
-﻿.Menu{
-	height: 80%;
-	width: 90%;
+﻿﻿.Menu {
+    height: 50%;
+    width: 90%;
+    margin: auto;
 }
-.MenuButtons{
-	height: 16px;
-	width: 50%;
+
+.MenuButtons {
+    height: 30px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid black;
 }

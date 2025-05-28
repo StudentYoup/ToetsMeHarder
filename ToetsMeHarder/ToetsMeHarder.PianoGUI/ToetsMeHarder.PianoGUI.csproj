@@ -64,10 +64,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Components\Pages\SongsSelectionMenu.razor.css" />
-    </ItemGroup>
-
-    <ItemGroup>
      <!-- Dit is voor het geluidje van de metronoom -->
         <MauiAsset Include="Resources/Sound/metronoom.mp3" />
     </ItemGroup>
