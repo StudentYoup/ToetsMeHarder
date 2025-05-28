@@ -116,7 +116,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
 
         [Inject] private IJSRuntime? JSRuntime { get; set; }
-        //[Inject] private FallingBlocks fallingBlocks { get; set; }
+        [Inject] private FallingBlocks fallingBlocks { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
         {
             if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(_pianoKeys[e.Key]))
@@ -126,7 +126,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 PlayNote(noteKeyVal);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", _pianoKeys[e.Key].ToString());
-                //fallingBlocks.CheckKeyPress(noteKeyVal);
+                fallingBlocks.CheckKeyPress(noteKeyVal);
             }
         }
         public void HandleKeyUp(KeyboardEventArgs e)

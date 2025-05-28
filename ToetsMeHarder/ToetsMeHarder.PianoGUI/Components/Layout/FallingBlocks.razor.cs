@@ -98,7 +98,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             switch (state)
             {
                 case NoteBlock.NoteState.Hit:
-                case NoteBlock.NoteState.CanBeHit:
                     return "hit";
                 case NoteBlock.NoteState.Miss:
                     return "miss";
@@ -110,17 +109,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         public void CheckKeyPress(KeyValue pressedKey)
         {
-            var activeNotes = _blockMap[pressedKey]
-                              .Where(note => note.CurrentState == NoteBlock.NoteState.CanBeHit)
-                              .ToList();
 
-            if (!activeNotes.IsNullOrEmpty())
-            {
-                foreach (NoteBlock note in activeNotes)
-                {
-                    note.CurrentState = NoteBlock.NoteState.Hit;
-                }
-            }
         }
 
     }

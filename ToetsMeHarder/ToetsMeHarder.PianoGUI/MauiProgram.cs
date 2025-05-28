@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.Midi;
+using ToetsMeHarder.PianoGUI.Components.Layout;
 namespace ToetsMeHarder.PianoGUI;
 
 
@@ -31,6 +33,8 @@ public static class MauiProgram
 
         //Midi
         builder.Services.AddSingleton<MidiService>();
+
+		builder.Services.TryAddSingleton<FallingBlocks>();
 		
 
         return builder.Build();
