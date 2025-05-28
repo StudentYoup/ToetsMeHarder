@@ -29,7 +29,6 @@ body {
   height: 30%;
   width: 100%;
 }
-
 div {
   overflow: hidden;
 }
@@ -37,21 +36,23 @@ div {
 .bar-container {
   display: flex;
   flex-direction: row;
-  width: 100vw;
+  width: 100%;
   height: 50vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
   position: relative;
+  background-color: #2d3e48;
 }
 
 .vertical-bar-white {
   height: 100%;
   flex: 1;
   z-index: 1;
-  border: 1px solid #000;
   color: white;
-  background: white;
+  background: #33444e;
+  position: relative;
+  border-left: 1px solid black;
 }
 
 .vertical-bar-black {
@@ -59,18 +60,20 @@ div {
   width: 2em;
   margin: 0 0 0 -1em;
   z-index: 2;
-  border: 1px solid #000;
   color: white;
-  background: black;
+  background: #2d3e48;
+  position: relative;
+  border-left: 1px solid black;
 }
 
 .falling-block {
   width: 100%;
   height: 10%;
-  background-color: rgb(20, 0, 169);
+  background-color: dodgerblue;
   position: absolute;
   top: 0px;
-  border-radius: 4px;
+  left: 0px;
+  border-radius: 5px 5px;
   animation: fall var(--fall-duration) linear forwards paused;
   color: red;
   font-size: 35px;
@@ -95,6 +98,7 @@ div {
   background-color: red;
   z-index: 69;
 }
+
 .hit {
   background-color: green;
 }
@@ -103,6 +107,15 @@ div {
   background-color: red;
 }
 
-.can-be-hit{
-    background-color:orange;
+.can-be-hit {
+  background-color: orange;
+}
+
+.no-song-text {
+  width: 100%;
+  color: gray;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+  margin: auto;
 }

@@ -27,7 +27,7 @@ li {
 ul .white {
   height: 100%;
   flex: 1;
-  z-index:1;
+  z-index: 1;
   border-left:1px solid #bbb;
   border-bottom:1px solid #bbb;
   border-radius:0 0 5px 5px;

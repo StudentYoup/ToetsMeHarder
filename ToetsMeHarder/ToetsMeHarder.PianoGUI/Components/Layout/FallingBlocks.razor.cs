@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
+using ToetsMeHarder.Business.SongsComponent;
+using ToetsMeHarder.PianoGUI.Components.Pages;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
@@ -19,12 +21,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private string _fallDuration => $"{300 / Metronome.BPM}s"; // 5 beats in de toekomst kijken
         private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         private const int MINUTE = 60_000;
+        private Songs? selectedSong = null;
+        private Songs? lastSong = null;
         protected override void OnInitialized()
         {
             base.OnInitialized();
-
             instance = this;
-
+            SongsManager.Instance.RegisterPropertyChangedFunction(HandleSongChanged);
             // Randomly populate each bar with block IDs (just for demo)
             foreach (KeyValue key in Keys)
             {
@@ -33,11 +36,19 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             Metronome.Beat += OnBeat;
         }
 
+        private void HandleSongChanged(object sender, EventArgs e)
+        {
+            selectedSong = SongsManager.Instance.ChosenSong;
+            StateHasChanged();
+        }
+
         private void OnBeat(object? sender, EventArgs e)
         {
+            if (selectedSong == null) return;
+
             InvokeAsync(async () =>
             {
-                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
+                foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
                     double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
@@ -46,9 +57,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 }
                 beats += 0.5;
                 StateHasChanged();
+
                 await Task.Delay(MINUTE / Metronome.BPM / 2);
 
-                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
+                foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
                 {
                     _blockMap[block.Key].Add(block);
                     double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
@@ -57,6 +69,18 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 }
                 beats += 0.5;
                 StateHasChanged();
+
+                if (beats >= selectedSong.Duration)
+                {
+                    //popup weergeven einde liedje
+                    Home.Instance.resultPopUp = true;
+                    Metronome.Stop();
+                    lastSong = selectedSong;
+                    SongsManager.Instance.ChosenSong = null;
+                    beats = 0;
+
+                    StateHasChanged();
+                }
             });
         }
 
@@ -127,5 +151,11 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         }
 
+        public void Retry()
+        {
+            SongsManager.Instance.ChosenSong = lastSong;
+            Home.Instance.resultPopUp = false;
+            StateHasChanged();
+        }
     }
 }

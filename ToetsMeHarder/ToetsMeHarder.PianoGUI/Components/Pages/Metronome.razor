@@ -5,12 +5,13 @@
     <h2>Metronoom</h2>
 
     <div class="bpm-controls">
-        <button @onclick="DecreaseBpm">▼</button>
         <input @bind="BpmText" @bind:event="onchange" /> 
-        <button @onclick="IncreaseBpm">▲</button>
+        <div class="arrows">
+            <button @onclick="IncreaseBpm">▲</button>
+            <button @onclick="DecreaseBpm">▼</button>
+        </div>
+        <button class="toggle-button" @onclick="ToggleMetronome">
+            @(Metronome.IsRunning ? "Stop" : "Start")
+        </button>
     </div>
-
-    <button class="toggle-button" @onclick="ToggleMetronome">
-        @(Metronome.IsRunning ? "Stop" : "Start")
-    </button>
 </div>
