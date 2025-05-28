@@ -18,7 +18,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private int _numberOfBars = 40;
         private double beats = 0;
         private KeyValue key = new KeyValue();
-        private string _fallDuration => $"{300 / Metronome.BPM}s"; // 5 beats in de toekomst kijken
+        private string _fallDuration => $"{5 * (MINUTE / (Metronome.BPM)) }ms"; // 5 beats in de toekomst kijken
         private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         private const int MINUTE = 60_000;
         private Songs? selectedSong = null;
@@ -48,25 +48,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             InvokeAsync(async () =>
             {
-                foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
-                {
-                    _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
-                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
-                }
+                CalculateFallingBlock();
+
                 beats += 0.5;
                 StateHasChanged();
 
                 await Task.Delay(MINUTE / Metronome.BPM / 2);
 
-                foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
-                {
-                    _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
-                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
-                }
+                CalculateFallingBlock();
+
                 beats += 0.5;
                 StateHasChanged();
 
@@ -82,6 +72,16 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     StateHasChanged();
                 }
             });
+        }
+        private void CalculateFallingBlock()
+        {
+            foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
+            {
+                _blockMap[block.Key].Add(block);
+                double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; // triggerlijn op 85%
+                double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
+                _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
+            }
         }
 
 
