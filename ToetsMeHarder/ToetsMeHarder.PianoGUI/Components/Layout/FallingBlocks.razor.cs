@@ -23,6 +23,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private const int MINUTE = 60_000;
         private Songs? selectedSong = null;
         private Songs? lastSong = null;
+        private ToetsMeHarder.Business.Result currentResult = new ToetsMeHarder.Business.Result();
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -115,6 +116,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 noteBlock.CurrentState = NoteBlock.NoteState.Miss;
                 StateHasChanged();
+                currentResult.Misses++;
             }
         }
 
@@ -137,7 +139,11 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
-            if (!_blockMap.ContainsKey(pressedKey)) return;
+            if (!_blockMap.ContainsKey(pressedKey))
+            {
+                currentResult.Misses++;
+                return;
+            }
 
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
@@ -145,6 +151,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (canBeHit != null)
             {
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
+                currentResult.Hits++;
                 StateHasChanged();
             }
 

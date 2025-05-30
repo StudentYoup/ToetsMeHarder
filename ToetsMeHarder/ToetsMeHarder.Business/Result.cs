@@ -8,11 +8,12 @@ namespace ToetsMeHarder.Business
 {
     public class Result
     {
-       public String Username;
-        public int SongID;
+       public string Username;
+        public string SongTitle;
+        public int TotalNotes;
+        public int BPM;
+        public int Hits = 0;
+        public int Misses = 0;
         public int Accuracy;
-        public int Speed;
-        public int Total;
-        public String SongTitle;
     }
 }
