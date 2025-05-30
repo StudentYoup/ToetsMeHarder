@@ -1,9 +1,16 @@
 ﻿@using ToetsMeHarder.PianoGUI.Components.Layout
+@page "/result"
 
-<h3>Resultaat lied: (placeholder)</h3>
-<p>bpm: (placeholder)</p>
-<p>score: (placeholder)</p>
-<p>score: (placeholder)</p>
+<div>
+    <p><strong>Songtitel:</strong> @_result.SongTitle</p>
+    <p><strong>Totaal noten:</strong> @_result.TotalNotes</p>
+    <p><strong>BPM:</strong> @_result.BPM</p>
+    <p><strong>Hits:</strong> @_result.Hits</p>
+    <p><strong>Misses:</strong> @_result.Misses</p>
+    <p><strong>Accuracy:</strong>@(CalculateAccuracy())%</p
+    
+</div>
+
 
 <button @onclick="() => FallingBlocks.instance.Retry()">Opnieuw</button>
 

@@ -23,7 +23,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private const int MINUTE = 60_000;
         private Songs? selectedSong = null;
         private Songs? lastSong = null;
-        private ToetsMeHarder.Business.Result currentResult = new ToetsMeHarder.Business.Result();
+        public ToetsMeHarder.Business.Result CurrentResult = new ToetsMeHarder.Business.Result();
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -40,6 +40,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private void HandleSongChanged(object sender, EventArgs e)
         {
             selectedSong = SongsManager.Instance.ChosenSong;
+            CurrentResult.SongTitle = selectedSong.Name;
+            CurrentResult.BPM = selectedSong.BPM;
+            CurrentResult.TotalNotes = selectedSong.NoteBlocks.Count;
             StateHasChanged();
         }
 
@@ -116,7 +119,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 noteBlock.CurrentState = NoteBlock.NoteState.Miss;
                 StateHasChanged();
-                currentResult.Misses++;
+                CurrentResult.Misses++;
             }
         }
 
@@ -139,11 +142,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
-            if (!_blockMap.ContainsKey(pressedKey))
-            {
-                currentResult.Misses++;
-                return;
-            }
+            CurrentResult.Misses++; // elke keer dat je toets is het mis, wanneer hij toch de juiste key blijkt te zijn later --
+            if (!_blockMap.ContainsKey(pressedKey)) return;
+            
 
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
@@ -151,7 +152,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (canBeHit != null)
             {
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
-                currentResult.Hits++;
+                CurrentResult.Hits++;
+                CurrentResult.Misses--;
                 StateHasChanged();
             }
 
@@ -163,6 +165,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             SongsManager.Instance.ChosenSong = lastSong;
             Home.Instance.resultPopUp = false;
             StateHasChanged();
+            CurrentResult = new();
         }
     }
 }
