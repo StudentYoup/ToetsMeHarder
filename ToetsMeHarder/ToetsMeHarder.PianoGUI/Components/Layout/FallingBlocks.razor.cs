@@ -142,8 +142,11 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
-            CurrentResult.Misses++; // elke keer dat je toets is het mis, wanneer hij toch de juiste key blijkt te zijn later --
-            if (!_blockMap.ContainsKey(pressedKey)) return;
+            if (!_blockMap.ContainsKey(pressedKey))
+            {
+                CurrentResult.Misses++; 
+                return;
+            }
             
 
             var canBeHit = _blockMap[pressedKey]
@@ -155,6 +158,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 CurrentResult.Hits++;
                 CurrentResult.Misses--;
                 StateHasChanged();
+            }
+            else
+            {
+                CurrentResult.Misses++;
             }
 
 
