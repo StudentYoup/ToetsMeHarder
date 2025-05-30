@@ -63,7 +63,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         }
 
-        private void Retry()
+        public void Retry()
         {
             SongsManager.Instance.ChosenSong = lastSong;
             Home.Instance.resultPopUp = false;
@@ -74,6 +74,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 _blockMap[key].Clear();
             }
         }
+
 
         private string GetNoteClass(NoteBlock.NoteState state)
         {
