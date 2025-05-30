@@ -39,6 +39,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private void HandleSongChanged(object sender, EventArgs e)
         {
             selectedSong = SongsManager.Instance.ChosenSong;
+            
+            foreach(List<NoteBlock> block in _blockMap.Values)
+            {
+                block.Clear();
+            }
+
             StateHasChanged();
         }
 
@@ -145,7 +151,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (canBeHit != null)
             {
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
-                StateHasChanged();
+                InvokeAsync(async () => { StateHasChanged(); });
             }
 
 
