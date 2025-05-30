@@ -5,8 +5,6 @@ using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.Midi;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout

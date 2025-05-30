@@ -9,10 +9,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
     public partial class Home
     {
         public static Home Instance { get; private set; }
-
-        //PopUps:
-        private bool _helpPopUp = false;
-        private bool _resultPopUp = false;
         public bool resultPopUp { get
             {
                 return _resultPopUp;
@@ -26,8 +22,18 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
 
         public bool _songPopUp = false;
 
+        //PopUps:
+        private bool _helpPopUp = false;
+        private bool _resultPopUp = false;
+        
+
         private ElementReference _wrapper;
         private Piano? _piano;
+        
+        public async Task FocusWrapper()
+        {
+            await _wrapper.FocusAsync();
+        }
 
         protected override void OnInitialized()
         {
@@ -35,11 +41,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
             SongsManager.Instance.RegisterPropertyChangedFunction(OnsongChanged);
             Home.Instance = this;
         }
-        
-        public async Task FocusWrapper()
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await _wrapper.FocusAsync();
+            if (firstRender)
+            {
+                await _wrapper.FocusAsync(); // focus op de piano wrapper bij eerste render
+            }
         }
+        
 
 
         private void OnsongChanged(object? sender, PropertyChangedEventArgs e)
@@ -51,14 +61,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         {
             _songPopUp = false;
             StateHasChanged(); // update UI
-        }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                await _wrapper.FocusAsync(); // focus op de piano wrapper bij eerste render
-            }
         }
         
         private void OnKeyDown(KeyboardEventArgs e)
