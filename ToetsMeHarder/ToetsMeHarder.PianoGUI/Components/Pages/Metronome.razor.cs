@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business.SongsComponent;
+using ToetsMeHarder.PianoGUI.Components.Pages;
+using System.Threading.Tasks;
 
 namespace ToetsMeHarder.PianoGUI.Pages
 {
@@ -67,12 +69,13 @@ namespace ToetsMeHarder.PianoGUI.Pages
 
         protected void DecreaseBpm() => Metronome.BPM--;
 
-        protected void ToggleMetronome()
+        protected async Task ToggleMetronome()
         {
             if (Metronome.IsRunning)
                 Metronome.Stop();
             else
                 Metronome.Start();
+            await Home.Instance.FocusWrapper();
         }
     }
 }

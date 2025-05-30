@@ -35,10 +35,16 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
             SongsManager.Instance.RegisterPropertyChangedFunction(OnsongChanged);
             Home.Instance = this;
         }
+        
+        public async Task FocusWrapper()
+        {
+            await _wrapper.FocusAsync();
+        }
+
 
         private void OnsongChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(SongsManager.Instance.ChosenSong))InvokeAsync(StateHasChanged);
+            if (e.PropertyName == nameof(SongsManager.Instance.ChosenSong)) InvokeAsync(StateHasChanged);
         }
 
         private void OnSongChanged()
