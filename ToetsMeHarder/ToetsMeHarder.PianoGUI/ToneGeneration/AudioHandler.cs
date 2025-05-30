@@ -20,7 +20,7 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 200;
+    private const int LOOP_DURATION = 1000;
     
     private IAudioManager audioManager = AudioManager.Current;
     
@@ -78,11 +78,21 @@ public class AudioHandler : IAudioHandler
         writer.Write(0x61746164);
         writer.Write(dataChunkSize);
         
-        for (int i = 0; i < samples; i++)
+       for (int i = 0; i < samples; i++)
         {
-            //dit is een formule voor een standaard sine waveform
-            writer.Write((short)(amplitude * (Math.Sin((frequentie * TAU / SAMPLESIZE) * i))));
+            double time = i / (double)SAMPLESIZE;
+
+            // verschillende frequenties optellen voor een niet perfecte golf voor beter geluid
+            double value = Math.Sin(2 * Math.PI * frequentie * time);
+            value += 0.5 * Math.Sin(2 * Math.PI * frequentie * 2 * time);
+            value += 0.3 * Math.Sin(2 * Math.PI * frequentie * 3 * time);
+            value += 0.15 * Math.Sin(2 * Math.PI * frequentie * 4 * time);
+
+            short sample = (short)(amplitude * value / 1.95);
+            writer.Write(sample);
         }
+
+
         stream.Seek(0, SeekOrigin.Begin);
         return stream;
     }
