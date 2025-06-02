@@ -118,13 +118,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         [Inject] private IJSRuntime? JSRuntime { get; set; }
         public void HandleKeyDown(KeyboardEventArgs e)
         {
-            if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(e.Key))
+            if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(_pianoKeys[e.Key]))
             {
                 var noteKeyVal = _pianoKeys[e.Key];
+                
+                _audioHandler.RegisterCommand(new AudioStartCommand(new Note(_noteFrequencies[noteKeyVal])));
 
-                PlayNote(_noteFrequencies[noteKeyVal]);
-
-                JSRuntime.InvokeVoidAsync("setKeyActive", noteId);
+                JSRuntime.InvokeVoidAsync("setKeyActive", noteKeyVal.ToString());
             }
         }
         public void HandleKeyUp(KeyboardEventArgs e)
@@ -145,12 +145,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         private void PlayNote(KeyValue key)
         {
-            var key = _noteFrequencies.FirstOrDefault(x => x.Value == frequency).Key;
-            _audioHandler.RegisterCommand(new AudioStartCommand(new Note(key)));
+            var frequency = _noteFrequencies[key];
+            _audioHandler.RegisterCommand(new AudioStartCommand(new Note(frequency)));
         }
         private void StopNote(KeyValue key)
         {
-            double frequency = _noteFrequencies[noteID];
+            double frequency = _noteFrequencies[key];
             _audioHandler.RegisterCommand(new AudioStopCommand(new Note(frequency)));
         }
 
