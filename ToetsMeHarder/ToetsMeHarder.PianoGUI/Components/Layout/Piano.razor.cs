@@ -147,6 +147,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             foreach (KeyValue key in _pressedKeys.Keys.ToList())
             {
+                JSRuntime.InvokeVoidAsync("setKeyInactive", key.ToString());
                 StopNote(key);
             }
         }
