@@ -34,6 +34,7 @@ public partial class SongsSelectionMenu : ComponentBase
 
     public async void Close()
     {
+        await Home.Instance.FocusWrapper();
         await OnClose.InvokeAsync();
         IsOpen = false;
     }
