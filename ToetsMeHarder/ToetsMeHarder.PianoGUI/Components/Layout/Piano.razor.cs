@@ -121,21 +121,17 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         
         public void HandleKeyDown(KeyboardEventArgs e)
         {
-            if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.Contains(_pianoKeys[e.Key]))
-            {
-                var noteKeyVal = _pianoKeys[e.Key];
-                _pressedKeys.Add(noteKeyVal);
-                _audioHandler.RegisterCommand(new AudioStartCommand(new Note(_noteFrequencies[noteKeyVal])));
-
-                JSRuntime.InvokeVoidAsync("setKeyActive", noteKeyVal.ToString());
-            }
+            if (!_pianoKeys.ContainsKey(e.Key)) return;
+            var noteId = _pianoKeys[e.Key];
+            JSRuntime.InvokeVoidAsync("setKeyActive", noteId.ToString());
+            _audioHandler.RegisterCommand(new AudioStartCommand(new Note(_noteFrequencies[noteId])));
         }
         public void HandleKeyUp(KeyboardEventArgs e)
         {
             if (!_pianoKeys.ContainsKey(e.Key)) return;
             var noteId = _pianoKeys[e.Key];
+            JSRuntime.InvokeVoidAsync("setKeyInactive", noteId.ToString());
             StopNote(noteId);
-            JSRuntime.InvokeVoidAsync("setKeyInactive", noteId);
         }
 
         public void OnLostFocus()
@@ -156,11 +152,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         private void PlayNote(KeyValue key)
         {
+            JSRuntime.InvokeVoidAsync("setKeyActive", key.ToString());
             var frequency = _noteFrequencies[key];
             _audioHandler.RegisterCommand(new AudioStartCommand(new Note(frequency)));
         }
         private void StopNote(KeyValue key)
         {
+            JSRuntime.InvokeVoidAsync("setKeyInactive", key.ToString());
             double frequency = _noteFrequencies[key];
             _audioHandler.RegisterCommand(new AudioStopCommand(new Note(frequency)));
         }
@@ -216,9 +214,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (_noteFrequencies.ContainsKey(noteId))
             {
                 PlayNote(noteId);
-                _pressedKeys.Add(noteId);
-
-                JSRuntime.InvokeVoidAsync("setKeyActive", noteId.ToString());
+                
             }
         }
         private void OnMidiUp(int status, int note, int velocity)
@@ -227,12 +223,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             if (_noteFrequencies.ContainsKey(noteId))
             {
-                if (!_pressedKeys.Contains(noteId)) return;
-
                 StopNote(noteId);
-
-                JSRuntime.InvokeVoidAsync("setKeyInactive", noteId.ToString());
-
+                
             }
         }
     }

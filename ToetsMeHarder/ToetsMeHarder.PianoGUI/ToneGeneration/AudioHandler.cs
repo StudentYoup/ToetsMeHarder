@@ -21,13 +21,8 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 2500;
+    private const int LOOP_DURATION = 1000;
 
-    //deze constants zijn nodig voor het maken van de ADSR envelope
-    private const double ATTACKTIME = 0.002;
-    private const double DECAYTIME = 0.05;
-    private const double SUSTAINLEVEL = 0.6;
-    private const double RELEASETIME = 0.9;
 
     private double[] sineTable = new double[SAMPLESIZE];
    
@@ -71,15 +66,19 @@ public class AudioHandler : IAudioHandler
         if (!_freqWaveCache.TryGetValue(note.Frequentie, out MemoryStream stream)) //als nog niet in cache, maak aan
         {
             stream = (MemoryStream)GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4);
+            stream.Position = stream.Seek(0, SeekOrigin.Begin);
             _freqWaveCache[note.Frequentie] = stream;
         }
         
         MemoryStream copy = new(stream.ToArray());
-        
+
         IAudioPlayer player = audioManager.CreatePlayer(copy);
+        player.Loop = true;
         player.Play();
         _playingNotes.Add(note.Frequentie, player);
-    }
+    } 
+
+    
 
     public void StopAudio(Note note)
     {
@@ -151,8 +150,6 @@ public class AudioHandler : IAudioHandler
             value += 0.12 * GetSine(4 * phase);
             value += 0.07 * GetSine(5 * phase);
 
-            value *= GetADSR(time, samples);
-
             short sampleValue = (short)(Math.Clamp(value, -1, 1) * amplitude);
             writer.Write(sampleValue);
         }
@@ -160,25 +157,5 @@ public class AudioHandler : IAudioHandler
         return stream;
     }
 
-    private double GetADSR(double t, int sampleCount)
-    {
-        if (t < ATTACKTIME)
-            return t / ATTACKTIME;
-        else if (t < ATTACKTIME + DECAYTIME)
-            return 1 - (1 - SUSTAINLEVEL) * ((t - ATTACKTIME) / DECAYTIME);
-        else if (t < 1 / ((double)sampleCount / SAMPLESIZE) - RELEASETIME)
-            return SUSTAINLEVEL;
-        else
-        {
-            double releaseStart = ((double)sampleCount / SAMPLESIZE) - RELEASETIME;
-            double releaseProgress = (t - releaseStart) / RELEASETIME;
-
-            // Clamp to [0,1] to avoid overshooting
-            releaseProgress = Math.Clamp(releaseProgress, 0.0, 1.0);
-
-            return SUSTAINLEVEL * (1.0 - releaseProgress);
-        }
-    }
-
-  
+    
 }
