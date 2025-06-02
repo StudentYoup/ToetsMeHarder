@@ -20,7 +20,11 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
+<<<<<<< Updated upstream
     private const int LOOP_DURATION = 2500;
+=======
+    private const int LOOP_DURATION = 2000;
+>>>>>>> Stashed changes
     
     private IAudioManager audioManager = AudioManager.Current;
     private Dictionary<double, MemoryStream> _freqWaveCache = new();
@@ -57,7 +61,7 @@ public class AudioHandler : IAudioHandler
             }
             }catch (Exception e)
             {
-               player.Loop = false;
+               //player.Loop = false;
                Console.WriteLine("AudioHandler crash: " + e.Message);
             }
     }

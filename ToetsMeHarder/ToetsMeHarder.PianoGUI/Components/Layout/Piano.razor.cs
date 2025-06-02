@@ -163,7 +163,11 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             double frequency = _noteFrequencies[key];
             if (_pressedKeys.ContainsKey(key)) return;
-            _pressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
+            try
+            {
+                _pressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
+            }
+            catch { }
 
             FallingBlocks.instance.CheckKeyPress(key);
         }
