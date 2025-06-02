@@ -102,11 +102,11 @@ public class AudioHandler : IAudioHandler
     {
         while (true)
         {
+            if (_commandList.Count <= 0) continue;
             AudioCommand? command = null;
             _commandList.TryDequeue(out command);
-
-            if (command != null)
-                command.Execute(this);
+            if (command == null) continue;
+            command.Execute(this);
         }
     }
 
