@@ -10,7 +10,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class FallingBlocks
     {
-        public static FallingBlocks Instance;
+        public static FallingBlocks instance;
         [Inject] public MetronomeService Metronome { get; set; } = default!;
         public Business.Result CurrentResult = new();
         private const int MINUTE = 60_000;
@@ -25,7 +25,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Instance = this;
+            instance = this;
             SongsManager.Instance.RegisterPropertyChangedFunction(HandleSongChanged);
             foreach (KeyValue key in Keys)
             {

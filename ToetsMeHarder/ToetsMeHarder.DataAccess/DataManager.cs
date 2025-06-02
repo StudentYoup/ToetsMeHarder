@@ -35,8 +35,8 @@ public class DataManager : IDataManager
         
         try
         {
-            //string queery = $"INSERT INTO toetsmeharder.result (`Username`, `Song`, `Accuracy`, `Speed`, `Total`) VALUES ({r.Username},{r.SongID},{r.Accuracy},{r.Speed},{r.Total});";
-            //await using var command = new MySqlCommand(queery, Connection);
+            string queery = $"INSERT INTO toetsmeharder.result (`Username`, `Song`, `Accuracy`, `Speed`, `Total`) VALUES ({r.Username},{r.SongID},{r.Accuracy},{r.Speed},{r.Total});";
+            await using var command = new MySqlCommand(queery, Connection);
         }
         catch (MySqlException e)
         {
