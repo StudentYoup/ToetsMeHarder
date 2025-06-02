@@ -169,10 +169,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (selectedSong == null) return;
 
             InvokeAsync(async () =>
-            {
-                canBeHit.CurrentState = NoteBlock.NoteState.Hit;
-                InvokeAsync(async () => { StateHasChanged(); });
-            
+            {            
                 CalculateFallingBlock();
 
                 beats += 0.5;
