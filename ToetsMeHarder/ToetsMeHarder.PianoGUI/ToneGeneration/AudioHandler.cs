@@ -21,7 +21,7 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 1000;
+    private const int LOOP_DURATION = 2500;
 
 
     private double[] sineTable = new double[SAMPLESIZE];
