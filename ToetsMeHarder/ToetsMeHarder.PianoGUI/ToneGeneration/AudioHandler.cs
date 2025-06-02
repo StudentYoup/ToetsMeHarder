@@ -20,14 +20,24 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 1000;
+    private const int LOOP_DURATION = 2500;
     
     private IAudioManager audioManager = AudioManager.Current;
+    private Dictionary<double, MemoryStream> _freqWaveCache = new();
+
     
     public IAudioPlayer PlayAudio(Note note)
     {
-        Stream audiostream = GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue/4);
-        IAudioPlayer player = audioManager.CreatePlayer(audiostream);
+        if (!_freqWaveCache.TryGetValue(note.Frequentie, out MemoryStream stream)) //als nog niet in cache, maak aan
+        {
+            stream = (MemoryStream)GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4);
+            _freqWaveCache[note.Frequentie] = stream;
+        }
+
+
+        MemoryStream copy = new(stream.ToArray()); // kopie want meerdere players tegelijk de stream gebruiken 
+
+        IAudioPlayer player = audioManager.CreatePlayer(copy);
         player.Loop = true;
         player.Play();
 
@@ -36,9 +46,7 @@ public class AudioHandler : IAudioHandler
 
     public void StopAudio(IAudioPlayer player)
     {   
-            try{
-
-            
+            try{   
             if (player.IsPlaying)
             {
                 player.Stop();
@@ -77,23 +85,20 @@ public class AudioHandler : IAudioHandler
         writer.Write(BITSPERSAMPLE);
         writer.Write(0x61746164);
         writer.Write(dataChunkSize);
-        
-       for (int i = 0; i < samples; i++)
+
+        for (int i = 0; i < samples; i++)
         {
             double time = i / (double)SAMPLESIZE;
 
-            // verschillende frequenties optellen voor een niet perfecte golf voor beter geluid
+            // basistoon met 2, 3 , 4x zijn de boventonen
+            // elke hogere boventoon lagere amplitude zodat het normaal klinkt
             double value = Math.Sin(2 * Math.PI * frequentie * time);
             value += 0.5 * Math.Sin(2 * Math.PI * frequentie * 2 * time);
             value += 0.3 * Math.Sin(2 * Math.PI * frequentie * 3 * time);
             value += 0.15 * Math.Sin(2 * Math.PI * frequentie * 4 * time);
-
             short sample = (short)(amplitude * value / 1.95);
             writer.Write(sample);
         }
-
-
-        stream.Seek(0, SeekOrigin.Begin);
         return stream;
     }
 }
