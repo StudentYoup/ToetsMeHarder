@@ -4,7 +4,6 @@ using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business.SongsComponent;
 using ToetsMeHarder.PianoGUI.Components.Pages;
-using System.Threading.Tasks;
 
 namespace ToetsMeHarder.PianoGUI.Pages
 {
@@ -17,45 +16,7 @@ namespace ToetsMeHarder.PianoGUI.Pages
         public IAudioManager AudioManager { get; set; } = default!; // same
 
         private IAudioPlayer _player;
-
-
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-            SongsManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
-            
-        }
-
-        private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (SongsManager.Instance.ChosenSong == null)
-            {
-                Metronome.BPM = 60;
-                StateHasChanged();
-                return;
-            }
-            if (e.PropertyName != nameof(SongsManager.Instance.ChosenSong)) return;
-            Metronome.BPM = SongsManager.Instance.ChosenSong.BPM;
-            BpmText = Metronome.BPM.ToString();
-            InvokeAsync(StateHasChanged);
-        }
-
-
-        protected override async Task OnInitializedAsync()
-        {
-            var file = await FileSystem.OpenAppPackageFileAsync(@"Resources\Sound\metronoom.mp3");
-            _player = AudioManager.CreatePlayer(file);
-            Metronome.Beat += OnBeat;
-        }
-
-        private void OnBeat(object? sender, EventArgs e)
-        {
-            _player?.Play();
-        }
-
-
-
-        protected string BpmText
+        public string BpmText
         {
             get => Metronome.BPM.ToString();
             set
@@ -77,5 +38,42 @@ namespace ToetsMeHarder.PianoGUI.Pages
                 Metronome.Start();
             await Home.Instance.FocusWrapper();
         }
+
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            SongsManager.Instance.RegisterPropertyChangedFunction(OnliedjeChanged);
+
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var file = await FileSystem.OpenAppPackageFileAsync(@"Resources\Sound\metronoom.mp3");
+            _player = AudioManager.CreatePlayer(file);
+            Metronome.Beat += OnBeat;
+        }
+
+        private void OnliedjeChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (SongsManager.Instance.ChosenSong == null)
+            {
+                Metronome.BPM = 60;
+                StateHasChanged();
+                return;
+            }
+            if (e.PropertyName != nameof(SongsManager.Instance.ChosenSong)) return;
+            Metronome.BPM = SongsManager.Instance.ChosenSong.BPM;
+            BpmText = Metronome.BPM.ToString();
+            InvokeAsync(StateHasChanged);
+        }
+
+
+        private void OnBeat(object? sender, EventArgs e)
+        {
+            _player?.Play();
+        }
+
+        
     }
 }

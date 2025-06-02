@@ -5,24 +5,27 @@ using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.Midi;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class Piano
     {
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                MidiService.StartUSBWatcher();
-            }
-        }
+        
         private AudioHandler _audioHandler = new AudioHandler();
 
         private Dictionary<KeyValue, IAudioPlayer> _pressedKeys = new Dictionary<KeyValue, IAudioPlayer>();
+        
+        private enum KeyModus
+        {
+            Key,
+            Note,
+            Blank
+        }
+        private KeyModus _keyModus = KeyModus.Key;
+        [Inject] private IJSRuntime? JSRuntime { get; set; }
+        [Inject] private MidiService MidiService { get; set; }
+        private string? midiName = null;
 
         private readonly Dictionary<string, KeyValue> _pianoKeys = new()
         {
@@ -115,7 +118,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         
 
 
-        [Inject] private IJSRuntime? JSRuntime { get; set; }
+        
         public void HandleKeyDown(KeyboardEventArgs e)
         {
             if (_pianoKeys.ContainsKey(e.Key) && !_pressedKeys.ContainsKey(_pianoKeys[e.Key]))
@@ -143,6 +146,14 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             }
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                MidiService.StartUSBWatcher();
+            }
+        }
+
         private void PlayNote(KeyValue key)
         {
             var frequency = _noteFrequencies[key];
@@ -154,12 +165,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             _audioHandler.RegisterCommand(new AudioStopCommand(new Note(frequency)));
         }
 
-        private string _keyModus = "Key";
+        
         private void ChangeKeyModus()
         {
-            if (_keyModus == "Blank") _keyModus = "Note";
-            else if (_keyModus == "Note") _keyModus = "Key";
-            else if (_keyModus == "Key") _keyModus = "Blank";
+            if (_keyModus == KeyModus.Blank) _keyModus = KeyModus.Note;
+            else if (_keyModus == KeyModus.Note) _keyModus = KeyModus.Key;
+            else if (_keyModus == KeyModus.Key) _keyModus = KeyModus.Blank;
         }
 
         private string CreateCSSClass(string key)
@@ -177,10 +188,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             name = name.Replace("1", "#");
             return name;
         }
-        //Midi:
-        [Inject] private MidiService MidiService { get; set; }
-        private string? midiName = null;
 
+        //Midi:
         protected override void OnInitialized()
         {
             MidiService.OnMidiDown += OnMidiDown;
@@ -225,8 +234,5 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             }
         }
-
-
-
     }
 }
