@@ -45,7 +45,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             }
 
             StateHasChanged();
-        }
+        
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
             if (!_blockMap.ContainsKey(pressedKey))
@@ -172,7 +172,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
                 InvokeAsync(async () => { StateHasChanged(); });
-            }
+            
                 CalculateFallingBlock();
 
                 beats += 0.5;
