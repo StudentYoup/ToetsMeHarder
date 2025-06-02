@@ -21,6 +21,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private Songs? selectedSong = null;
         private Songs? lastSong = null;
         
+        
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -137,11 +138,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         
         private void HandleSongChanged(object sender, EventArgs e)
         {
-            CurrentResult = new Business.Result();
             selectedSong = SongsManager.Instance.ChosenSong;
-            CurrentResult.SongTitle = selectedSong.Name;
-            CurrentResult.BPM = selectedSong.BPM;
-            CurrentResult.TotalNotes = selectedSong.NoteBlocks.Count;
             StateHasChanged();
         }
 
@@ -166,12 +163,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 if (beats >= selectedSong.Duration)
                 {
                     //popup weergeven einde liedje
+                    CurrentResult.SongTitle = selectedSong.Name;
+                    CurrentResult.BPM = selectedSong.BPM;
+                    CurrentResult.TotalNotes = selectedSong.NoteBlocks.Count;
                     Home.Instance.resultPopUp = true;
                     Metronome.Stop();
                     lastSong = selectedSong;
                     SongsManager.Instance.ChosenSong = null;
                     beats = 0;
-
+            
                     StateHasChanged();
                 }
             });
