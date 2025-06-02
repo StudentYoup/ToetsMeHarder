@@ -83,7 +83,7 @@ public class AudioHandler : IAudioHandler
     public void StopAudio(Note note)
     {
         if (_playingNotes.ContainsKey(note.Frequentie))
-        {           
+        {
             if (_playingNotes[note.Frequentie].IsPlaying)
             {
                 _playingNotes[note.Frequentie].Stop();
@@ -94,7 +94,7 @@ public class AudioHandler : IAudioHandler
             {
                 RegisterCommand(new AudioStopCommand(new Note(note.Frequentie)));
             }
-            
+
         }
     }
 
@@ -102,6 +102,7 @@ public class AudioHandler : IAudioHandler
     {
         while (true)
         {
+            Thread.Sleep(1);
             if (_commandList.Count <= 0) continue;
             AudioCommand? command = null;
             _commandList.TryDequeue(out command);
