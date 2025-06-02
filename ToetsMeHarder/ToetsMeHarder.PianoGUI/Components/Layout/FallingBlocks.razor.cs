@@ -45,7 +45,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 return;
             }
 
-
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
                             NoteBlock.NoteState.CanBeHit);
@@ -54,13 +53,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
                 CurrentResult.Hits++;
                 StateHasChanged();
-            }
-            else
+            }else
             {
                 CurrentResult.Misses++;
             }
-
-
         }
 
         public void Retry()
