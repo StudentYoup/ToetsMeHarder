@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
@@ -20,8 +20,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         private Songs? selectedSong = null;
         private Songs? lastSong = null;
-        
-        
+
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -37,15 +37,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         public void CheckKeyPress(KeyValue pressedKey)
         {
-            selectedSong = SongsManager.Instance.ChosenSong;
-            
-            foreach(List<NoteBlock> block in _blockMap.Values)
-            {
-                block.Clear();
-            }
-
-            StateHasChanged();
-        
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
             if (!_blockMap.ContainsKey(pressedKey))
@@ -53,6 +44,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 CurrentResult.Misses++;
                 return;
             }
+
 
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
@@ -62,10 +54,13 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
                 CurrentResult.Hits++;
                 StateHasChanged();
-            }else
+            }
+            else
             {
                 CurrentResult.Misses++;
             }
+
+
         }
 
         public void Retry()
@@ -136,11 +131,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
             }
         }
-        
+
         private void HandleSongChanged(object sender, EventArgs e)
         {
             selectedSong = SongsManager.Instance.ChosenSong;
             beats = 0;
+            resetBlocks();
             StateHasChanged();
         }
 
@@ -169,7 +165,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (selectedSong == null) return;
 
             InvokeAsync(async () =>
-            {            
+            {
                 CalculateFallingBlock();
 
                 beats += 0.5;
