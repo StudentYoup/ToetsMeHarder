@@ -37,6 +37,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         public void CheckKeyPress(KeyValue pressedKey)
         {
+            selectedSong = SongsManager.Instance.ChosenSong;
+            
+            foreach(List<NoteBlock> block in _blockMap.Values)
+            {
+                block.Clear();
+            }
+
+            StateHasChanged();
+        }
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
             if (!_blockMap.ContainsKey(pressedKey))
@@ -161,6 +170,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             InvokeAsync(async () =>
             {
+                canBeHit.CurrentState = NoteBlock.NoteState.Hit;
+                InvokeAsync(async () => { StateHasChanged(); });
+            }
                 CalculateFallingBlock();
 
                 beats += 0.5;
