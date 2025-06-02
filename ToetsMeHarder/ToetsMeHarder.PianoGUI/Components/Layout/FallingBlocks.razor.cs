@@ -69,10 +69,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             Home.Instance.resultPopUp = false;
             StateHasChanged();
             CurrentResult = new();
-            foreach (var key in _blockMap.Keys)
-            {
-                _blockMap[key].Clear();
-            }
         }
 
 
@@ -142,6 +138,26 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             StateHasChanged();
         }
 
+        private void resetBlocks()
+        {
+            foreach (NoteBlock block in selectedSong.NoteBlocks)
+            {
+                block.CurrentState = NoteBlock.NoteState.Falling;
+            }
+
+            foreach (var key in _blockMap.Keys)
+            {
+                _blockMap[key].Clear();
+            }
+        }
+
+        private void fillResults()
+        {
+            CurrentResult.SongTitle = selectedSong.Name;
+            CurrentResult.BPM = selectedSong.BPM;
+            CurrentResult.TotalNotes = selectedSong.NoteBlocks.Count;
+        }
+
         private void OnBeat(object? sender, EventArgs e)
         {
             if (selectedSong == null) return;
@@ -163,15 +179,14 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 if (beats >= selectedSong.Duration)
                 {
                     //popup weergeven einde liedje
-                    CurrentResult.SongTitle = selectedSong.Name;
-                    CurrentResult.BPM = selectedSong.BPM;
-                    CurrentResult.TotalNotes = selectedSong.NoteBlocks.Count;
-                    Home.Instance.resultPopUp = true;
                     Metronome.Stop();
+                    resetBlocks();
+                    fillResults();
+                    Home.Instance.resultPopUp = true;
                     lastSong = selectedSong;
                     SongsManager.Instance.ChosenSong = null;
                     beats = 0;
-            
+
                     StateHasChanged();
                 }
             });
