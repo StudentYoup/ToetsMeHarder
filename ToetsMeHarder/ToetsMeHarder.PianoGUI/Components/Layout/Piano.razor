@@ -23,11 +23,11 @@
             <li id="@key" @onpointerdown="() => PlayNote(key)" @onpointerup="() => StopNote(key)" @onpointerleave="() => StopNote(key)" class="@CreateCSSClass(key.ToString())">
 				
                 <b>
-                    @if (_keyModus == "Note")
+                    @if (_keyModus == KeyModus.Note)
                     {
-                        <text>@GetKeyName(key)</text>
+                        <text>@GetKeyName(key).ToUpper()</text>
                     }
-                    else if (_keyModus == "Key")
+                    else if (_keyModus == KeyModus.Key)
                     {
                         <text>@_pianoKeys.FirstOrDefault(x => x.Value == key).Key.ToUpper()</text>
                     }
