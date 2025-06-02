@@ -68,7 +68,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             SongsManager.Instance.ChosenSong = lastSong;
             Home.Instance.resultPopUp = false;
             StateHasChanged();
-            CurrentResult = new();
+            
         }
 
 
@@ -151,6 +151,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 _blockMap[key].Clear();
             }
+            CurrentResult = new();
+
         }
 
         private void fillResults()
