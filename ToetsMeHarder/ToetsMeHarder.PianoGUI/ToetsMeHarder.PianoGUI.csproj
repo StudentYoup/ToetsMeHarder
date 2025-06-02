@@ -81,8 +81,4 @@
       <ProjectReference Include="..\ToetsMeHarder.DataAccess\ToetsMeHarder.DataAccess.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Include="wwwroot\css\Menus.css" />
-    </ItemGroup>
-
 </Project>
