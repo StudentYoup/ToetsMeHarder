@@ -135,6 +135,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         private void HandleSongChanged(object sender, EventArgs e)
         {
             selectedSong = SongsManager.Instance.ChosenSong;
+            beats = 0;
             StateHasChanged();
         }
 
