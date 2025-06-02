@@ -75,8 +75,13 @@ public class AudioHandler : IAudioHandler
             {
                 _playingNotes[note.Frequentie].Stop();
                 _playingNotes[note.Frequentie].Dispose();
+                _playingNotes.Remove(note.Frequentie);
             }
-            _playingNotes.Remove(note.Frequentie);
+            else
+            {
+                RegisterCommand(new AudioStopCommand(new Note(note.Frequentie)));
+            }
+            
         }
     }
 
