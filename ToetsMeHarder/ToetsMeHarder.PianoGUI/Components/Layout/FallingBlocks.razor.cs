@@ -53,7 +53,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 canBeHit.CurrentState = NoteBlock.NoteState.Hit;
                 CurrentResult.Hits++;
-                StateHasChanged();
+                InvokeAsync(async () => StateHasChanged());
             }
             else
             {
