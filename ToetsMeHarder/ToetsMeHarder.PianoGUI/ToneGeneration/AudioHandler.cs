@@ -1,4 +1,5 @@
-﻿using ToetsMeHarder.Business;
+﻿using System.Collections.Concurrent;
+using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
@@ -20,41 +21,102 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 2000;
-    
+    private const int LOOP_DURATION = 2500;
+
+
+    private double[] sineTable = new double[SAMPLESIZE];
+   
     private IAudioManager audioManager = AudioManager.Current;
+    private Dictionary<double, MemoryStream> _freqWaveCache = new();
+
     
-    public IAudioPlayer PlayAudio(Note note)
+    private Queue<AudioCommand> _commandList = new Queue<AudioCommand>();
+    private Thread _audioThread;
+    Dictionary<double, IAudioPlayer> _playingNotes = new Dictionary<double, IAudioPlayer>();
+    
+    public AudioHandler():base()
     {
-        Stream audiostream = GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue/4);
-        IAudioPlayer player = audioManager.CreatePlayer(audiostream);
-        player.Loop = true;
-        player.Play();
+ 
+        for(int i = 0; i < SAMPLESIZE; i++)
+        {
+            sineTable[i] = Math.Sin((double)i / SAMPLESIZE * TAU);
+        }
 
-        return player;
-    } 
-
-    public void StopAudio(IAudioPlayer player)
-    {   
-            try{
-
-            
-            if (player.IsPlaying)
-            {
-                player.Stop();
-                player.Dispose();
-            }else
-            {
-                player.Dispose();
-            }
-            }catch (Exception e)
-            {
-               player.Loop = false;
-               Console.WriteLine("AudioHandler crash: " + e.Message);
-            }
+        _audioThread = new Thread(AudioCommandHandleLoop) { IsBackground = true };
+        _audioThread.Start();
     }
 
-    private Stream GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)
+    
+    
+    private double GetSine(double phase)
+    {
+        phase = phase % 1.0;
+        if (phase < 0) phase += 1.0;
+        int index = (int)((phase * SAMPLESIZE) % SAMPLESIZE);
+        return sineTable[index];
+    }
+
+
+    public void PlayAudio(Note note)
+    {
+        
+        
+        if(_playingNotes.ContainsKey(note.Frequentie)) return;
+        
+        if (!_freqWaveCache.TryGetValue(note.Frequentie, out MemoryStream stream)) //als nog niet in cache, maak aan
+        {
+            stream = (MemoryStream)GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4);
+            stream.Position = stream.Seek(0, SeekOrigin.Begin);
+            _freqWaveCache[note.Frequentie] = stream;
+        }
+        
+        MemoryStream copy = new(stream.ToArray());
+
+        IAudioPlayer player = audioManager.CreatePlayer(copy);
+        player.Loop = true;
+        player.Play();
+        _playingNotes.Add(note.Frequentie, player);
+    } 
+
+    
+
+    public void StopAudio(Note note)
+    {
+        if (_playingNotes.ContainsKey(note.Frequentie))
+        {
+            if (_playingNotes[note.Frequentie].IsPlaying)
+            {
+                _playingNotes[note.Frequentie].Stop();
+                _playingNotes[note.Frequentie].Dispose();
+                _playingNotes.Remove(note.Frequentie);
+            }
+            else
+            {
+                RegisterCommand(new AudioStopCommand(new Note(note.Frequentie)));
+            }
+
+        }
+    }
+
+    public void AudioCommandHandleLoop()
+    {
+        while (true)
+        {
+            Thread.Sleep(1);
+            if (_commandList.Count <= 0) continue;
+            AudioCommand? command = null;
+            _commandList.TryDequeue(out command);
+            if (command == null) continue;
+            command.Execute(this);
+        }
+    }
+
+    public void RegisterCommand(AudioCommand command)
+    {
+        _commandList.Enqueue(command);
+    }
+
+    private Stream  GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)
     {
         //deze variabelen bepalen de lengte van de toon
         int samples = (int)((double)SAMPLESIZE * ((double)duration / 1000f));
@@ -80,10 +142,21 @@ public class AudioHandler : IAudioHandler
         
         for (int i = 0; i < samples; i++)
         {
-            //dit is een formule voor een standaard sine waveform
-            writer.Write((short)(amplitude * (Math.Sin((frequentie * TAU / SAMPLESIZE) * i))));
+            double time = (double)i / SAMPLESIZE;
+            double phase = frequentie * time;
+            double value = 0;
+            value += GetSine(1 * phase);
+            value += 0.5 * GetSine(2 * phase);
+            value += 0.25 * GetSine(3 * phase);
+            value += 0.12 * GetSine(4 * phase);
+            value += 0.07 * GetSine(5 * phase);
+
+            short sampleValue = (short)(Math.Clamp(value, -1, 1) * amplitude);
+            writer.Write(sampleValue);
         }
         stream.Seek(0, SeekOrigin.Begin);
         return stream;
     }
+
+    
 }
