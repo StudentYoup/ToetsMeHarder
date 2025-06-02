@@ -1,6 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace ToetsMeHarder;
 
@@ -19,7 +21,7 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 10000;
+    private const int LOOP_DURATION = 2500;
 
     //deze constants zijn nodig voor het maken van de ADSR envelope
     private const double ATTACKTIME = 0.002;
@@ -30,6 +32,8 @@ public class AudioHandler : IAudioHandler
     private double[] sineTable = new double[SAMPLESIZE];
    
     private IAudioManager audioManager = AudioManager.Current;
+    private Dictionary<double, MemoryStream> _freqWaveCache = new();
+
     
     private Queue<AudioCommand> _commandList = new Queue<AudioCommand>();
     private Thread _audioThread;
@@ -37,6 +41,7 @@ public class AudioHandler : IAudioHandler
     
     public AudioHandler():base()
     {
+ 
         for(int i = 0; i < SAMPLESIZE; i++)
         {
             sineTable[i] = Math.Sin((double)i / SAMPLESIZE * TAU);
@@ -59,10 +64,19 @@ public class AudioHandler : IAudioHandler
 
     public void PlayAudio(Note note)
     {
+        
+        
         if(_playingNotes.ContainsKey(note.Frequentie)) return;
         
-        Stream audiostream =  GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4);
-        IAudioPlayer player = audioManager.CreatePlayer(audiostream);
+        if (!_freqWaveCache.TryGetValue(note.Frequentie, out MemoryStream stream)) //als nog niet in cache, maak aan
+        {
+            stream = (MemoryStream)GenerateWaveForm(note.Frequentie, LOOP_DURATION, short.MaxValue / 4);
+            _freqWaveCache[note.Frequentie] = stream;
+        }
+        
+        MemoryStream copy = new(stream.ToArray());
+        
+        IAudioPlayer player = audioManager.CreatePlayer(copy);
         player.Play();
         _playingNotes.Add(note.Frequentie, player);
     }
@@ -101,7 +115,6 @@ public class AudioHandler : IAudioHandler
     {
         _commandList.Enqueue(command);
     }
-    
 
     private Stream  GenerateWaveForm(double frequentie,int duration, short amplitude = short.MaxValue)
     {
