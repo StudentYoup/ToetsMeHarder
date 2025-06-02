@@ -136,7 +136,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             selectedSong = SongsManager.Instance.ChosenSong;
             beats = 0;
-            resetBlocks();
+            if(selectedSong != null) resetBlocks();
             StateHasChanged();
         }
 
