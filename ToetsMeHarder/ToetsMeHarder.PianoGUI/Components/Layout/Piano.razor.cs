@@ -155,6 +155,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             JSRuntime.InvokeVoidAsync("setKeyActive", key.ToString());
             var frequency = _noteFrequencies[key];
             _audioHandler.RegisterCommand(new AudioStartCommand(new Note(frequency)));
+
+            FallingBlocks.instance.CheckKeyPress(key);
         }
         private void StopNote(KeyValue key)
         {

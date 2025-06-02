@@ -59,8 +59,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 CurrentResult.Misses++;
             }
-
-
         }
 
         public void Retry()
