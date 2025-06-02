@@ -5,7 +5,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages;
 
 public partial class Result : Microsoft.AspNetCore.Components.ComponentBase
 {
-    private ToetsMeHarder.Business.Result _result => FallingBlocks.instance.CurrentResult;
+    private ToetsMeHarder.Business.Result _result => FallingBlocks.Instance.CurrentResult;
     private int CalculateAccuracy()
     {
         if (_result.Hits == 0 && _result.Misses == 0)
