@@ -44,8 +44,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 CurrentResult.Misses++;
                 return;
             }
-
-
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
                             NoteBlock.NoteState.CanBeHit);
@@ -59,8 +57,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 CurrentResult.Misses++;
             }
-
-
         }
 
         public void Retry()
@@ -68,7 +64,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             SongsManager.Instance.ChosenSong = lastSong;
             Home.Instance.resultPopUp = false;
             StateHasChanged();
-            CurrentResult = new();
         }
 
 
@@ -188,6 +183,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                     lastSong = selectedSong;
                     SongsManager.Instance.ChosenSong = null;
                     beats = 0;
+                    CurrentResult = new();
 
                     StateHasChanged();
                 }
