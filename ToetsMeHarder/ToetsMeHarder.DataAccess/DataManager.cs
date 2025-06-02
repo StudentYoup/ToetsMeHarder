@@ -39,8 +39,8 @@ public class DataManager : IDataManager
     {
         try
         {
-            using var command = new MySqlCommand($"Select Title, Username, Song, Accuracy, Speed, Total From result Join song on ID = Song Where Song ={SongiD}", Connection);
-            using var reader = command.ExecuteReader();
+            using MySqlCommand command = new MySqlCommand($"Select Title, Username, Song, Accuracy, Speed, Total From result Join song on ID = Song Where Song ={SongiD}", Connection);
+            using MySqlDataReader reader = command.ExecuteReader();
 
             if (reader.Read())
             {

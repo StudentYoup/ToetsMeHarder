@@ -15,15 +15,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Pages
         private Business.Result result;
 
 
-        private DataManager dataManager { get; set; }
+        private DataManager _dataManager { get; set; }
         
         
         protected override void OnInitialized()
         {
-            dataManager = new DataManager();
-            dataManager.Connect();
-            dataManager.GetResult(1);
-            result = dataManager.GetResult(1);
+            _dataManager = new DataManager();
+            _dataManager.Connect();
+            _dataManager.GetResult(1);
+            result = _dataManager.GetResult(1);
             base.OnInitialized();
         }
 
