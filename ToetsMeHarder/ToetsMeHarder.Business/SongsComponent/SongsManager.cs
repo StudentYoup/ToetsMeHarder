@@ -1,46 +1,44 @@
 ﻿using System.ComponentModel;
 
-namespace ToetsMeHarder.Business.LiedjesComponent;
+namespace ToetsMeHarder.Business.SongsComponent;
 
-public class LiedjesManager
+public class SongsManager
 {
     //Dit is het singleton patroon dit zorgt ervoor dat er maar 1 van deze class aanwezig kan zijn.
-    private static LiedjesManager _liedjesmanager;
-    public static LiedjesManager Instance
+    private static SongsManager _SongsManager;
+    public static SongsManager Instance
     {
         get
         {
-            if (_liedjesmanager == null)
+            if (_SongsManager == null)
             {
-                _liedjesmanager = new LiedjesManager();
+                _SongsManager = new SongsManager();
             }
-            return _liedjesmanager;
+            return _SongsManager;
         }
     }
     
     //dit blokeerd het maken van nieuwe instances van deze singleton
-    private LiedjesManager(){}
+    private SongsManager(){}
 
     //het gekoze liedje kan overal veranderd worden. dit is makkelijk voor het gebruik in menu's.
     //de event kan gebruikt worden om ui te verversen bij het veranderen van deze propertie.
     //ook kan deze event in de toekomst gebruikt worden om andere properties door te sturen.
-    private Liedje _gekozenLiedje = new Liedje("Geen liedje Geselecteerd",60);
-    public Liedje GekozenLiedje
+    private Songs? _chosenSong = null;
+    public Songs ChosenSong
     {
-        get => _gekozenLiedje;
+        get => _chosenSong;
         set
         {
-            _gekozenLiedje = value;
-            PropertyChangedEvent.Invoke(this, new PropertyChangedEventArgs(nameof(GekozenLiedje)));
+            _chosenSong = value;
+            PropertyChangedEvent.Invoke(this, new PropertyChangedEventArgs(nameof(ChosenSong)));
         }
     }
 
-    public List<Liedje> MogelijkeLiedjes { get; private set; } = new List<Liedje>();
+    public List<Songs> PossibleSongs { get; private set; } = new List<Songs>();
     private event PropertyChangedEventHandler PropertyChangedEvent;
     public void RegisterPropertyChangedFunction(PropertyChangedEventHandler eventHandler)
     {
         PropertyChangedEvent += eventHandler;
     }
-    
-    
 }

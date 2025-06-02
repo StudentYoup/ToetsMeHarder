@@ -1,0 +1,121 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 50px;
+  background-color: #131313;
+  height: 20%;
+  width: 100%;
+  color: white;
+}
+
+.middle {
+  display: block;
+  background-color: #808080;
+  height: 50%;
+  width: 100%;
+}
+
+.bottem {
+  display: block;
+  background-color: #5f0000;
+  height: 30%;
+  width: 100%;
+}
+div {
+  overflow: hidden;
+}
+
+.bar-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  background-color: #2d3e48;
+}
+
+.vertical-bar-white {
+  height: 100%;
+  flex: 1;
+  z-index: 1;
+  color: white;
+  background: #33444e;
+  position: relative;
+  border-left: 1px solid black;
+}
+
+.vertical-bar-black {
+  height: 100%;
+  width: 2em;
+  margin: 0 0 0 -1em;
+  z-index: 2;
+  color: white;
+  background: #2d3e48;
+  position: relative;
+  border-left: 1px solid black;
+}
+
+.falling-block {
+  width: 100%;
+  height: 10%;
+  background-color: dodgerblue;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 5px 5px;
+  animation: fall var(--fall-duration) linear forwards paused;
+  color: red;
+  font-size: 35px;
+}
+
+/*start and end of animation*/
+@keyframes fall {
+  0% {
+    top: 0%;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+.trigger-line {
+  position: absolute;
+  top: 85%;
+  width: 100%;
+  height: 4px;
+  background-color: red;
+  z-index: 69;
+}
+
+.hit {
+  background-color: green;
+}
+
+.miss {
+  background-color: red;
+}
+
+.can-be-hit {
+  background-color: orange;
+}
+
+.no-song-text {
+  width: 100%;
+  color: gray;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+  margin: auto;
+}

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ToetsMeHarder.PianoGUI.styles.css" />
     <link rel="icon" href="data:,">
-    <link href="css/Menus.css" rel="stylesheet">
 </head>
 
 <body>
@@ -29,3 +28,16 @@
 </body>
 
 </html>
+
+<!-- Om te voorkomen dat de gebruiker met ctrl +, ctrl -, of ctrl scrollwheel in of uit kan zoomen-->
+<script>
+  document.addEventListener('wheel', function (e) {
+    if (e.ctrlKey) e.preventDefault(); //default gedrag van de keys uitzetten
+    }, { passive: false }); // zonder werkt preventdefault nite bij scroll wiel
+    //hieronder zelfde maar dan voor + en -
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && (e.key === '=' || e.key === '-')) {
+      e.preventDefault();
+    }
+  });
+</script>

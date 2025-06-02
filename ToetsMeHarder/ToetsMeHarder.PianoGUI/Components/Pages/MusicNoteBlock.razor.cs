@@ -2,6 +2,6 @@
 
 namespace ToetsMeHarder.PianoGUI.Components;
 
-public partial class MuziekNoteBlok : ComponentBase
+public partial class MusicNoteBlock : ComponentBase
 {
 }

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\ToetsMeHarder.Business\ToetsMeHarder.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MySqlClient" Version="5.5.2" />
+  </ItemGroup>
+
 </Project>

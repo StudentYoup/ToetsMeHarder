@@ -27,7 +27,7 @@ li {
 ul .white {
   height: 100%;
   flex: 1;
-  z-index:1;
+  z-index: 1;
   border-left:1px solid #bbb;
   border-bottom:1px solid #bbb;
   border-radius:0 0 5px 5px;
@@ -81,7 +81,7 @@ li b{
 }
 .black b{
     color: white;
-    font-size: 12pxz;
+    font-size: 12px;
 }
 .white.manual-active {
     border-top: 1px solid #777;
@@ -107,5 +107,13 @@ li b{
     background-color: #9c0000;
     color: lightgray;
     border: none;
+}
+.midi {
+    height: 100%;
+    font-size: 90%;
+    background-color: #c60000;
+    color: lightgray;
+    border: none;
+    text-align: left;
 }
 

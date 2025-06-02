@@ -69,6 +69,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.70" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
@@ -77,10 +78,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ToetsMeHarder.Business\ToetsMeHarder.Business.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="wwwroot\css\Menus.css" />
     </ItemGroup>
 
 </Project>

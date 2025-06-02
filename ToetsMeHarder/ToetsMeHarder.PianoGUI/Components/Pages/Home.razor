@@ -1,27 +1,33 @@
 ﻿@page "/"
-@using ToetsMeHarder.Business.LiedjesComponent
+@using ToetsMeHarder.Business.SongsComponent
 @using ToetsMeHarder.PianoGUI.Components.Layout
+@using ToetsMeHarder.PianoGUI.Components.Pages.HelpPages
 
 <div class="top">
 	<div class="left">
 		<Metronome/>
 	</div>
 	<div class="center">
-		 <h1> @(LiedjesManager.Instance.GekozenLiedje.Naam)</h1>
-		<h4>by GIJT</h4>
+		@if (SongsManager.Instance.ChosenSong == null)
+		{
+			<h1>Geen liedje geselecteerd</h1>
+		}
+		else
+		{
+			
+			<h1> @(SongsManager.Instance.ChosenSong.Name)</h1>
+		}
 	</div>
 	<div class="right">
 		<div class="menu">
-			<button @onclick="() => {songPopUp = !songPopUp;}"><i>Menu</i></button>
-			<button @onclick="() => {resultPopUp = !resultPopUp;}"><i>Toon results</i></button>
-			<button><i>Options</i></button>
-			<button @onclick="() => {helpPopUp = !helpPopUp;}"><i>Help</i></button>
-			<button @onclick="Exit"><i>Exit</i></button>
+			<button @onclick="() => {_songPopUp = !_songPopUp;}"><i>Liedjes</i></button>
+			<button @onclick="() => {_helpPopUp = !_helpPopUp;}"><i>Help</i></button>
+			<button @onclick="Exit"><i>Afsluiten</i></button>
 		</div>
 	</div>
 </div>
 <div class="middle">
-
+	<FallingBlocks/>
 </div>
 <div
 	class="bottem"
@@ -34,31 +40,31 @@
 </div>
 
 @{
-	if (helpPopUp)
+	if (_helpPopUp)
 	{
 		<div class="popup">
 			<div>
 				<h1>Help:</h1>
 				<Help></Help>
-				<button @onclick="() => {helpPopUp = !helpPopUp;}">Close</button>
+				<button class="closeBtn" @onclick="() => {_helpPopUp = !_helpPopUp; OnAfterRenderAsync(true);}">Sluit</button> 
 			</div>
 		</div>
 	}
-	if (resultPopUp){
+	if (_resultPopUp){
 		<div class="popup">
 			<div>
 				<h1>Results</h1>
 				<Result></Result>
-				<button @onclick="() => {resultPopUp = !resultPopUp;}">Close</button>
+				<button class="closeBtn" @onclick="() => {_resultPopUp = !_resultPopUp; OnAfterRenderAsync(true);}">Sluit</button>
 			</div>
 		</div>
 	}
-	if (songPopUp){
+	if (_songPopUp){
 		<div class="popup">
 			<div>
-				<h1>Menu</h1>
-				<MainMenu></MainMenu>
-				<button @onclick="() => {songPopUp = !songPopUp;}">Close</button>
+				<h1>Liedjes</h1>
+				<SongsSelectionMenu SongChosen="@OnSongChanged"/>
+				<button class="closeBtn" @onclick="() => {_songPopUp = !_songPopUp; OnAfterRenderAsync(true);}">Sluit</button>
 			</div>
 		</div>
 	}
