@@ -31,7 +31,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 _blockMap[key] = new List<NoteBlock>();
             }
-            Metronome.Beat += PlayOnBeat;
+            Metronome.Beat += OnBeat;
         }
 
 
@@ -46,10 +46,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             }
             var canBeHit = _blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
-                            NoteBlock.NoteState.CanBeHit);
+                            NoteState.CanBeHit);
             if (canBeHit != null)
             {
-                canBeHit.CurrentState = NoteBlock.NoteState.Hit;
+                canBeHit.CurrentState = NoteState.Hit;
                 CurrentResult.Hits++;
                 InvokeAsync(async () => StateHasChanged());
             }
@@ -67,15 +67,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         }
 
 
-        private string GetNoteClass(NoteBlock.NoteState state)
+        private string GetNoteClass(NoteState state)
         {
             switch (state)
             {
-                case NoteBlock.NoteState.Hit:
+                case NoteState.Hit:
                     return "hit";
-                case NoteBlock.NoteState.CanBeHit:
+                case NoteState.CanBeHit:
                     return "can-be-hit";
-                case NoteBlock.NoteState.Miss:
+                case NoteState.Miss:
                     return "miss";
                 default:
                     return "";
@@ -102,9 +102,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         private void OnTriggerExit(NoteBlock noteBlock)
         {
-            if (noteBlock.CurrentState != NoteBlock.NoteState.Hit)
+            if (noteBlock.CurrentState != NoteState.Hit)
             {
-                noteBlock.CurrentState = NoteBlock.NoteState.Miss;
+                noteBlock.CurrentState = NoteState.Miss;
                 StateHasChanged();
                 CurrentResult.Misses++;
             }
@@ -112,7 +112,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         private void OnTriggerEntry(NoteBlock noteBlock)
         {
-            noteBlock.CurrentState = NoteBlock.NoteState.CanBeHit;
+            noteBlock.CurrentState = NoteState.CanBeHit;
             StateHasChanged();
         }
 
@@ -139,7 +139,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             foreach (NoteBlock block in selectedSong.NoteBlocks)
             {
-                block.CurrentState = NoteBlock.NoteState.Falling;
+                block.CurrentState = NoteState.Falling;
             }
 
             foreach (var key in _blockMap.Keys)
