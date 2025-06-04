@@ -10,16 +10,10 @@ namespace ToetsMeHarder.Business.FallingBlocks
     {
         public int Id { get; set; }
         public int SongId { get; set; }
-        public KeyValue Key;
+        public KeyValue Key { get; set; }
         public int Length { get; set; }
         public Double StartPosition { get; set; }
-        public enum NoteState
-        {
-            Falling,
-            CanBeHit,
-            Hit,
-            Miss
-        }
+
         public NoteState CurrentState = NoteState.Falling;
 
         public NoteBlock(int id, int songId, KeyValue key, int length, double startPosition)
