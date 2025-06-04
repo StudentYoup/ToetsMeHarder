@@ -26,10 +26,10 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 _blockMap[key] = new List<NoteBlock>();
             }
-            Metronome.Beat += OnBeat;
+            Metronome.Beat += PlayOnBeat;
         }
 
-        private void OnBeat(object? sender, EventArgs e)
+        private void PlayOnBeat(object? sender, EventArgs e)
         {
             InvokeAsync(async () =>
             {

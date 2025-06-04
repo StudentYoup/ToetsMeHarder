@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
-    public partial class Piano
+    public partial class Piano : ComponentBase
     {
         [Inject] private MidiService MidiService { get; set; }
         private string? midiName = null;
