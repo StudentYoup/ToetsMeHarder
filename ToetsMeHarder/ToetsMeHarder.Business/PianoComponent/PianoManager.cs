@@ -5,37 +5,11 @@ namespace ToetsMeHarder.Business.PianoComponent
 {
     public class PianoManager
     {
-        public AudioHandler _audioHandler = new AudioHandler();
-
-
+        public AudioHandler AudioHandler = new AudioHandler();
         public string? midiName = null;
-
-        //Functies:
-
-        public void StopNote(KeyValue key)
-        {
-            if (!_pressedKeys.ContainsKey(key)) return;
-            _audioHandler.StopAudio(_pressedKeys[key]);
-            _pressedKeys.Remove(key);
-        }
-        //KeyModus
         public KeyModus _keyModus = KeyModus.Key;
-        public void ChangeKeyModus()
-        {
-            if (_keyModus == KeyModus.Blank) _keyModus = KeyModus.Note;
-            else if (_keyModus == KeyModus.Note) _keyModus = KeyModus.Key;
-            else if (_keyModus == KeyModus.Key) _keyModus = KeyModus.Blank;
-        }
-
-        public string GetKeyName(KeyValue key)
-        {
-            string name = key.ToString();
-            name = name.Replace("1", "#");
-            return name;
-        }
-
-
-        public readonly Dictionary<string, KeyValue> _pianoKeys = new()
+        public Dictionary<KeyValue, IAudioPlayer> PressedKeys = new Dictionary<KeyValue, IAudioPlayer>();
+        public readonly Dictionary<string, KeyValue> PianoKeys = new()
         {
             ["q"] = KeyValue.a2,
             ["2"] = KeyValue.a21,
@@ -78,10 +52,7 @@ namespace ToetsMeHarder.Business.PianoComponent
             ["/"] = KeyValue.b5,
             [""] = KeyValue.c6
         };
-
-        public Dictionary<KeyValue, IAudioPlayer> _pressedKeys = new Dictionary<KeyValue, IAudioPlayer>();
-
-        public readonly Dictionary<KeyValue, double> _noteFrequencies = new Dictionary<KeyValue, double>
+        public readonly Dictionary<KeyValue, double> NoteFrequencies = new Dictionary<KeyValue, double>
         {
             { KeyValue.a2, 110.00 },
             { KeyValue.a21, 116.54 },
@@ -124,5 +95,24 @@ namespace ToetsMeHarder.Business.PianoComponent
             { KeyValue.b5, 987.77 },
             { KeyValue.c6, 1046.50 }
         };
+        public void StopNote(KeyValue key)
+        {
+            if (!PressedKeys.ContainsKey(key)) return;
+            AudioHandler.StopAudio(PressedKeys[key]);
+            PressedKeys.Remove(key);
+        }
+        public void ChangeKeyModus()
+        {
+            if (_keyModus == KeyModus.Blank) _keyModus = KeyModus.Note;
+            else if (_keyModus == KeyModus.Note) _keyModus = KeyModus.Key;
+            else if (_keyModus == KeyModus.Key) _keyModus = KeyModus.Blank;
+        }
+
+        public string GetKeyName(KeyValue key)
+        {
+            string name = key.ToString();
+            name = name.Replace("1", "#");
+            return name;
+        }
     }
 }

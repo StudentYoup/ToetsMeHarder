@@ -5,7 +5,7 @@
         {
             <div class="trigger-line"></div>
             <div class="@CreateCSSClass(key.ToString())">
-                @foreach (var block in fallingBlocksManager._blockMap[key])
+                @foreach (var block in fallingBlocksManager.BlockMap[key])
                 {
                     <div class="falling-block @(fallingBlocksManager.GetNoteClass(block.CurrentState))"
                     style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
