@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
+using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.PianoGUI.Components.Layout
 {

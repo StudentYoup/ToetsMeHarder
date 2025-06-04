@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToetsMeHarder.Business.SongsComponent;
+using ToetsMeHarder.Business.FallingBlocks;
 
-namespace ToetsMeHarder.Business.FallingBlocks
+namespace ToetsMeHarder.Business.SongsComponent
 {
     public class TestSongs
     {
@@ -41,14 +40,14 @@ namespace ToetsMeHarder.Business.FallingBlocks
 
         public static Dictionary<int, List<NoteBlock>> convertToBlockMap(List<NoteBlock> song, Dictionary<int, List<NoteBlock>> blockMap)
         {
-            foreach (int key in blockMap.Keys) 
+            foreach (int key in blockMap.Keys)
             {
                 var notes = song.Where(q => q.Key == (KeyValue)key);
-                foreach (var note in notes) 
+                foreach (var note in notes)
                 {
                     blockMap[key].Add(note);
                 }
-            } 
+            }
             return blockMap;
         }
     }
