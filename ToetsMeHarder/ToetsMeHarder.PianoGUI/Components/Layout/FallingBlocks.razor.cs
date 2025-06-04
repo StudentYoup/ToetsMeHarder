@@ -6,7 +6,7 @@ using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.SongsComponent;
 using ToetsMeHarder.PianoGUI.Components.Pages;
 
-namespace ToetsMeHarder.PianoGUI.Components.Layout.middle;
+namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class FallingBlocks
     {
@@ -33,36 +33,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout.middle;
             }
             Metronome.Beat += OnBeat;
         }
-
-        private void PlayOnBeat(object? sender, EventArgs e)
-        {
-            InvokeAsync(async () =>
-            {
-                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
-                {
-                    _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
-                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
-                }
-                beats += 0.5;
-                StateHasChanged();
-                await Task.Delay(MINUTE / Metronome.BPM / 2);
-
-                foreach (NoteBlock block in TestSongs.CreateSong1().Where(q => q.StartPosition == beats))
-                {
-                    _blockMap[block.Key].Add(block);
-                    double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.9; //5% onder triggerlijn door laten als hitbox en fall duration is 5 * bpm s dus * 5
-                    double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
-                    _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
-                }
-                beats += 0.5;
-                StateHasChanged();
-            }
-
-
-
-
         public void CheckKeyPress(KeyValue pressedKey)
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
