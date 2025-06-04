@@ -1,4 +1,4 @@
-﻿﻿using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
@@ -12,7 +12,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
     {
         public static FallingBlocks instance;
         [Inject] public MetronomeService Metronome { get; set; } = default!;
-        public Business.Result CurrentResult = new();
+        public Business.ResultComponent.Result CurrentResult = new();
         private const int MINUTE = 60_000;
         private Dictionary<KeyValue, List<NoteBlock>> _blockMap = new();
         private double beats = 0;
