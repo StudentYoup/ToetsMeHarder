@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToetsMeHarder.Business
+namespace ToetsMeHarder.Business.ResultComponent
 {
     public class Result
     {
-       public string Username;
+        public string Username;
         public string SongTitle;
         public int TotalNotes;
         public int BPM;

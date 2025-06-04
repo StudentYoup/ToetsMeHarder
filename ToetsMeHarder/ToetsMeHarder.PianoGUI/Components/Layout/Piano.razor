@@ -1,13 +1,12 @@
-﻿@page "/piano"
-@using ToetsMeHarder.Business
-@using ToetsMeHarder.Business.FallingBlocks
+﻿@using Business.PianoComponent;
+@using Business.FallingBlocks;
 <div class="menu">
-    <button class="KeyModeButton" @onclick="ChangeKeyModus"><b>Keymodus: <i>@_keyModus</i></b></button>
+    <button class="KeyModeButton" @onclick="pianoManager.ChangeKeyModus"><b>Keymodus: <i>@pianoManager._keyModus</i></b></button>
     <button class="midi"><b>MIDI: <i>
         @{
-            if(midiName != null)
+            if(pianoManager.midiName != null)
             {
-                <text>VERBONDEN (@midiName)</text>
+                <text>VERBONDEN (@pianoManager.midiName)</text>
             }
             else
             {
@@ -18,18 +17,18 @@
 </div>
 <ul class="set">
     @{
-        foreach ((KeyValue key, double frequency) in _noteFrequencies)
+        foreach ((KeyValue key, double frequency) in pianoManager.NoteFrequencies)
         {
-            <li id="@key" @onpointerdown="() => PlayNote(key)" @onpointerup="() => StopNote(key)" @onpointerleave="() => StopNote(key)" class="@CreateCSSClass(key.ToString())">
+            <li id="@key" @onpointerdown="() => PlayNote(key)" @onpointerup="() => pianoManager.StopNote(key)" @onpointerleave="() => pianoManager.StopNote(key)" class="@CreateCSSClass(key.ToString())">
 				
                 <b>
-                    @if (_keyModus == KeyModus.Note)
+                    @if (pianoManager._keyModus == KeyModus.Note)
                     {
-                        <text>@GetKeyName(key).ToUpper()</text>
+                        <text>@pianoManager.GetKeyName(key).ToUpper()</text>
                     }
-                    else if (_keyModus == KeyModus.Key)
+                    else if (pianoManager._keyModus == KeyModus.Key)
                     {
-                        <text>@_pianoKeys.FirstOrDefault(x => x.Value == key).Key.ToUpper()</text>
+                        <text>@pianoManager.PianoKeys.FirstOrDefault(x => x.Value == key).Key.ToUpper()</text>
                     }
                 </b>
             </li>

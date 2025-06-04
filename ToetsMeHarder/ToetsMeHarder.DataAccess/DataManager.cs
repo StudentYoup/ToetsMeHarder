@@ -1,5 +1,6 @@
 ﻿using MySqlConnector;
 using ToetsMeHarder.Business;
+using ToetsMeHarder.Business.ResultComponent;
 
 namespace ToetsMeHarder.DataAccess;
 
@@ -35,7 +36,7 @@ public class DataManager : IDataManager
         
         try
         {
-            string queery = $"INSERT INTO toetsmeharder.result (`Username`, `Song`, `Accuracy`, `Speed`, `Total`) VALUES ({r.Username},{r.SongID},{r.Accuracy},{r.Speed},{r.Total});";
+            string queery = $"INSERT INTO toetsmeharder.result (`Username`, `Song`, `Accuracy`, `Speed`, `Total`) VALUES ({r.Username},{r.SongTitle},{r.Accuracy},{r.BPM},{r.Misses});";
             await using var command = new MySqlCommand(queery, Connection);
         }
         catch (MySqlException e)

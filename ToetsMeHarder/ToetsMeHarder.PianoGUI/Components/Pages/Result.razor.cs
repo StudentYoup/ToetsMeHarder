@@ -1,16 +1,12 @@
-
-
+using ToetsMeHarder.Business.ResultComponent;
 using ToetsMeHarder.PianoGUI.Components.Layout;
 namespace ToetsMeHarder.PianoGUI.Components.Pages;
 
-public partial class Result : Microsoft.AspNetCore.Components.ComponentBase
+public partial class Result
 {
-    private ToetsMeHarder.Business.Result _result => FallingBlocks.instance.CurrentResult;
-    private int CalculateAccuracy()
+    public ResultManager resultManager = new ResultManager();
+    protected override void OnInitialized()
     {
-        if (_result.Hits == 0 && _result.Misses == 0)
-            return 0;
-        return Math.Max(0, (int)(((double)_result.Hits / (_result.Hits + _result.Misses)) * 100));
-
+        resultManager.Result = FallingBlocks.Instance.fallingBlocksManager.CurrentResult;
     }
 }

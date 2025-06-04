@@ -1,18 +1,13 @@
-@using ToetsMeHarder.Business
-@using ToetsMeHarder.Business.FallingBlocks
-@using ToetsMeHarder.PianoGUI.Components.Layout
-@using ToetsMeHarder.Business.SongsComponent
-
-@if(selectedSong != null)
+@if(fallingBlocksManager.selectedSong != null)
 {
     <div class="bar-container">
-        @foreach (var key in Keys)
+        @foreach (var key in fallingBlocksManager.Keys)
         {
             <div class="trigger-line"></div>
             <div class="@CreateCSSClass(key.ToString())">
-                @foreach (var block in _blockMap[key])
+                @foreach (var block in fallingBlocksManager.BlockMap[key])
                 {
-                    <div class="falling-block @(GetNoteClass(block.CurrentState))"
+                    <div class="falling-block @(fallingBlocksManager.GetNoteClass(block.CurrentState))"
                     style="animation-play-state: @(Metronome.IsRunning ? "running" : "paused");
                     --fall-duration: @_fallDuration;">
                     </div>

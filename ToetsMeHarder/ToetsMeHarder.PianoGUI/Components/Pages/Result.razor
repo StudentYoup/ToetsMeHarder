@@ -2,17 +2,16 @@
 @page "/result"
 
 <div>
-    <p><strong>Titel:</strong> @_result.SongTitle</p>
-    <p><strong>Totaal noten:</strong> @_result.TotalNotes</p>
-    <p><strong>BPM:</strong> @_result.BPM</p>
-    <p><strong>Hits:</strong> @_result.Hits</p>
-    <p><strong>Misses:</strong> @_result.Misses</p>
-    <p><strong>Accuracy:</strong>@(CalculateAccuracy())%</p
+    <p><strong>Titel:</strong> @resultManager.Result.SongTitle</p>
+    <p><strong>Totaal noten:</strong> @resultManager.Result.TotalNotes</p>
+    <p><strong>BPM:</strong> @resultManager.Result.BPM</p>
+    <p><strong>Hits:</strong> @resultManager.Result.Hits</p>
+    <p><strong>Misses:</strong> @resultManager.Result.Misses</p>
+    <p><strong>Accuracy:</strong>@(resultManager.CalculateAccuracy())%</p
     
 </div>
 
-
-<button @onclick="() => FallingBlocks.instance.Retry()">Opnieuw</button>
+<button @onclick="() => FallingBlocks.Instance.Retry()">Opnieuw</button>
 
 
 
