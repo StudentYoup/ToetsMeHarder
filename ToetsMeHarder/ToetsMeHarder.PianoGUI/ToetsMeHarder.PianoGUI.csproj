@@ -80,4 +80,8 @@
       <ProjectReference Include="..\ToetsMeHarder.Business\ToetsMeHarder.Business.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ToneGeneration\" />
+    </ItemGroup>
+
 </Project>
