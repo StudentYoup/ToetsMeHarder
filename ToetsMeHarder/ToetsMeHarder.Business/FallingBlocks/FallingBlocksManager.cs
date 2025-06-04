@@ -18,9 +18,6 @@ namespace ToetsMeHarder.Business.FallingBlocks
         public readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         public Songs? selectedSong = null;
         public Songs? lastSong = null;
-
-
-
         public void resetBlocks()
         {
             foreach (NoteBlock block in selectedSong.NoteBlocks)
@@ -33,9 +30,6 @@ namespace ToetsMeHarder.Business.FallingBlocks
                 _blockMap[key].Clear();
             }
         }
-
-
-
         public string GetNoteClass(NoteState state)
         {
             switch (state)
@@ -50,7 +44,6 @@ namespace ToetsMeHarder.Business.FallingBlocks
                     return "";
             }
         }
-
         public void fillResults()
         {
             CurrentResult.SongTitle = selectedSong.Name;
