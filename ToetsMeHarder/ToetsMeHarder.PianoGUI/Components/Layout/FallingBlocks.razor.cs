@@ -12,9 +12,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         public MetronomeService Metronome { get; set; } = default!;
 
         private Dictionary<KeyValue, List<NoteBlock>> _blockMap = new();
-        private int _numberOfBars = 40;
         private double beats = 0;
-        private KeyValue key = new KeyValue();
         private string _fallDuration => $"{300 / Metronome.BPM}s"; // 5 beats in de toekomst kijken
         private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         private const int MINUTE = 60_000;

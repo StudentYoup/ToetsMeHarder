@@ -13,6 +13,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class Piano
     {
+        [Inject] private MidiService MidiService { get; set; }
+        private string? midiName = null;
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -184,9 +186,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             name = name.Replace("1", "#");
             return name;
         }
+
         //Midi:
-        [Inject] private MidiService MidiService { get; set; }
-        private string? midiName = null;
+
         
         protected override void OnInitialized()
         {
