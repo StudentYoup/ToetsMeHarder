@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToetsMeHarder.Business.SongsComponent;
-using ToetsMeHarder.Business;
+﻿using ToetsMeHarder.Business.SongsComponent;
 using ToetsMeHarder.Business.ResultComponent;
 
 namespace ToetsMeHarder.Business.FallingBlocks
@@ -16,14 +10,14 @@ namespace ToetsMeHarder.Business.FallingBlocks
         public Dictionary<KeyValue, List<NoteBlock>> _blockMap = new();
         public double beats = 0;
         public readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
-        public Songs? selectedSong = null;
-        public Songs? lastSong = null;
+        public Songs? SelectedSong = null;
+        public Songs? LastSong = null;
 
 
 
         public void resetBlocks()
         {
-            foreach (NoteBlock block in selectedSong.NoteBlocks)
+            foreach (NoteBlock block in SelectedSong.NoteBlocks)
             {
                 block.CurrentState = NoteState.Falling;
             }
@@ -53,9 +47,9 @@ namespace ToetsMeHarder.Business.FallingBlocks
 
         public void fillResults()
         {
-            CurrentResult.SongTitle = selectedSong.Name;
-            CurrentResult.BPM = selectedSong.BPM;
-            CurrentResult.TotalNotes = selectedSong.NoteBlocks.Count;
+            CurrentResult.SongTitle = SelectedSong.Name;
+            CurrentResult.BPM = SelectedSong.BPM;
+            CurrentResult.TotalNotes = SelectedSong.NoteBlocks.Count;
         }
 
         public void FillBlockMap()

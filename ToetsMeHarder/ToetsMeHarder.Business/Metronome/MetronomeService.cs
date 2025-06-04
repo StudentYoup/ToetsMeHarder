@@ -1,6 +1,3 @@
-using System.ComponentModel;
-using ToetsMeHarder.Business.SongsComponent;
-
 namespace ToetsMeHarder.Business
 {
     public class MetronomeService : IMetronomeService

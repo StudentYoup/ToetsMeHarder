@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Melanchall.DryWetMidi.Core;
+﻿using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Multimedia;
 using ToetsMeHarder.Business.FallingBlocks;
 using Usb.Events;
