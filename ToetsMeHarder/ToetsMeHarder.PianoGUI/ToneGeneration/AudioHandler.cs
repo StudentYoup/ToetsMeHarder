@@ -20,7 +20,7 @@ public class AudioHandler : IAudioHandler
     private const short FRAMESIZE = (short)(TRACKS * ((TRACKS * ((BITSPERSAMPLE + 7) / 8))));
     private const int BYTESPERSECOND = SAMPLESIZE * FRAMESIZE;
     private const int WAVESYZE = 4;
-    private const int LOOP_DURATION = 200;
+    private const int LOOP_DURATION = 2000;
     
     private IAudioManager audioManager = AudioManager.Current;
     

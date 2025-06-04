@@ -1,18 +1,25 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business.SongsComponent;
+using ToetsMeHarder.PianoGUI.Components.Layout;
 
 namespace ToetsMeHarder.PianoGUI.Components.Pages;
 
-public partial class SongsSelectionMenu_razor : ComponentBase
+public partial class SongsSelectionMenu : ComponentBase
 {
     private SongsManager _songManager = SongsManager.Instance;
-    Songs song = new Songs("TEST", 120, 90, "A");
-    
+    private List<Songs> _songList = new List<Songs>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _songList = TestSongs.GetTestSongs();
+    }
     [Parameter] public EventCallback OnOpen { get; set;}
     [Parameter] public EventCallback OnClose { get; set;}
     [Parameter] public bool IsOpen { get; set;} = false;
     [Parameter] public EventCallback SongChosen { get; set;}
-    public async Task SetSong()
+    public async Task SetSong(Songs song)
     {
         _songManager.ChosenSong = song;
         await SongChosen.InvokeAsync(); // Notify parent to close pop-up
@@ -27,6 +34,7 @@ public partial class SongsSelectionMenu_razor : ComponentBase
 
     public async void Close()
     {
+        await Home.Instance.FocusWrapper();
         await OnClose.InvokeAsync();
         IsOpen = false;
     }
