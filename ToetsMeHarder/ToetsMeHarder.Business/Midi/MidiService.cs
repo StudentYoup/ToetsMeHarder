@@ -80,7 +80,7 @@ namespace ToetsMeHarder.Business.Midi
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
             _inputDevice.Dispose();
             _inputDevice = null;
