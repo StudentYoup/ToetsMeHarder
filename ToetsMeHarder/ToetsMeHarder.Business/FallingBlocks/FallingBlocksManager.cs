@@ -13,7 +13,7 @@ namespace ToetsMeHarder.Business.FallingBlocks
     {
         public MetronomeService Metronome { get; set; } = default!;
         public Result CurrentResult = new();
-        public Dictionary<KeyValue, List<NoteBlock>> _blockMap = new();
+        public Dictionary<KeyValue, List<NoteBlock>> BlockMap = new();
         public double beats = 0;
         public readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
         public Songs? selectedSong = null;
@@ -25,9 +25,9 @@ namespace ToetsMeHarder.Business.FallingBlocks
                 block.CurrentState = NoteState.Falling;
             }
 
-            foreach (var key in _blockMap.Keys)
+            foreach (var key in BlockMap.Keys)
             {
-                _blockMap[key].Clear();
+                BlockMap[key].Clear();
             }
         }
         public string GetNoteClass(NoteState state)
@@ -55,7 +55,7 @@ namespace ToetsMeHarder.Business.FallingBlocks
         {
             foreach (KeyValue key in Keys)
             {
-                _blockMap[key] = new List<NoteBlock>();
+                BlockMap[key] = new List<NoteBlock>();
             }
         }
 

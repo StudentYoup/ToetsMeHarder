@@ -8,12 +8,12 @@ namespace ToetsMeHarder.Business.ResultComponent
 {
     public class ResultManager
     {
-        public Result _result;
+        public Result Result;
         public int CalculateAccuracy()
         {
-            if (_result.Hits == 0 && _result.Misses == 0)
+            if (Result.Hits == 0 && Result.Misses == 0)
                 return 0;
-            return Math.Max(0, (int)(((double)_result.Hits / (_result.Hits + _result.Misses)) * 100));
+            return Math.Max(0, (int)(((double)Result.Hits / (Result.Hits + Result.Misses)) * 100));
         }
     }
 }

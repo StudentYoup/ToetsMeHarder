@@ -17,7 +17,7 @@
 </div>
 <ul class="set">
     @{
-        foreach ((KeyValue key, double frequency) in pianoManager._noteFrequencies)
+        foreach ((KeyValue key, double frequency) in pianoManager.NoteFrequencies)
         {
             <li id="@key" @onpointerdown="() => PlayNote(key)" @onpointerup="() => pianoManager.StopNote(key)" @onpointerleave="() => pianoManager.StopNote(key)" class="@CreateCSSClass(key.ToString())">
 				
@@ -28,7 +28,7 @@
                     }
                     else if (pianoManager._keyModus == KeyModus.Key)
                     {
-                        <text>@pianoManager._pianoKeys.FirstOrDefault(x => x.Value == key).Key.ToUpper()</text>
+                        <text>@pianoManager.PianoKeys.FirstOrDefault(x => x.Value == key).Key.ToUpper()</text>
                     }
                 </b>
             </li>

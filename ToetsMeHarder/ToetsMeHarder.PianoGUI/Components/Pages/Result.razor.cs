@@ -7,6 +7,6 @@ public partial class Result
     public ResultManager resultManager = new ResultManager();
     protected override void OnInitialized()
     {
-        resultManager._result = FallingBlocks.Instance.fallingBlocksManager.CurrentResult;
+        resultManager.Result = FallingBlocks.Instance.fallingBlocksManager.CurrentResult;
     }
 }

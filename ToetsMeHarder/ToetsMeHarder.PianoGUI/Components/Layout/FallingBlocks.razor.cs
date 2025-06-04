@@ -32,12 +32,12 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
-            if (!fallingBlocksManager._blockMap.ContainsKey(pressedKey))
+            if (!fallingBlocksManager.BlockMap.ContainsKey(pressedKey))
             {
                 fallingBlocksManager.CurrentResult.Misses++;
                 return;
             }
-            var canBeHit = fallingBlocksManager._blockMap[pressedKey]
+            var canBeHit = fallingBlocksManager.BlockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
                             NoteState.CanBeHit);
             if (canBeHit != null)
@@ -105,7 +105,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             foreach (NoteBlock block in fallingBlocksManager.selectedSong.NoteBlocks.Where(q => q.StartPosition == fallingBlocksManager.beats))
             {
-                fallingBlocksManager._blockMap[block.Key].Add(block);
+                fallingBlocksManager.BlockMap[block.Key].Add(block);
                 double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; // triggerlijn op 85%
                 double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                 _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
