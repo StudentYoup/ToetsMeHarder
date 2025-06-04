@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
-using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
 using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.Midi;
@@ -46,7 +45,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             if (pianoManager._pressedKeys.ContainsKey(key)) return;
             pianoManager._pressedKeys.Add(key, pianoManager._audioHandler.PlayAudio(new Note(frequency)));
 
-            FallingBlocks.instance.CheckKeyPress(key);
+            FallingBlocks.Instance.CheckKeyPress(key);
         }
 
         public void OnLostFocus()

@@ -1,9 +1,5 @@
-﻿﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Components;
-using Plugin.Maui.Audio;
+﻿﻿using Microsoft.AspNetCore.Components;
 using ToetsMeHarder.Business;
-using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.SongsComponent;
 using ToetsMeHarder.PianoGUI.Components.Pages;
@@ -13,19 +9,19 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
     public partial class FallingBlocks
     {
         public FallingBlocksManager fallingBlocksManager = new FallingBlocksManager();
-        public static FallingBlocks? instance = null;
+        public static FallingBlocks? Instance = null;
 
         public const int MINUTE = 60_000;
 
         [Inject] public MetronomeService Metronome { get; set; } = default!;
-        private string _fallDuration => $"{5 * (MINUTE / (Metronome.BPM))}ms"; // 5 beats in de toekomst kijken
+        private string _fallDuration => $"{5 * (MINUTE / Metronome.BPM)}ms"; // 5 beats in de toekomst kijken
 
 
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            instance = this;
+            Instance = this;
             fallingBlocksManager.FillBlockMap();
             SongsManager.Instance.RegisterPropertyChangedFunction(HandleSongChanged);
             Metronome.Beat += OnBeat;
@@ -48,7 +44,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 canBeHit.CurrentState = NoteState.Hit;
                 fallingBlocksManager.CurrentResult.Hits++;
-                InvokeAsync(async () => StateHasChanged());
+                InvokeAsync(() => StateHasChanged());
             }
             else
             {
@@ -115,6 +111,17 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
             }
         }
+        private void HandleSongEnd()
+        {
+            Metronome.Stop();
+            fallingBlocksManager.resetBlocks();
+            fallingBlocksManager.fillResults();
+            Home.Instance.resultPopUp = true;
+            fallingBlocksManager.lastSong = fallingBlocksManager.selectedSong;
+            SongsManager.Instance.ChosenSong = null;
+            fallingBlocksManager.beats = 0;
+            fallingBlocksManager.CurrentResult = new();
+        }
 
 
         private void OnBeat(object? sender, EventArgs e)
@@ -138,15 +145,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 if (fallingBlocksManager.beats >= fallingBlocksManager.selectedSong.Duration)
                 {
                     //popup weergeven einde liedje
-                    Metronome.Stop();
-                    fallingBlocksManager.resetBlocks();
-                    fallingBlocksManager.fillResults();
-                    Home.Instance.resultPopUp = true;
-                    fallingBlocksManager.lastSong = fallingBlocksManager.selectedSong;
-                    SongsManager.Instance.ChosenSong = null;
-                    fallingBlocksManager.beats = 0;
-                    fallingBlocksManager.CurrentResult = new();
-
+                    HandleSongEnd();
                     StateHasChanged();
                 }
             });
