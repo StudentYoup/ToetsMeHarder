@@ -19,7 +19,7 @@
     @{
         foreach ((KeyValue key, double frequency) in pianoManager._noteFrequencies)
         {
-            <li id="@key" @onpointerdown="() => pianoManager.PlayNote(key)" @onpointerup="() => pianoManager.StopNote(key)" @onpointerleave="() => pianoManager.StopNote(key)" class="@CreateCSSClass(key.ToString())">
+            <li id="@key" @onpointerdown="() => PlayNote(key)" @onpointerup="() => pianoManager.StopNote(key)" @onpointerleave="() => pianoManager.StopNote(key)" class="@CreateCSSClass(key.ToString())">
 				
                 <b>
                     @if (pianoManager._keyModus == KeyModus.Note)

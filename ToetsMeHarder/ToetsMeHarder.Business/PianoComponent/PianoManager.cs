@@ -10,20 +10,12 @@ namespace ToetsMeHarder.Business.PianoComponent
 {
     public class PianoManager
     {
-        private AudioHandler _audioHandler = new AudioHandler();
+        public AudioHandler _audioHandler = new AudioHandler();
 
 
         public string? midiName = null;
 
         //Functies:
-        public void PlayNote(KeyValue key)
-        {
-            double frequency = _noteFrequencies[key];
-            if (_pressedKeys.ContainsKey(key)) return;
-            _pressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
-
-            // moet er nog in FallingBlocks.instance.CheckKeyPress(key);
-        }
 
         public void StopNote(KeyValue key)
         {

@@ -1,7 +1,9 @@
 ﻿﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 using Plugin.Maui.Audio;
 using ToetsMeHarder.Business;
+using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.FallingBlocks;
 using ToetsMeHarder.Business.SongsComponent;
 using ToetsMeHarder.PianoGUI.Components.Pages;
@@ -10,74 +12,55 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class FallingBlocks
     {
-        public static FallingBlocks instance;
+        public FallingBlocksManager fallingBlocksManager = new FallingBlocksManager();
+        public static FallingBlocks? instance = null;
+
+        public const int MINUTE = 60_000;
+
         [Inject] public MetronomeService Metronome { get; set; } = default!;
-        public Business.Result CurrentResult = new();
-        private const int MINUTE = 60_000;
-        private Dictionary<KeyValue, List<NoteBlock>> _blockMap = new();
-        private double beats = 0;
         private string _fallDuration => $"{5 * (MINUTE / (Metronome.BPM))}ms"; // 5 beats in de toekomst kijken
-        private readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
-        private Songs? selectedSong = null;
-        private Songs? lastSong = null;
+
 
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
             instance = this;
+            fallingBlocksManager.FillBlockMap();
             SongsManager.Instance.RegisterPropertyChangedFunction(HandleSongChanged);
-            foreach (KeyValue key in Keys)
-            {
-                _blockMap[key] = new List<NoteBlock>();
-            }
             Metronome.Beat += OnBeat;
         }
+
+
         public void CheckKeyPress(KeyValue pressedKey)
         {
             //voor elke noot in het liedje moeten  checken of hij in de lijst zit
             //&& hij moet op CanBeHit state zijn
-            if (!_blockMap.ContainsKey(pressedKey))
+            if (!fallingBlocksManager._blockMap.ContainsKey(pressedKey))
             {
-                CurrentResult.Misses++;
+                fallingBlocksManager.CurrentResult.Misses++;
                 return;
             }
-            var canBeHit = _blockMap[pressedKey]
+            var canBeHit = fallingBlocksManager._blockMap[pressedKey]
                             .FirstOrDefault(note => note.CurrentState ==
                             NoteState.CanBeHit);
             if (canBeHit != null)
             {
                 canBeHit.CurrentState = NoteState.Hit;
-                CurrentResult.Hits++;
+                fallingBlocksManager.CurrentResult.Hits++;
                 InvokeAsync(async () => StateHasChanged());
             }
             else
             {
-                CurrentResult.Misses++;
+                fallingBlocksManager.CurrentResult.Misses++;
             }
         }
 
         public void Retry()
         {
-            SongsManager.Instance.ChosenSong = lastSong;
+            SongsManager.Instance.ChosenSong = fallingBlocksManager.lastSong;
             Home.Instance.resultPopUp = false;
             StateHasChanged();
-        }
-
-
-        private string GetNoteClass(NoteState state)
-        {
-            switch (state)
-            {
-                case NoteState.Hit:
-                    return "hit";
-                case NoteState.CanBeHit:
-                    return "can-be-hit";
-                case NoteState.Miss:
-                    return "miss";
-                default:
-                    return "";
-            }
         }
 
         private string CreateCSSClass(string key) //create classes for bars above white and above black keys
@@ -104,7 +87,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 noteBlock.CurrentState = NoteState.Miss;
                 StateHasChanged();
-                CurrentResult.Misses++;
+                fallingBlocksManager.CurrentResult.Misses++;
             }
         }
 
@@ -114,74 +97,55 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             StateHasChanged();
         }
 
+        private void HandleSongChanged(object sender, EventArgs e)
+        {
+            fallingBlocksManager.selectedSong = SongsManager.Instance.ChosenSong;
+            fallingBlocksManager.beats = 0;
+            if(fallingBlocksManager.selectedSong != null) fallingBlocksManager.resetBlocks();
+            StateHasChanged();
+        }
+
         private void CalculateFallingBlock()
         {
-            foreach (NoteBlock block in selectedSong.NoteBlocks.Where(q => q.StartPosition == beats))
+            foreach (NoteBlock block in fallingBlocksManager.selectedSong.NoteBlocks.Where(q => q.StartPosition == fallingBlocksManager.beats))
             {
-                _blockMap[block.Key].Add(block);
+                fallingBlocksManager._blockMap[block.Key].Add(block);
                 double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; // triggerlijn op 85%
                 double triggerEnterMs = totalTravelMs * .9; //hitbox van 10%
                 _ = TrackTrigger(block, (int)triggerEnterMs, (int)totalTravelMs); // de gereturnde task wel doen, niet opslaan
             }
         }
 
-        private void HandleSongChanged(object sender, EventArgs e)
-        {
-            selectedSong = SongsManager.Instance.ChosenSong;
-            beats = 0;
-            if(selectedSong != null) resetBlocks();
-            StateHasChanged();
-        }
-
-        private void resetBlocks()
-        {
-            foreach (NoteBlock block in selectedSong.NoteBlocks)
-            {
-                block.CurrentState = NoteState.Falling;
-            }
-
-            foreach (var key in _blockMap.Keys)
-            {
-                _blockMap[key].Clear();
-            }
-        }
-
-        private void fillResults()
-        {
-            CurrentResult.SongTitle = selectedSong.Name;
-            CurrentResult.BPM = selectedSong.BPM;
-            CurrentResult.TotalNotes = selectedSong.NoteBlocks.Count;
-        }
 
         private void OnBeat(object? sender, EventArgs e)
         {
-            if (selectedSong == null) return;
+            if (fallingBlocksManager.selectedSong == null) return;
 
             InvokeAsync(async () =>
             {
                 CalculateFallingBlock();
 
-                beats += 0.5;
+                fallingBlocksManager.beats += 0.5;
                 StateHasChanged();
 
                 await Task.Delay(MINUTE / Metronome.BPM / 2);
 
                 CalculateFallingBlock();
 
-                beats += 0.5;
+                fallingBlocksManager.beats += 0.5;
                 StateHasChanged();
 
-                if (beats >= selectedSong.Duration)
+                if (fallingBlocksManager.beats >= fallingBlocksManager.selectedSong.Duration)
                 {
                     //popup weergeven einde liedje
                     Metronome.Stop();
-                    resetBlocks();
-                    fillResults();
+                    fallingBlocksManager.resetBlocks();
+                    fallingBlocksManager.fillResults();
                     Home.Instance.resultPopUp = true;
-                    lastSong = selectedSong;
+                    fallingBlocksManager.lastSong = fallingBlocksManager.selectedSong;
                     SongsManager.Instance.ChosenSong = null;
-                    beats = 0;
-                    CurrentResult = new();
+                    fallingBlocksManager.beats = 0;
+                    fallingBlocksManager.CurrentResult = new();
 
                     StateHasChanged();
                 }

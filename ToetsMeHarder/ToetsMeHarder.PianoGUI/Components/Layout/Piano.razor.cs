@@ -22,7 +22,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 var noteKeyVal = pianoManager._pianoKeys[e.Key];
 
-                pianoManager.PlayNote(noteKeyVal);
+                PlayNote(noteKeyVal);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", pianoManager._pianoKeys[e.Key].ToString());
             }
@@ -38,6 +38,15 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", pianoManager._pianoKeys[e.Key].ToString());
             }
+        }
+
+        public void PlayNote(KeyValue key)
+        {
+            double frequency = pianoManager._noteFrequencies[key];
+            if (pianoManager._pressedKeys.ContainsKey(key)) return;
+            pianoManager._pressedKeys.Add(key, pianoManager._audioHandler.PlayAudio(new Note(frequency)));
+
+            FallingBlocks.instance.CheckKeyPress(key);
         }
 
         public void OnLostFocus()
@@ -90,7 +99,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             if (pianoManager._noteFrequencies.ContainsKey(noteId))
             {
-                pianoManager.PlayNote(noteId);
+                PlayNote(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", noteId.ToString());
             }
