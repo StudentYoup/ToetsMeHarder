@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using ToetsMeHarder.Business.SongsComponent;
 using ToetsMeHarder.Business;
+using ToetsMeHarder.Business.ResultComponent;
 
 namespace ToetsMeHarder.Business.FallingBlocks
 {
     public class FallingBlocksManager
     {
         public MetronomeService Metronome { get; set; } = default!;
-        public Business.Result CurrentResult = new();
+        public Result CurrentResult = new();
         public Dictionary<KeyValue, List<NoteBlock>> _blockMap = new();
         public double beats = 0;
         public readonly KeyValue[] Keys = (KeyValue[])Enum.GetValues(typeof(KeyValue));
