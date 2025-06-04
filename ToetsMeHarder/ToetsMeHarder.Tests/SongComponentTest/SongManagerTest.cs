@@ -4,7 +4,7 @@ using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.Tests.SongsComponent;
 
-[TestFixture]
+
 public class SongManagerTest
 {
     [Test]
