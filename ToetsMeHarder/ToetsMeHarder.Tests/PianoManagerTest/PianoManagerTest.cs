@@ -31,7 +31,7 @@ namespace ToetsMeHarder.Tests.PianoManagerTest
         [TestCase(Business.FallingBlocks.KeyValue.f51, "f5#")]
         public void GetKeyName_ShouldReturnStringNoteName(Business.FallingBlocks.KeyValue key, string expected)
         {
-            var result = _manager.GetKeyName(key);
+            string result = _manager.GetKeyName(key);
             Assert.That(result, Is.EqualTo(expected));
         }
 
