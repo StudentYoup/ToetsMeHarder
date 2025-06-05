@@ -16,8 +16,6 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         [Inject] public MetronomeService Metronome { get; set; } = default!;
         private string _fallDuration => $"{5 * (MINUTE / Metronome.BPM)}ms"; // 5 beats in de toekomst kijken
 
-
-
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -54,17 +52,18 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         public void Retry()
         {
-            SongsManager.Instance.ChosenSong = fallingBlocksManager.lastSong;
+            SongsManager.Instance.ChosenSong = fallingBlocksManager.LastSong;
             Home.Instance.resultPopUp = false;
             StateHasChanged();
         }
 
-        private string CreateCSSClass(string key) //create classes for bars above white and above black keys
+        private string CreateCSSClass(string key)
         {
             string color = key.Contains("1") ? "black " : "white ";
             return $"vertical-bar-{color}";// bijvoorbeeld: "black-bar" of "white-bar"
         }
 
+        //Timing zodat de vallende blokken op het juiste punt over de lijn gaan
         private async Task TrackTrigger(NoteBlock block, int enterDelay, int exitDelay)
         {
             await Task.Delay(enterDelay);
@@ -77,6 +76,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         }
 
+        //Als een blok voorbij de triggerlijn is
         private void OnTriggerExit(NoteBlock noteBlock)
         {
             if (noteBlock.CurrentState != NoteState.Hit)
@@ -86,7 +86,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 fallingBlocksManager.CurrentResult.Misses++;
             }
         }
-
+        //Als een blok de triggerlijn aanraakt
         private void OnTriggerEntry(NoteBlock noteBlock)
         {
             noteBlock.CurrentState = NoteState.CanBeHit;
@@ -95,15 +95,16 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
         private void HandleSongChanged(object sender, EventArgs e)
         {
-            fallingBlocksManager.selectedSong = SongsManager.Instance.ChosenSong;
+            fallingBlocksManager.SelectedSong = SongsManager.Instance.ChosenSong;
             fallingBlocksManager.beats = 0;
-            if(fallingBlocksManager.selectedSong != null) fallingBlocksManager.resetBlocks();
+            if(fallingBlocksManager.SelectedSong != null) fallingBlocksManager.resetBlocks();
             StateHasChanged();
         }
 
         private void CalculateFallingBlock()
         {
-            foreach (NoteBlock block in fallingBlocksManager.selectedSong.NoteBlocks.Where(q => q.StartPosition == fallingBlocksManager.beats))
+            //checkt of er een nieuwe blokken moeten vallen
+            foreach (NoteBlock block in fallingBlocksManager.SelectedSong.NoteBlocks.Where(q => q.StartPosition == fallingBlocksManager.beats))
             {
                 fallingBlocksManager.BlockMap[block.Key].Add(block);
                 double totalTravelMs = MINUTE / Metronome.BPM * 5 * 0.85; // triggerlijn op 85%
@@ -117,16 +118,16 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             fallingBlocksManager.resetBlocks();
             fallingBlocksManager.fillResults();
             Home.Instance.resultPopUp = true;
-            fallingBlocksManager.lastSong = fallingBlocksManager.selectedSong;
+            fallingBlocksManager.LastSong = fallingBlocksManager.SelectedSong;
             SongsManager.Instance.ChosenSong = null;
             fallingBlocksManager.beats = 0;
             fallingBlocksManager.CurrentResult = new();
         }
 
-
+        //Elke tik van de metrenoom
         private void OnBeat(object? sender, EventArgs e)
         {
-            if (fallingBlocksManager.selectedSong == null) return;
+            if (fallingBlocksManager.SelectedSong == null) return;
 
             InvokeAsync(async () =>
             {
@@ -135,14 +136,14 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 fallingBlocksManager.beats += 0.5;
                 StateHasChanged();
 
-                await Task.Delay(MINUTE / Metronome.BPM / 2);
+                await Task.Delay(MINUTE / Metronome.BPM / 2); // halve tik verder
 
                 CalculateFallingBlock();
 
                 fallingBlocksManager.beats += 0.5;
                 StateHasChanged();
 
-                if (fallingBlocksManager.beats >= fallingBlocksManager.selectedSong.Duration)
+                if (fallingBlocksManager.beats >= fallingBlocksManager.SelectedSong.Duration)
                 {
                     //popup weergeven einde liedje
                     HandleSongEnd();

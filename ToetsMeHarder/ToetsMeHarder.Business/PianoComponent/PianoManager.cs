@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Plugin.Maui.Audio;
+﻿using Plugin.Maui.Audio;
 using ToetsMeHarder.Business.FallingBlocks;
 
 namespace ToetsMeHarder.Business.PianoComponent
 {
-    public class PianoManager
+    public class PianoManager (AudioHandler _audioHandler)
     {
-        public AudioHandler AudioHandler = new AudioHandler();
         public string? midiName = null;
         public KeyModus _keyModus = KeyModus.Key;
         public Dictionary<KeyValue, IAudioPlayer> PressedKeys = new Dictionary<KeyValue, IAudioPlayer>();
@@ -100,12 +94,6 @@ namespace ToetsMeHarder.Business.PianoComponent
             { KeyValue.b5, 987.77 },
             { KeyValue.c6, 1046.50 }
         };
-        public void StopNote(KeyValue key)
-        {
-            if (!PressedKeys.ContainsKey(key)) return;
-            AudioHandler.StopAudio(PressedKeys[key]);
-            PressedKeys.Remove(key);
-        }
         public void ChangeKeyModus()
         {
             if (_keyModus == KeyModus.Blank) _keyModus = KeyModus.Note;
@@ -118,6 +106,21 @@ namespace ToetsMeHarder.Business.PianoComponent
             string name = key.ToString();
             name = name.Replace("1", "#");
             return name;
+        }
+
+        public void PlayNote(KeyValue key)
+        {
+            double frequency = NoteFrequencies[key];
+            if (PressedKeys.ContainsKey(key)) return;
+            PressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
+
+            
+        }
+        public void StopNote(KeyValue key)
+        {
+            if (!PressedKeys.ContainsKey(key)) return;
+            _audioHandler.StopAudio(PressedKeys[key]);
+            PressedKeys.Remove(key);
         }
     }
 }

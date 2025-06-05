@@ -4,7 +4,6 @@ using ToetsMeHarder.Business.SongsComponent;
 
 namespace ToetsMeHarder.Tests.SongsComponent;
 
-[TestFixture]
 public class SongManagerTest
 {
     [Test]
@@ -15,5 +14,4 @@ public class SongManagerTest
         SongsManager.Instance.ChosenSong = new Songs("BOB", 120,1000,"A");
         Assert.That(eventFired, Is.True);
     }
-
 }

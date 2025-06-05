@@ -20,7 +20,6 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
-		builder.Services.AddSingleton(AudioManager.Current);
 
 #if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();
@@ -33,7 +32,8 @@ public static class MauiProgram
 
 		//Midi
 		builder.Services.AddSingleton<MidiService>();
+		builder.Services.AddSingleton<AudioHandler>();
 
-		return builder.Build();
+        return builder.Build();
 	}
 }

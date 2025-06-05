@@ -1,11 +1,10 @@
 ﻿using ToetsMeHarder.Business;
 using Plugin.Maui.Audio;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
+
 
 namespace ToetsMeHarder;
 
-public class AudioHandler : IAudioHandler
+public class AudioHandler : Business.AudioHandler
 {
     
     private const double TAU = 2* Math.PI;

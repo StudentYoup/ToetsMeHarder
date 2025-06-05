@@ -1,5 +1,3 @@
-using System;
-
 namespace ToetsMeHarder.Business
 {
     public interface IMetronomeService

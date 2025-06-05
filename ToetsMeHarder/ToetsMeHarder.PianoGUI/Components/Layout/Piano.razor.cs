@@ -11,7 +11,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class Piano : ComponentBase
     {
-        public PianoManager pianoManager = new PianoManager();
+        
+        [Inject] private AudioHandler _audioHandler { get; set; }
+        public PianoManager pianoManager;
         [Inject] private IJSRuntime? JSRuntime { get; set; }
         [Inject] private MidiService MidiService { get; set; }
         
@@ -21,7 +23,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 var noteKeyVal = pianoManager.PianoKeys[e.Key];
 
-                PlayNote(noteKeyVal);
+                pianoManager.PlayNote(noteKeyVal);
+                FallingBlocks.Instance.CheckKeyPress(noteKeyVal);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", pianoManager.PianoKeys[e.Key].ToString());
             }
@@ -39,15 +42,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             }
         }
 
-        public void PlayNote(KeyValue key)
-        {
-            double frequency = pianoManager.NoteFrequencies[key];
-            if (pianoManager.PressedKeys.ContainsKey(key)) return;
-            pianoManager.PressedKeys.Add(key, pianoManager.AudioHandler.PlayAudio(new Note(frequency)));
-
-            FallingBlocks.Instance.CheckKeyPress(key);
-        }
-
+        
         public void OnLostFocus()
         {
             foreach (KeyValue key in pianoManager.PressedKeys.Keys.ToList())
@@ -69,6 +64,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         //Midi:
         protected override void OnInitialized()
         {
+            pianoManager = new PianoManager(_audioHandler);
+
             MidiService.OnMidiDown += OnMidiDown;
             MidiService.OnMidiUp += OnMidiUp;
 
@@ -98,7 +95,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             if (pianoManager.NoteFrequencies.ContainsKey(noteId))
             {
-                PlayNote(noteId);
+                pianoManager.PlayNote(noteId);
+                FallingBlocks.Instance.CheckKeyPress(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", noteId.ToString());
             }
