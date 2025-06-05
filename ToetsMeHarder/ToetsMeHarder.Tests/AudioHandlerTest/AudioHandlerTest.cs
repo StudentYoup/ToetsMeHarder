@@ -3,7 +3,7 @@ using ToetsMeHarder.Business;
 namespace ToetsMeHarder.Tests.AudioHandlerTest;
 public class AudioHandlerTests
 {
-    private ToetsMeHarder.AudioHandler _handler = new();
+    private AudioHandler _handler = new();
 
 
     [Test]

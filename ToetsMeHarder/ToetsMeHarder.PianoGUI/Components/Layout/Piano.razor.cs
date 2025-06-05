@@ -12,6 +12,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
     public partial class Piano : ComponentBase
     {
         public PianoManager pianoManager = new PianoManager();
+        [Inject] private AudioHandler _audioHandler { get; set; }
         [Inject] private IJSRuntime? JSRuntime { get; set; }
         [Inject] private MidiService MidiService { get; set; }
         
@@ -33,7 +34,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 var noteId = pianoManager.PianoKeys[e.Key];
                 if (!pianoManager.PressedKeys.ContainsKey(noteId)) return;
 
-                pianoManager.StopNote(noteId);
+                StopNote(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", pianoManager.PianoKeys[e.Key].ToString());
             }
@@ -43,17 +44,22 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         {
             double frequency = pianoManager.NoteFrequencies[key];
             if (pianoManager.PressedKeys.ContainsKey(key)) return;
-            pianoManager.PressedKeys.Add(key, pianoManager.AudioHandler.PlayAudio(new Note(frequency)));
+            pianoManager.PressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
 
             FallingBlocks.Instance.CheckKeyPress(key);
         }
-
+        public void StopNote(KeyValue key)
+        {
+            if (!pianoManager.PressedKeys.ContainsKey(key)) return;
+            _audioHandler.StopAudio(pianoManager.PressedKeys[key]);
+            pianoManager.PressedKeys.Remove(key);
+        }
         public void OnLostFocus()
         {
             foreach (KeyValue key in pianoManager.PressedKeys.Keys.ToList())
             {
                 JSRuntime.InvokeVoidAsync("setKeyInactive", key.ToString());
-                pianoManager.StopNote(key);
+                StopNote(key);
             }
         }
 
@@ -111,7 +117,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 if (!pianoManager.PressedKeys.ContainsKey(noteId)) return;
 
-                pianoManager.StopNote(noteId);
+                StopNote(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", noteId.ToString());
 
