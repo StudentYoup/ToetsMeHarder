@@ -3,7 +3,7 @@ using ToetsMeHarder.Business.FallingBlocks;
 
 namespace ToetsMeHarder.Business.PianoComponent
 {
-    public class PianoManager
+    public class PianoManager (IAudioHandler _audioHandler)
     {
         public string? midiName = null;
         public KeyModus _keyModus = KeyModus.Key;
@@ -106,6 +106,21 @@ namespace ToetsMeHarder.Business.PianoComponent
             string name = key.ToString();
             name = name.Replace("1", "#");
             return name;
+        }
+
+        public void PlayNote(KeyValue key)
+        {
+            double frequency = NoteFrequencies[key];
+            if (PressedKeys.ContainsKey(key)) return;
+            PressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
+
+            
+        }
+        public void StopNote(KeyValue key)
+        {
+            if (!PressedKeys.ContainsKey(key)) return;
+            _audioHandler.StopAudio(PressedKeys[key]);
+            PressedKeys.Remove(key);
         }
     }
 }

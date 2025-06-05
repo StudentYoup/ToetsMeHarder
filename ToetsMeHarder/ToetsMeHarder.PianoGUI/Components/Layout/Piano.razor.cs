@@ -11,8 +11,9 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 {
     public partial class Piano : ComponentBase
     {
-        public PianoManager pianoManager = new PianoManager();
+        
         [Inject] private AudioHandler _audioHandler { get; set; }
+        public PianoManager pianoManager;
         [Inject] private IJSRuntime? JSRuntime { get; set; }
         [Inject] private MidiService MidiService { get; set; }
         
@@ -22,7 +23,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 var noteKeyVal = pianoManager.PianoKeys[e.Key];
 
-                PlayNote(noteKeyVal);
+                pianoManager.PlayNote(noteKeyVal);
+                FallingBlocks.Instance.CheckKeyPress(noteKeyVal);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", pianoManager.PianoKeys[e.Key].ToString());
             }
@@ -34,32 +36,19 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
                 var noteId = pianoManager.PianoKeys[e.Key];
                 if (!pianoManager.PressedKeys.ContainsKey(noteId)) return;
 
-                StopNote(noteId);
+                pianoManager.StopNote(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", pianoManager.PianoKeys[e.Key].ToString());
             }
         }
 
-        public void PlayNote(KeyValue key)
-        {
-            double frequency = pianoManager.NoteFrequencies[key];
-            if (pianoManager.PressedKeys.ContainsKey(key)) return;
-            pianoManager.PressedKeys.Add(key, _audioHandler.PlayAudio(new Note(frequency)));
-
-            FallingBlocks.Instance.CheckKeyPress(key);
-        }
-        public void StopNote(KeyValue key)
-        {
-            if (!pianoManager.PressedKeys.ContainsKey(key)) return;
-            _audioHandler.StopAudio(pianoManager.PressedKeys[key]);
-            pianoManager.PressedKeys.Remove(key);
-        }
+        
         public void OnLostFocus()
         {
             foreach (KeyValue key in pianoManager.PressedKeys.Keys.ToList())
             {
                 JSRuntime.InvokeVoidAsync("setKeyInactive", key.ToString());
-                StopNote(key);
+                pianoManager.StopNote(key);
             }
         }
 
@@ -75,6 +64,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
         //Midi:
         protected override void OnInitialized()
         {
+            pianoManager = new PianoManager(_audioHandler);
+
             MidiService.OnMidiDown += OnMidiDown;
             MidiService.OnMidiUp += OnMidiUp;
 
@@ -104,7 +95,8 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
 
             if (pianoManager.NoteFrequencies.ContainsKey(noteId))
             {
-                PlayNote(noteId);
+                pianoManager.PlayNote(noteId);
+                FallingBlocks.Instance.CheckKeyPress(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyActive", noteId.ToString());
             }
@@ -117,7 +109,7 @@ namespace ToetsMeHarder.PianoGUI.Components.Layout
             {
                 if (!pianoManager.PressedKeys.ContainsKey(noteId)) return;
 
-                StopNote(noteId);
+                pianoManager.StopNote(noteId);
 
                 JSRuntime.InvokeVoidAsync("setKeyInactive", noteId.ToString());
 
