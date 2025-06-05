@@ -7,7 +7,7 @@ namespace ToetsMeHarder.Tests.PianoManagerTest
 {
     public class PianoManagerTests
     {
-        private PianoManager _manager = new();
+        private PianoManager _manager = new(new AudioHandler());
 
         [Test]
         public void ChangeKeyModus_ShouldSwitchBetweenKeymodes()

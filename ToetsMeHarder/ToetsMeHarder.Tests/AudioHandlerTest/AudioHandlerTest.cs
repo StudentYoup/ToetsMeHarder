@@ -5,7 +5,6 @@ public class AudioHandlerTests
 {
     private AudioHandler _handler = new();
 
-
     [Test]
     public void PlayAudio_ShouldReturnsPlayer()
     {

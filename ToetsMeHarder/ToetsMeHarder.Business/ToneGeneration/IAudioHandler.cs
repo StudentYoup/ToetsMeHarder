@@ -2,7 +2,7 @@
 
 namespace ToetsMeHarder.Business;
 
-public interface IAudioHandler
+public interface AudioHandler
 {
     public IAudioPlayer PlayAudio(Note note);
     public void StopAudio(IAudioPlayer player);
