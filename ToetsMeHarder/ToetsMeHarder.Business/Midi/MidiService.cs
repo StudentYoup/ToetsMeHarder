@@ -41,12 +41,14 @@ namespace ToetsMeHarder.Business.Midi
                 OpenDevice(first);
         }
 
+        //Event die aangeroepen word als usb aangesloten word
         private void Watcher_DeviceAdded(object? sender, UsbDevice usb)
         {
             if (_inputDevice == null)
                 TryOpenFirstDevice();
         }
 
+        //Event die aangeroepen word als usb verwijderd word
         private void Watcher_DeviceRemoved(object? sender, UsbDevice usb)
         {
             if (_inputDevice != null
@@ -55,7 +57,7 @@ namespace ToetsMeHarder.Business.Midi
                 CloseCurrentDevice();
             }
         }
-
+        //Gebruik gekozen device als input
         private void OpenDevice(InputDevice device)
         {
             _inputDevice = device;
